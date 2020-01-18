@@ -7,3 +7,6 @@ nuevo objeto que cambie a otro escenario más oscuro,
 colocar powerups,
 hacer un metroidvania que sea buscar objetos para poder avanzar como por ejemplo doble salto,
 https://www.youtube.com/watch?v=cSUmx5aATic
+
+Para tener munición, balas etc
+https://www.youtube.com/watch?v=HH_TzQOqVfY

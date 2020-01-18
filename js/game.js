@@ -7,7 +7,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
-            debug: false
+            debug: true
         }
     },
     scene: [Scene1, Scene2],
@@ -18,4 +18,8 @@ var GameText;
 var BolasDeHierro;
 var Puntos = 0;
 var gameOver = false;
-var PuntosText;
+var PuntosText = null;
+var Vida = 5;
+var Vidatext = null;
+var bomba;
+

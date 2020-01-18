@@ -18,7 +18,13 @@ preload() {
     //this line is for load the images what you wanna see on your game
     this.load.image('background', 'assets/images/fondo.jpg');
 
+    this.load.image('profundo', 'assets/images/title_bg.jpg');
+
     this.load.image('plataforma', 'assets/images/platform.png');
+
+    this.load.image('plataforma2_move', 'assets/images/platform.png');
+
+    this.load.image('plataforma_recta', 'assets/images/platform_right.png');
 
     this.load.image('suelo', 'assets/images/ground.png');
 
@@ -31,6 +37,8 @@ preload() {
    // this.load.image('prefondotry', 'assets/images/.jpg');
 
     this.load.image('playButton', 'assets/images/play_button.png');
+
+    this.load.image('configButton', 'assets/images/options_button.png');
 
     this.load.spritesheet('snowflakes', 'assets/images/snowflakes.png', { frameWidth: 17, frameHeight: 17 });
 
@@ -62,6 +70,8 @@ create() {
     
     let playButton = this.add.image(this.game.renderer.width / 2.1, this.game.renderer.height / 2, "playButton").setDepth(1);
 
+    let optionButton = this.add.image(this.game.renderer.width / 2.1, this.game.renderer.height / 1.5, "configButton").setDepth(1);
+
     let hoverSprite = this.add.sprite(100, 100, "dude").setVisible(false);
 
     this.anims.create({
@@ -80,8 +90,10 @@ create() {
     playButton.setInteractive();
 
     playButton.on("pointerup", () =>{
-        console.log("ok")
+        this.scene.stop("bootGame");
+        this.scene.restart("playGame");
         this.scene.start("playGame");
+        console.log("ok")
     })
 
     playButton.on("pointerover", () => {
@@ -96,6 +108,30 @@ create() {
     playButton.on("pointerout", () => {
         hoverSprite.setVisible(false);
         console.log("adios")
+        
+    })
+
+    optionButton.setInteractive();
+
+    optionButton.on("pointerup", () =>{
+
+        this.scene.start("playGame");
+        this.scene.stop("bootGame");
+        console.log("ok")
+    })
+
+    optionButton.on("pointerover", () => {
+        hoverSprite.setVisible(true);
+        hoverSprite.play("walk");
+        hoverSprite.x = optionButton.x - optionButton.width;
+        hoverSprite.y = optionButton.y;
+
+    })
+    
+
+    optionButton.on("pointerout", () => {
+        hoverSprite.setVisible(false);
+        
         
     })
 
