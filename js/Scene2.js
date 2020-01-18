@@ -78,7 +78,7 @@ create() {
 
     //borde del mapa en la izquierda
     platforms.create(-30, 145, 'plataforma_recta').setScale(2).refreshBody();
-    platforms.create(840, 145, 'plataforma_recta').setScale(2).refreshBody();
+   this.murodestruible = platforms.create(840, 145, 'plataforma_recta').setScale(2).refreshBody();
 
     /*
     Plataforma que se mueve
@@ -86,7 +86,7 @@ create() {
     this.platform_move = platforms2_move.create(3000, 140, 'plataforma2_move').setImmovable(true);
     this.platform_move.body.setAllowGravity(false);
 
-
+//TODO: Hacer que la primera parte y todo el suelo se transforme en la plataforma pequeña que tiene detalles y esta mejor que la linea verde.
     platforms.create(401, 568, 'plataforma').setScale(2).refreshBody();
     platforms.create(600, 420, 'plataforma');
     platforms.create(50, 330, 'plataforma');
@@ -291,7 +291,7 @@ update(time, delta) {
         /*player.kill();
         bomb.kill();
 */
-        this.input.on('pointerdown', () =>{
+        this.input.keyboard.on('keydown_SPACE', () =>{
 
             this.scene.stop("playGame");
             this.scene.start("bootGame");
@@ -341,6 +341,7 @@ update(time, delta) {
     
    // TODO: MOVIMIENTO DE CAMARA CON FONDO
     this.background.tilePositionX = this.myCam.scrollX * .10;
+    this.profundo.tilePositionX = this.myCam.scrollX * .10;
 
 }
 

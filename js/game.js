@@ -10,7 +10,7 @@ var config = {
             debug: true
         }
     },
-    scene: [Scene1, Scene2],
+    scene: [Scene1, Scene2, optionplay],
 };
 
 var game = new Phaser.Game(config);
@@ -22,4 +22,5 @@ var PuntosText = null;
 var Vida = 5;
 var Vidatext = null;
 var bomba;
+var tecladoimg;
 

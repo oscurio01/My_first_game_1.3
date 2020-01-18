@@ -34,7 +34,7 @@ preload() {
 
     this.load.image('bomb', 'assets/images/BolaVa1.png');
 
-   // this.load.image('prefondotry', 'assets/images/.jpg');
+   this.load.image('tecladoimg', 'assets/images/tecladowasd1.png');
 
     this.load.image('playButton', 'assets/images/play_button.png');
 
@@ -91,7 +91,6 @@ create() {
 
     playButton.on("pointerup", () =>{
         this.scene.stop("bootGame");
-        this.scene.restart("playGame");
         this.scene.start("playGame");
         console.log("ok")
     })
@@ -115,7 +114,7 @@ create() {
 
     optionButton.on("pointerup", () =>{
 
-        this.scene.start("playGame");
+        this.scene.start("optionGame");
         this.scene.stop("bootGame");
         console.log("ok")
     })
