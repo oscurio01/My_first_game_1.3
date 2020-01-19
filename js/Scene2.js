@@ -14,7 +14,7 @@ class Scene2 extends Phaser.Scene {
 */
 
 create() {
- 
+    console.log(Vida);
 
     //this function is for see the images and more on your game
     //START CODE FROM BACKGROUND
@@ -119,8 +119,11 @@ create() {
     player.setCollideWorldBounds(false);
     player.body.setGravityY(300);
 
+
+
     this.physics.add.collider(player, piso);
     this.physics.add.collider(player, platforms);
+    this.physics.add.collider(player, GolpePelota);
     this.physics.add.collider(player, this.platform_move);
     this.physics.add.collider(BolasDeHierro, platforms);
 
@@ -177,6 +180,8 @@ create() {
         blendMode: 'ADD'
     });
 
+    this.emitter = emitter;
+
 
 
     var particles2 = this.add.particles('snowflakes_large');
@@ -192,6 +197,7 @@ create() {
         scale: { start: 0.2, end: 1 },
         blendMode: 'ADD'
     });
+    this.emitter2 = emitter2;
     /*
       FINAL CODE WHERE THE STORM SNOW WORKS
     */
@@ -213,16 +219,22 @@ create() {
     FOR MAKE THE GAME STOP WHEN YOU TOUCH THE ENEMIE
     */
     var GolpePelota = function GolpePelota(player, bomb,){
+
+       Vida --;
+        gameOver = true;
         this.physics.pause();
+
         GameText = this.add.text(250, 250, 'Game Over', {
             font: 'bold 48px Arial',
             fill: '#ff0000',
 
         });
-        emitter.stop(); 
+        emitter.stop();
         emitter2.stop();
         player.setTint(0xff0000);
-        gameOver = true;}
+        console.log(Vida);
+        
+    }
 
         this.physics.add.overlap(BolasDeHierro, player, GolpePelota, null, this);
         
@@ -236,8 +248,17 @@ create() {
   /*
   OTRA OPCION PARA QUE LA CAMARA SIGA
   AL PERSONAJE PERO DE FORMA ESTATICA
+
    this.myCam.startFollow(this.player);
+
   */
+  /*  if (Vida == 0) {
+        gameOver = true;
+    }
+    */
+    
+
+    
 }
 
 
@@ -266,7 +287,32 @@ update(time, delta) {
 
     var cursors = this.cursors;
     var player = this.player;
+    var emitter = this.emitter;
+    var emitter2 = this.emitter2;
 
+ /*   if(Vida = 0){
+        gameOver = true;
+    }
+*/
+    if (gameOver) {
+
+
+
+
+        /*player.kill();
+        bomb.kill();
+*/
+        if (this.space.isDown) {
+
+            this.scene.stop("playGame");
+            this.scene.start("bootGame");
+            console.log("reinicia");
+
+
+        };
+
+
+    }
     var platform_move = this.platform_move;
 
     if (player.body.touching.down && platform_move.body.touching.up){
@@ -286,20 +332,7 @@ update(time, delta) {
 
     }
 
-    if (gameOver) {
-
-        /*player.kill();
-        bomb.kill();
-*/
-        this.input.keyboard.on('keydown_SPACE', () =>{
-
-            this.scene.stop("playGame");
-            this.scene.start("bootGame");
-            console.log("reinicia");
-        })
-        
-      
-    }
+   
 
     if (this.left.isDown) {
         player.setVelocityX(-160);

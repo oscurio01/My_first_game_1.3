@@ -30,15 +30,30 @@ preload() {
 
     this.load.spritesheet('dude', 'assets/images/woof2.png', { frameWidth: 32, frameHeight: 32 });
 
+    this.load.spritesheet("enemy", "assets/images/bee.png", { frameWidth: 37, frameHeight: 39});
+
     this.load.image('logo_gamma', 'assets/images/rose1.png');
 
     this.load.image('bomb', 'assets/images/BolaVa1.png');
 
-   this.load.image('tecladoimg', 'assets/images/tecladowasd1.png');
-
     this.load.image('playButton', 'assets/images/play_button.png');
 
     this.load.image('configButton', 'assets/images/options_button.png');
+
+    this.load.image('menuButton', 'assets/images/Menu_button.png');
+
+    this.load.image('platformnegro', 'assets/images/platformnegro.png');
+
+    this.load.image('tecladoimg', 'assets/images/tecladowasd1.png');
+
+    this.load.spritesheet('tecladow', 'assets/images/tecladow1.png', { frameWidth: 32.5, frameHeight: 30 });
+
+    this.load.spritesheet('tecladoa', 'assets/images/tecladoa1.png', { frameWidth: 32.5, frameHeight: 30 });
+
+    this.load.spritesheet('teclados', 'assets/images/teclados1.png', { frameWidth: 32.5, frameHeight: 30 });
+
+    this.load.spritesheet('tecladod', 'assets/images/tecladod1.png', { frameWidth: 32.5, frameHeight: 30 });
+
 
     this.load.spritesheet('snowflakes', 'assets/images/snowflakes.png', { frameWidth: 17, frameHeight: 17 });
 

@@ -1,11 +1,12 @@
 Se ha movido el codigo de una solo archivo a varios y dispersos, se ha incluido un menu donde al presionar play aparece el juego. Esta como antes y no se ha borrado nada.
-Proxima modificación, 
-crear desde el menu, poder ver al perro que se mueve al lado del boton play y cuando presiones play que el perro de un pequeño salto y baje al suelo haciendo el efecto de que cayo cuando presionaste el boton, 
-usar el background nuevo que permite hacer al perro quedarse en medio de la pantalla y conseguir crear plataformas que aunque no se puedan ver pueda aparecer un cuanto muevas el personaje,
-añadir dialogo al lado del personaje como un bocadillo, 
-nuevo objeto que cambie a otro escenario más oscuro,
-colocar powerups,
-hacer un metroidvania que sea buscar objetos para poder avanzar como por ejemplo doble salto,
+Proxima modificación:
+Crear desde el menu, poder ver al perro que se mueve al lado del boton play y cuando presiones play que el perro de un pequeño salto y baje al suelo haciendo el efecto de que cayo cuando presionaste el boton, 
+Usar el background nuevo que permite hacer al perro quedarse en medio de la pantalla y conseguir crear plataformas que aunque no se puedan ver pueda aparecer un cuanto muevas el personaje(HECHO),
+Añadir dialogo al lado del personaje como un bocadillo, 
+Nuevo objeto que cambie a otro escenario más oscuro,
+Colocar powerups,
+Añadir enemigos las abispas con animación y más adelante añadir que las abispas puedan disparar,
+Hacer un metroidvania que sea buscar objetos para poder avanzar como por ejemplo doble salto,
 https://www.youtube.com/watch?v=cSUmx5aATic
 
 Para tener munición, balas etc

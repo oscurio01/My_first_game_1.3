@@ -10,6 +10,7 @@ var config = {
             debug: true
         }
     },
+    pixelArt: true,
     scene: [Scene1, Scene2, optionplay],
 };
 
@@ -19,8 +20,12 @@ var BolasDeHierro;
 var Puntos = 0;
 var gameOver = false;
 var PuntosText = null;
-var Vida = 5;
+var Vida = 10;
 var Vidatext = null;
 var bomba;
 var tecladoimg;
+var lefteclado;
+var righteclado;
+var upteclado;
+var enemy;
 
