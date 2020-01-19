@@ -3,6 +3,11 @@ class Scene2 extends Phaser.Scene {
         super("playGame");
     }
 
+    init(){
+        this.restarVidas = 10;
+        this.scene.launch('UI');
+    }
+
 /*
   =======    =========    ========    =======    ===============    ========
   =          =       =    =           =     =           =           =
@@ -15,7 +20,7 @@ class Scene2 extends Phaser.Scene {
 
 create() {
     console.log(Vida);
-
+    var contadorSalto = 0;
     //this function is for see the images and more on your game
     //START CODE FROM BACKGROUND
 
@@ -112,13 +117,41 @@ create() {
     platforms.create(830, 4800, 'plataforma_recta');
 
     //START CODE PLAYER
-    var player = this.physics.add.sprite(100, 450, 'dude');
+    var player = this.physics.add.sprite(100, 450, 'dude').setData('life', 100);
 
     player.setSize(20,30);
     player.setBounce(0.2);
     player.setCollideWorldBounds(false);
     player.body.setGravityY(300);
 
+    var enemy = this.physics.add.group();
+    var enemy = this.physics.add.sprite(2100, 100, 'enemy').setImmovable(true);
+
+
+    enemy.setSize(20, 30);
+    enemy.setBounce(0.2);
+    enemy.setCollideWorldBounds(false);
+    enemy.body.setAllowGravity(false)
+    // create an animation for the player
+
+    this.anims.create({
+        key: 'fly',
+        frames: this.anims.generateFrameNumbers("enemy", { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    this.enemy = enemy;
+    enemy.play('fly', true);
+
+    let movenemy1 = this.tweens.timeline({
+        targets: enemy,
+        ease: 'lineal',
+        duration: 2000,
+        loop: -1,
+       
+        tweens: [
+            { x: 1800,  }, { x: 2100, },]
+    });
 
 
     this.physics.add.collider(player, piso);
@@ -126,6 +159,7 @@ create() {
     this.physics.add.collider(player, GolpePelota);
     this.physics.add.collider(player, this.platform_move);
     this.physics.add.collider(BolasDeHierro, platforms);
+    this.physics.add.collider(player, enemy);
 
 
 
@@ -223,6 +257,8 @@ create() {
        Vida --;
         gameOver = true;
         this.physics.pause();
+        this.player.setData('life', this.player.getData('life') - this.restarVidas);
+        this.registry.events.emit('vida', this.player.getData('life'));
 
         GameText = this.add.text(250, 250, 'Game Over', {
             font: 'bold 48px Arial',
@@ -256,6 +292,8 @@ create() {
         gameOver = true;
     }
     */
+
+    
     
 
     
@@ -282,13 +320,16 @@ update(time, delta) {
         SoundJumpPlayer1.volume = 0.1;
 
     });
-    this.puntos++;
+    
+
+
   //  this.physics.add.overlap(BolasDeHierro, player, GolpePelota, null, this);
 
     var cursors = this.cursors;
     var player = this.player;
     var emitter = this.emitter;
     var emitter2 = this.emitter2;
+    
 
  /*   if(Vida = 0){
         gameOver = true;
@@ -314,11 +355,15 @@ update(time, delta) {
 
     }
     var platform_move = this.platform_move;
+    this.playerax = player.x;
 
+
+  
     if (player.body.touching.down && platform_move.body.touching.up){
         //TODO: Hacer que el personaje se mueva con la plataforma cuando se ponga encima
         console.log("voy");
         player.x == platform_move.x;
+        
     }
 
     if(player.y > 2000){
@@ -352,10 +397,24 @@ update(time, delta) {
         player.anims.play('turn');
     }
 
-    if (this.up.isDown /*&& player.body.touching.down*/) {
+    if (this.up.isDown && contadorSalto == 0) {
+        console.log(contadorSalto)
+        contadorSalto+=1;
+    }
+
+    if (this.up.isDown && (player.body.touching.down || contadorSalto == 1)) {
+        
         player.setVelocityY(-430);
         //SOUND OF THE PLAYER WHEN JUMP
         SoundJumpPlayer1.play();
+        if (contadorSalto == 1) {
+            contadorSalto = 2;
+        };
+        
+    }
+    if (player.body.touching.down) { // Si el obj_jugador.jugador toca una plataforma el contador de saltos se setea en cero otra vez
+        contadorSalto = 0;
+        
         
     }
 

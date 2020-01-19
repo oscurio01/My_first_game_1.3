@@ -114,6 +114,26 @@ class optionplay extends Phaser.Scene {
      //this.enemy = enemy;
      enemy.play('fly', true);
 
+     let movenemy1 = this.tweens.timeline({
+         targets: enemy,
+         ease: 'lineal',
+         duration: 2000,
+         loop: -1,
+
+         tweens: [
+             { x: 500, }, { x: 100, },]
+     });
+     this.enemy= enemy;
+
+     if (enemy.x < 0) {
+         this.enemy.scaleX = -1;
+
+
+     }
+    if (enemy.x > 400) {
+         this.enemy.scaleX = 1;
+
+     }
 
      this.cursors = this.input.keyboard.createCursorKeys();
 
