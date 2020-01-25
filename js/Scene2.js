@@ -2,12 +2,6 @@ class Scene2 extends Phaser.Scene {
     constructor() {
         super("playGame");
     }
-
-    init(){
-        this.restarVidas = 10;
-        this.scene.launch('UI');
-    }
-
 /*
   =======    =========    ========    =======    ===============    ========
   =          =       =    =           =     =           =           =
@@ -18,9 +12,11 @@ class Scene2 extends Phaser.Scene {
   =======    =       =    ========    =     =           =           ========
 */
 
+
+
 create() {
-    console.log(Vida);
-    var contadorSalto = 0;
+  
+    this.contadorSalto = 0;
     //this function is for see the images and more on your game
     //START CODE FROM BACKGROUND
 
@@ -58,12 +54,13 @@ create() {
     /* THIS CODE WAS MADE
        FOR PUT TEXT ON
        THE GAME*/
-
+    //Es la variable que enseña cuantos puntos tienes
+    var Puntos = 0;
     let contenedor = this.add.container(0, 0);
     contenedor.fixedToCamera = true;
-    let PuntosText = this.add.text(10, 10, 'Puntos: ' + Puntos, { fontSize: '30px', fill: '#0d91fc' });
-    let Vidatext = this.add.text(10, 35, 'Vida: ' + Vida, { fontSize: '30px', fill: '#0d91fc' });
-    
+    let PuntosText = this.add.text(10, 10, 'Puntos: ' + Puntos , { fontSize: '30px', fill: '#0d91fc' });
+    let Vidatext = this.add.text(10, 35, 'Vida: ' + Vida , { fontSize: '30px', fill: '#0d91fc' });
+
     contenedor.add([PuntosText, Vidatext]);
 
     /*contenedor.cameraOffset.x = 10; // Ubicamos el sprite contenedor de la cámara en las coordenadas 10, 10
@@ -78,13 +75,15 @@ create() {
     BolasDeHierro = this.physics.add.group();
 
     var piso = this.physics.add.staticGroup();
-    
+
     piso.create(950,568, 'suelo').setSize(46,10);
+    piso.create(380, 543, 'suelo_largo').setSize(864, 13);
+    
 
     //borde del mapa en la izquierda
     platforms.create(-30, 145, 'plataforma_recta').setScale(2).refreshBody();
-   this.murodestruible = platforms.create(840, 145, 'plataforma_recta').setScale(2).refreshBody();
-
+   var murodestruible = platforms.create(840, 145, 'plataforma_recta');
+    murodestruible.setScale(2).refreshBody();
     /*
     Plataforma que se mueve
     */
@@ -92,7 +91,7 @@ create() {
     this.platform_move.body.setAllowGravity(false);
 
 //TODO: Hacer que la primera parte y todo el suelo se transforme en la plataforma pequeña que tiene detalles y esta mejor que la linea verde.
-    platforms.create(401, 568, 'plataforma').setScale(2).refreshBody();
+  //  platforms.create(401, 568, 'plataforma').setScale(2).refreshBody();
     platforms.create(600, 420, 'plataforma');
     platforms.create(50, 330, 'plataforma');
     platforms.create(640, 260, 'plataforma');
@@ -117,21 +116,28 @@ create() {
     platforms.create(830, 4800, 'plataforma_recta');
 
     //START CODE PLAYER
-    var player = this.physics.add.sprite(100, 450, 'dude').setData('life', 100);
+    var player = this.physics.add.sprite(100, 450, 'dude');
 
     player.setSize(20,30);
     player.setBounce(0.2);
     player.setCollideWorldBounds(false);
     player.body.setGravityY(300);
+    var disparo = this.physics.add.sprite(100, 450, 'disparo').setImmovable(true);
+    disparo.body.setAllowGravity(false);
+    disparo.setSize(25, 15);
 
     var enemy = this.physics.add.group();
     var enemy = this.physics.add.sprite(2100, 100, 'enemy').setImmovable(true);
-
+    var enemy2 = this.physics.add.sprite(200, 300, 'enemy').setImmovable(true);
+    enemy2.setSize(20, 30);
+    enemy2.setBounce(0.2);
+    enemy2.setCollideWorldBounds(false);
+    enemy2.body.setAllowGravity(false);
 
     enemy.setSize(20, 30);
     enemy.setBounce(0.2);
     enemy.setCollideWorldBounds(false);
-    enemy.body.setAllowGravity(false)
+    enemy.body.setAllowGravity(false);
     // create an animation for the player
 
     this.anims.create({
@@ -142,25 +148,53 @@ create() {
     });
     this.enemy = enemy;
     enemy.play('fly', true);
+    enemy2.play('fly', true);
+
+    this.anims.create({
+        key: 'vueladerecho',
+        frames: this.anims.generateFrameNumbers("disparo", { start: 0, end: 1 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+   this.anims.create({
+        key: 'vuelaizquierda',
+        frames: this.anims.generateFrameNumbers("disparo", { start: 2, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+    });
+
+    let disparoderecho = this.tweens.timeline({
+        targets: disparo,
+        ease: 'lineal',
+        duration: 2000,
+        loop: -1,
+
+        tweens: [
+            { x: 450, }, { x: 100, },]
+    });
 
     let movenemy1 = this.tweens.timeline({
         targets: enemy,
         ease: 'lineal',
         duration: 2000,
         loop: -1,
-       
+
         tweens: [
-            { x: 1800,  }, { x: 2100, },]
+            { x: 1800,  }, { x: 2100 },]
     });
 
 
     this.physics.add.collider(player, piso);
     this.physics.add.collider(player, platforms);
+    this.physics.add.collider(player, murodestruido);
     this.physics.add.collider(player, GolpePelota);
     this.physics.add.collider(player, this.platform_move);
     this.physics.add.collider(BolasDeHierro, platforms);
+    this.physics.add.collider(BolasDeHierro, piso);
     this.physics.add.collider(player, enemy);
-
+    this.physics.add.collider(player, enemy2);
+    this.physics.add.collider(player, hitEnemy);
 
 
 
@@ -186,14 +220,17 @@ create() {
         repeat: -1
     });
 
-    this.cursors = this.input.keyboard.createCursorKeys();
+    var cursors = this.input.keyboard.createCursorKeys();
     //FOR MOVE THE PLAYER WITH W A D
     this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    this.space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+    this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
     this.player = player;
+
+    
     //FINAL FROM CREATE PLAYER
 
     /*
@@ -248,32 +285,42 @@ create() {
     bomb.setVelocity(Phaser.Math.Between(300, 100), 20);
 
     let SoundJumpPlayer1 = this.sound.add('Jump1Audio');
-    SoundJumpPlayer1.volume -= 80;
+    SoundJumpPlayer1.volume = 0.5;
     /*
     FOR MAKE THE GAME STOP WHEN YOU TOUCH THE ENEMIE
     */
     var GolpePelota = function GolpePelota(player, bomb,){
 
-       Vida --;
-        gameOver = true;
-        this.physics.pause();
-        this.player.setData('life', this.player.getData('life') - this.restarVidas);
-        this.registry.events.emit('vida', this.player.getData('life'));
-
-        GameText = this.add.text(250, 250, 'Game Over', {
-            font: 'bold 48px Arial',
-            fill: '#ff0000',
-
-        });
-        emitter.stop();
-        emitter2.stop();
-        player.setTint(0xff0000);
-        console.log(Vida);
+       Vida -=1;
+        Vidatext.text = "Vida: " + Vida;
+      
+       if(this.left){
+           player.x += 50;
+           bomb.x -= 100;   
+       }else{
+           player.x -= 50;
+           bomb.x += 100;
+       }
+        
+       console.log(Vida);
         
     }
 
+
+    var murodestruido = function murodestruido(player,  murodestruible, ) {
+        murodestruible.destroy();
+        player.x -= 50;
+        Vida -= 1;
+        console.log('destruido');
+        console.log(Vida);
+
+    }
+
+
         this.physics.add.overlap(BolasDeHierro, player, GolpePelota, null, this);
-        
+    this.physics.add.collider(murodestruido, player, platforms, null, this);
+
+
         //TODO: CAMARA QUE SIGUE AL PERSONAJE
         this.myCam = this.cameras.main;
     //this.myCam.setBounds(0, 0, game.config.width * 100, game.config.height * 20);
@@ -281,23 +328,26 @@ create() {
 
     // making the camera follow the player
     this.myCam.startFollow(player, true, 0.1, 0.1);
-  /*
-  OTRA OPCION PARA QUE LA CAMARA SIGA
-  AL PERSONAJE PERO DE FORMA ESTATICA
-
-   this.myCam.startFollow(this.player);
-
-  */
-  /*  if (Vida == 0) {
-        gameOver = true;
+    var hitEnemy = function hitprojectil(beam, enemy) {
+        enemy.destroy();
+        Puntos +=15;
+        PuntosText.text = "Puntos: " + Puntos ;
     }
-    */
-
+    this.bomb= bomb;
+    this.murodestruido = murodestruido;
+    this.disparo = disparo
+    this.projectiles = this.add.group();
+    this.physics.add.overlap(this.projectiles, enemy, hitEnemy, null, this);
+    this.physics.add.overlap(this.projectiles, enemy2, hitEnemy, null, this);
     
-    
-
-    
+  //  this.physics.add.overlap(enemy, this.hitprojectil, null, this);
 }
+
+    hitpared(player, murodestruible) {
+        this.murodestruible.visible = false;
+        this.murodestruible.exists = false;
+
+    }
 
 
 /*
@@ -314,43 +364,64 @@ create() {
 update(time, delta) {
     //THIS LET IS FOR THE AUDIO WORKING ALL THE TIME
     let SoundJumpPlayer1 = this.sound.add('Jump1Audio');
-    
+
 
     this.input.keyboard.on('keydown_LEFT', () => {
         SoundJumpPlayer1.volume = 0.1;
 
     });
-    
-
-
-  //  this.physics.add.overlap(BolasDeHierro, player, GolpePelota, null, this);
-
+var contadorSalto = this.contadorSalto;
+   var dispar2 = this.disparo;
     var cursors = this.cursors;
     var player = this.player;
     var emitter = this.emitter;
     var emitter2 = this.emitter2;
+    var bomb = this.bomb;
+    var murodestruido = this.murodestruido;
+
     
 
- /*   if(Vida = 0){
-        gameOver = true;
+    if (dispar2.x >= 450) {
+        dispar2.play('vuelaizquierda', true);
     }
-*/
-    if (gameOver) {
+
+    if (dispar2.x <= 100) {
+        dispar2.play('vueladerecho', true);
+    }
+ 
+
+    if (Vida <= 0) {
+        this.gameOver = true;
+        console.log('gola');
+        this.physics.pause();
 
 
+        GameText = this.add.text(250, 250, 'Game Over', {
+            font: 'bold 48px Arial',
+            fill: '#ff0000',
 
+        });
+        emitter.stop();
+        emitter2.stop();
+        player.setTint(0xff0000);
 
-        /*player.kill();
-        bomb.kill();
-*/
-        if (this.space.isDown) {
+        bomb.destroy();
+        
+        
+        
+
+    }
+
+    if(player.y == 4500){
+        Vida = 0;
+        console.log(Vida);
+    }
+    if (this.gameOver ==true && this.R.isDown) {
+    
 
             this.scene.stop("playGame");
             this.scene.start("bootGame");
-            console.log("reinicia");
-
-
-        };
+            console.log("reinicia");        
 
 
     }
@@ -358,12 +429,16 @@ update(time, delta) {
     this.playerax = player.x;
 
 
-  
+ /*if(player.body.touching.right && murodestruido.body.touching.left){
+        this.contadorSalto = 0;
+        murodestruible.destroy();
+       
+    }*/
+
     if (player.body.touching.down && platform_move.body.touching.up){
         //TODO: Hacer que el personaje se mueva con la plataforma cuando se ponga encima
-        console.log("voy");
-        player.x == platform_move.x;
-        
+        player.x = platform_move.x;
+
     }
 
     if(player.y > 2000){
@@ -377,7 +452,7 @@ update(time, delta) {
 
     }
 
-   
+
 
     if (this.left.isDown) {
         player.setVelocityX(-160);
@@ -396,45 +471,90 @@ update(time, delta) {
 
         player.anims.play('turn');
     }
-
-    if (this.up.isDown && contadorSalto == 0) {
-        console.log(contadorSalto)
-        contadorSalto+=1;
-    }
+    
 
     if (this.up.isDown && (player.body.touching.down || contadorSalto == 1)) {
-        
+
+        player.setVelocityY(-430);
+        //SOUND OF THE PLAYER WHEN JUMP
+        SoundJumpPlayer1.play();
+        if (contadorSalto == 1) {
+            contadorSalto = 2;
+     };
+
+
+    }
+
+    if (this.up.isDown && (player.body.touching.right || contadorSalto == 1)) {
+
         player.setVelocityY(-430);
         //SOUND OF THE PLAYER WHEN JUMP
         SoundJumpPlayer1.play();
         if (contadorSalto == 1) {
             contadorSalto = 2;
         };
-        
+
+
     }
-    if (player.body.touching.down) { // Si el obj_jugador.jugador toca una plataforma el contador de saltos se setea en cero otra vez
+
+    if (this.up.isDown && (player.body.touching.left || contadorSalto == 1)) {
+
+        player.setVelocityY(-430);
+        //SOUND OF THE PLAYER WHEN JUMP
+        SoundJumpPlayer1.play();
+        if (contadorSalto == 1) {
+            contadorSalto = 2;
+        };
+
+
+    }
+    
+    
+    if (this.enemy.x >= 2100) {
+        this.enemy.flipX = false;
+    }
+
+    if (this.enemy.x <= 1800) {
+        this.enemy.flipX = true;
+    
+    }
+
+    if (player.body.touching.down) { // Si el jugador toca una plataforma el contador de saltos se setea en cero otra vez
         contadorSalto = 0;
-        
-        
-    }
 
-    //START CODE AUDIO WHILE YOU MOVE
-    if (this.right.isDown && player.body.touching.down) {
 
-  
-    }
-
-    if (this.left.isDown && player.body.touching.down) {
-      
     }
     //FINAL FROM CODE AUDIO WHILE YOU MOVE
    // this.background.tilePositionX -= 0.5;
 
-    
    // TODO: MOVIMIENTO DE CAMARA CON FONDO
     this.background.tilePositionX = this.myCam.scrollX * .10;
     this.profundo.tilePositionX = this.myCam.scrollX * .10;
 
+    if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+        // 2.1 call a function to create a beam instance
+        this.shootBeam();
+        if(this.left.isDown){
+            var beam = new disparo(this);
+            beam.flipX = true;
+            beam.body.velocity.x = -250;
+        }else{
+            var beam = new disparo(this);
+            beam.flipX = false;
+            beam.body.velocity.x = 250;
+        }
+     
+    }
+    for (var i = 0; i < this.projectiles.getChildren().length; i++) {
+        var beam = this.projectiles.getChildren()[i];
+        beam.update();
+    }
 }
+
+
+    shootBeam() {
+        // 4.2 add the beam to the croup
+        var beam = new disparo(this);
+    }
 
 }

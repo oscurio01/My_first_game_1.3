@@ -28,9 +28,13 @@ preload() {
 
     this.load.image('suelo', 'assets/images/ground.png');
 
+    this.load.image('suelo_largo', 'assets/images/ground_large.png');
+
     this.load.spritesheet('dude', 'assets/images/woof2.png', { frameWidth: 32, frameHeight: 32 });
 
     this.load.spritesheet("enemy", "assets/images/bee.png", { frameWidth: 37, frameHeight: 39});
+
+    this.load.spritesheet("disparo", "assets/images/41.png", { frameWidth: 32, frameHeight: 32 });
 
     this.load.image('logo_gamma', 'assets/images/rose1.png');
 
@@ -108,6 +112,7 @@ create() {
     playButton.on("pointerup", () =>{
         this.scene.stop("bootGame");
         this.scene.start("playGame");
+        Vida = 10;
         console.log("ok")
     })
 

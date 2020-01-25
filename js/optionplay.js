@@ -2,9 +2,9 @@ class optionplay extends Phaser.Scene {
     constructor() {
         super("optionGame");
     }
-
  create(){
-
+    var VELOCIDAD=10;
+    this.VELOCIDAD = VELOCIDAD;
      let MenuButton = this.add.image(this.game.renderer.width / 10, this.game.renderer.height / 1.2, "menuButton").setDepth(1);
     
      MenuButton.setInteractive();
@@ -25,8 +25,7 @@ class optionplay extends Phaser.Scene {
      
      
      var tecladoimg = this.physics.add.staticGroup();
-    /*TODO: Hacerlo un sprite para que cuando presiones el boton se vea un poco más pequeño y negro
-    dando la sensación de que lo estas pulsando*/
+
     tecladoimg.create(100, 400, 'tecladoimg').setScale(1);
 
     var platformnegro = this.physics.add.staticGroup();
@@ -125,15 +124,6 @@ class optionplay extends Phaser.Scene {
      });
      this.enemy= enemy;
 
-     if (enemy.x < 0) {
-         this.enemy.scaleX = -1;
-
-
-     }
-    if (enemy.x > 400) {
-         this.enemy.scaleX = 1;
-
-     }
 
      this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -155,17 +145,29 @@ class optionplay extends Phaser.Scene {
      let moveteizquierda = this.add.text(10, 120, 'moverte a la izquierda presiona A', { fontSize: '30px', fill: '#0d91fc' });
 
      contenedor2.add([Instrucion, movetederecha, moveteizquierda]);
-        
+
+     this.projectiles = this.add.group();
  }
 
     update(time, delta) {
-
+    var enemy = this.enemy;
      var cursors = this.cursors;
      var player = this.player;
      var lefteclado = this.lefteclado;
      var righteclado = this.righteclado;
      var upteclado = this.upteclado;
-  
+     //var VELOCIDAD = this.VELOCIDAD;
+    if(enemy.x>=500){
+        this.enemy.flipX = false;
+        console.log('derecha');
+     }
+    
+      if(enemy.x<=100){
+          this.enemy.flipX = true;
+        console.log('izquierda');
+      }
+      //enemy.x+=VELOCIDAD;
+
 
         let SoundJumpPlayer1 = this.sound.add('Jump1Audio');
 
@@ -208,6 +210,21 @@ class optionplay extends Phaser.Scene {
         if (this.up.isUp) {
             upteclado.anims.play('upteclado1', true);
         }
+        this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+            // 2.1 call a function to create a beam instance
+            this.shootBeam();
+
+        }
+        for (var i = 0; i < this.projectiles.getChildren().length; i++) {
+            var beam = this.projectiles.getChildren()[i];
+            beam.update();
+        }
  }
+    shootBeam() {
+        // 4.2 add the beam to the croup
+        var beam = new disparo(this);
+    }
 
 }
