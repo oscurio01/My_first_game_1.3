@@ -11,3 +11,6 @@ https://www.youtube.com/watch?v=cSUmx5aATic
 
 Para tener munición, balas etc
 https://www.youtube.com/watch?v=HH_TzQOqVfY
+
+para el delay de las balas
+https://rexrainbow.github.io/phaser3-rex-notes/docs/site/timer/

@@ -28,7 +28,17 @@ preload() {
 
     this.load.image('suelo', 'assets/images/ground.png');
 
+    this.load.image('suelo_medio', 'assets/images/ground_middle.png');
+
     this.load.image('suelo_largo', 'assets/images/ground_large.png');
+
+    this.load.image('pinchos', 'assets/images/pinchos2.png');
+
+    this.load.image('pinchosmini', 'assets/images/pinchos2mini.png');
+
+    this.load.image('pinchosmini_large', 'assets/images/pinchos2mini_large.png');
+
+    this.load.image('pinchosmini_extra_large', 'assets/images/pinchos2mini_extra_large.png');
 
     this.load.spritesheet('dude', 'assets/images/woof2.png', { frameWidth: 32, frameHeight: 32 });
 
@@ -107,11 +117,13 @@ create() {
 
   // this.prefondotry = this.add.tileSprite(0, 0, config.width, config.height, "prefondotry").setOrigin(0);
 
+    this.cameras.main.fadeIn(250); //Para el difuminado del principio
     playButton.setInteractive();
 
     playButton.on("pointerup", () =>{
         this.scene.stop("bootGame");
         this.scene.start("playGame");
+        this.cameras.main.fadeIn(550);
         Vida = 10;
         console.log("ok")
     })
@@ -134,7 +146,6 @@ create() {
     optionButton.setInteractive();
 
     optionButton.on("pointerup", () =>{
-
         this.scene.start("optionGame");
         this.scene.stop("bootGame");
         console.log("ok")

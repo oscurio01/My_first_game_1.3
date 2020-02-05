@@ -16,34 +16,31 @@ class disparo extends Phaser.GameObjects.Sprite{
     
     this.body.setAllowGravity(false);
     this.body.setSize(25, 15);
-    var left = new Scene2(left);
+    this.body.checkWorldBounds = true;
+    this.body.outOfCameraBoundsKill = true;
+  
+    var left = new Scene2(this.left);
+    this.left=left;
    // this.left = left;
    
-    if(left.isDown){
-  console.log('izquierda');
+      if (this.left.isDown) {
+        console.log('izquierda');
         this.play("vuelaizquierda");
-      this.body.velocity.x = -250;
-      } else {
+        this.body.velocity.x = -250;
+      }else{
         this.play("vueladerecho");
       this.body.velocity.x = 250;
       console.log('derecha');
       }
-    
 
-    
 
 
     // 4.2 add the beam to the projectiles group
     scene.projectiles.add(this);
-
+    
   }
 
-  create(){
-    var cursors = this.input.keyboard.createCursorKeys();
 
-    this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-
-  }
 
 
   update(){

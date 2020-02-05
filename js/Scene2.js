@@ -15,7 +15,9 @@ class Scene2 extends Phaser.Scene {
 
 
 create() {
-  
+
+    this.cameras.main.fadeIn(550);//Para el difuminado del principio
+
     this.contadorSalto = 0;
     //this function is for see the images and more on your game
     //START CODE FROM BACKGROUND
@@ -56,10 +58,12 @@ create() {
        THE GAME*/
     //Es la variable que enseña cuantos puntos tienes
     var Puntos = 0;
-    let contenedor = this.add.container(0, 0);
+    let contenedor = this.add.container(0, 0);//crea un contenedor para puntos y vida
     contenedor.fixedToCamera = true;
     let PuntosText = this.add.text(10, 10, 'Puntos: ' + Puntos , { fontSize: '30px', fill: '#0d91fc' });
     let Vidatext = this.add.text(10, 35, 'Vida: ' + Vida , { fontSize: '30px', fill: '#0d91fc' });
+
+    this.Puntos=Puntos;
 
     contenedor.add([PuntosText, Vidatext]);
 
@@ -76,14 +80,30 @@ create() {
 
     var piso = this.physics.add.staticGroup();
 
-    piso.create(950,568, 'suelo').setSize(46,10);
-    piso.create(380, 543, 'suelo_largo').setSize(864, 13);
-    
+    var pinchos = this.physics.add.staticGroup();//usados al principio
 
+    var pinchos2 = this.physics.add.staticGroup();//Usados mucho más tarde
+
+     var pinchosfalso2 = this.physics.add.staticGroup();//Usados para hacer fake(falso) ilusiones.
+
+    piso.create(380, 543, 'suelo_largo').setSize(864, 13);
+    piso.create(560, 260, 'suelo_medio').setSize(240, 13);
+    piso.create(780, 260, 'suelo_medio').setSize(240, 13);
+    piso.create(520, 410, 'suelo_medio').setSize(240, 13);
+    piso.create(760, 410, 'suelo_medio').setSize(240, 13);
+    piso.create(130, 330, 'suelo_medio').setSize(240, 13);
+    piso.create(0, 330, 'suelo').setSize(240, 13);
+    piso.create(-85, 140, 'suelo_medio').setSize(240, 13);
+    piso.create(155, 140, 'suelo_medio').setSize(240, 13); 
+    piso.create(130, 330, 'suelo_medio').setSize(240, 13);
+    var pincho2=  pinchos.create(2005, 525, 'pinchosmini');
+    var pinchooescondido=pinchosfalso2.create(2085, 525, 'pinchosmini');
+    var pincho1=pinchos.create(2165, 525, 'pinchosmini_extra_large');
     //borde del mapa en la izquierda
-    platforms.create(-30, 145, 'plataforma_recta').setScale(2).refreshBody();
+    platforms.create(-35, 145, 'plataforma_recta').setScale(2).refreshBody();
    var murodestruible = platforms.create(840, 145, 'plataforma_recta');
     murodestruible.setScale(2).refreshBody();
+    this.murodestruible=murodestruible;
     /*
     Plataforma que se mueve
     */
@@ -91,13 +111,13 @@ create() {
     this.platform_move.body.setAllowGravity(false);
 
 //TODO: Hacer que la primera parte y todo el suelo se transforme en la plataforma pequeña que tiene detalles y esta mejor que la linea verde.
-  //  platforms.create(401, 568, 'plataforma').setScale(2).refreshBody();
-    platforms.create(600, 420, 'plataforma');
-    platforms.create(50, 330, 'plataforma');
-    platforms.create(640, 260, 'plataforma');
-    platforms.create(75, 150, 'plataforma');
-    platforms.create(880, 140, 'plataforma');
-    platforms.create(1280, 140, 'plataforma');
+
+
+    piso.create(980, 130, 'suelo_medio').setSize(240, 13);
+    piso.create(1220, 130, 'suelo_medio').setSize(240, 13);
+    piso.create(1364, 130, 'suelo').setSize(46, 13);
+    piso.create(1410, 130, 'suelo').setSize(46, 13);
+    piso.create(1456, 130, 'suelo').setSize(46, 13);
 
     //manera más limpia
     let timeline1 = this.tweens.timeline({
@@ -112,8 +132,10 @@ create() {
     /*
     PARTE del "las profundidades, es la parte del juego donde caes hacia abajo y peleas en un lugar más oscuro"
     */
-    platforms.create(1020, 5000, 'plataforma');
-    platforms.create(830, 4800, 'plataforma_recta');
+    piso.create(1020, 5000, 'plataforma');
+    piso.create(2525, 4800, 'suelo_largo').setSize(864, 13);
+    piso.create(2085, 4800, 'suelo_medio').setSize(240, 13);
+    
 
     //START CODE PLAYER
     var player = this.physics.add.sprite(100, 450, 'dude');
@@ -122,22 +144,40 @@ create() {
     player.setBounce(0.2);
     player.setCollideWorldBounds(false);
     player.body.setGravityY(300);
-    var disparo = this.physics.add.sprite(100, 450, 'disparo').setImmovable(true);
-    disparo.body.setAllowGravity(false);
-    disparo.setSize(25, 15);
 
-    var enemy = this.physics.add.group();
-    var enemy = this.physics.add.sprite(2100, 100, 'enemy').setImmovable(true);
-    var enemy2 = this.physics.add.sprite(200, 300, 'enemy').setImmovable(true);
+    var enemies = this.physics.add.group();//Grupo de enemigos
+
+    var enemy = enemies.create(1800, 100, 'enemy').setImmovable(true);
+    enemy.setSize(20, 30);
+    enemy.setBounce(0.2);
+    enemy.setCollideWorldBounds(false);
+    enemy.body.setAllowGravity(false);
+
+    var enemie1 = enemies.create(800,380,'enemy').setImmovable(true);//primer enemigo
+    enemie1.setSize(20, 30);
+    enemie1.setCollideWorldBounds(false);
+    enemie1.body.setAllowGravity(false);
+
+    var enemie2 = enemies.create(420,350,'enemy').setImmovable(true);
+    enemie2.body.setAllowGravity(false);
+    enemie2.setCollideWorldBounds(false);
+    enemie2.setSize(20, 30);
+
+    var enemie3 = enemies.create(2500, 100, 'enemy').setImmovable(true);
+    enemie3.body.setAllowGravity(false);
+    enemie3.setCollideWorldBounds(false);
+    enemie3.setSize(20, 30);
+    
+
+  
+    var enemy2 = enemies.create(50,300,'enemy').setImmovable(true);
     enemy2.setSize(20, 30);
     enemy2.setBounce(0.2);
     enemy2.setCollideWorldBounds(false);
     enemy2.body.setAllowGravity(false);
 
-    enemy.setSize(20, 30);
-    enemy.setBounce(0.2);
-    enemy.setCollideWorldBounds(false);
-    enemy.body.setAllowGravity(false);
+ 
+
     // create an animation for the player
 
     this.anims.create({
@@ -147,8 +187,15 @@ create() {
         repeat: -1
     });
     this.enemy = enemy;
+    this.enemy2=enemy2;
+    this.enemie1 = enemie1;
+    this.enemie2 = enemie2;
+    this.enemie3 = enemie3;
     enemy.play('fly', true);
     enemy2.play('fly', true);
+    enemie1.play('fly', true);
+    enemie2.play('fly', true);
+    enemie3.play('fly', true);
 
     this.anims.create({
         key: 'vueladerecho',
@@ -164,15 +211,7 @@ create() {
         repeat: -1
     });
 
-    let disparoderecho = this.tweens.timeline({
-        targets: disparo,
-        ease: 'lineal',
-        duration: 2000,
-        loop: -1,
-
-        tweens: [
-            { x: 450, }, { x: 100, },]
-    });
+    
 
     let movenemy1 = this.tweens.timeline({
         targets: enemy,
@@ -181,22 +220,62 @@ create() {
         loop: -1,
 
         tweens: [
-            { x: 1800,  }, { x: 2100 },]
+            { x: 2100, }, { x: 1800 },]
     });
 
+    let movenemy2 = this.tweens.timeline({
+        targets: enemy2,
+        ease: 'lineal',
+        duration: 2000,
+        loop: -1,
+
+        tweens: [
+            { x: 300,  }, { x: 50 },]
+    });
+
+    let movenemy3 = this.tweens.timeline({
+        targets: enemie1,
+        ease: 'lineal',
+        duration: 2000,
+        loop: -1,
+
+        tweens: [
+            { x: 600, }, { x: 800 },]
+    });
+
+    let movenemy4 = this.tweens.timeline({
+        targets: enemie2,
+        ease: 'lineal',
+        duration: 2000,
+        loop: -1,
+
+        tweens: [
+            { x: 600, }, { x: 420 },]
+    });
+
+    let movenemy5 = this.tweens.timeline({
+        targets: enemie3,
+        ease: 'lineal',
+        duration: 2000,
+        loop: -1,
+
+        tweens: [
+            { x: 3000, }, { x: 2500 },]
+    });
+    
 
     this.physics.add.collider(player, piso);
     this.physics.add.collider(player, platforms);
-    this.physics.add.collider(player, murodestruido);
     this.physics.add.collider(player, GolpePelota);
     this.physics.add.collider(player, this.platform_move);
     this.physics.add.collider(BolasDeHierro, platforms);
     this.physics.add.collider(BolasDeHierro, piso);
-    this.physics.add.collider(player, enemy);
-    this.physics.add.collider(player, enemy2);
+    this.physics.add.collider(player, GolpePincho1);
+   // this.physics.add.collider(player, enemy);
+    //this.physics.add.collider(player, enemies);
+   // this.physics.add.collider(player, enemy2);
     this.physics.add.collider(player, hitEnemy);
-
-
+    this.physics.add.collider(player, Pelotarecibedisparo);
 
     //You can see the player animated to move on the letf(izquierda)
     this.anims.create({
@@ -292,34 +371,53 @@ create() {
     var GolpePelota = function GolpePelota(player, bomb,){
 
        Vida -=1;
-        Vidatext.text = "Vida: " + Vida;
-      
-       if(this.left){
-           player.x += 50;
-           bomb.x -= 100;   
-       }else{
-           player.x -= 50;
-           bomb.x += 100;
-       }
-        
+       Vidatext.text = "Vida: " + Vida;
+        player.setVelocityY(-220);
+       if(this.left){player.x += 50;bomb.x -= 100;}else{player.x -= 50;bomb.x += 100;}
        console.log(Vida);
-        
     }
 
+    var Golpeaenemigo = function Golpeaenemigo(player, enemies ) {
 
-    var murodestruido = function murodestruido(player,  murodestruible, ) {
-        murodestruible.destroy();
-        player.x -= 50;
         Vida -= 1;
-        console.log('destruido');
-        console.log(Vida);
+        player.setVelocityY(-220);
+        Vidatext.text = "Vida: " + Vida;
 
+        if (this.left) { player.x += 50; } else { player.x -= 50; }
+        console.log(Vida);
     }
 
+    var GolpePincho1 = function GolpePincho1(player, pinchos) {
 
-        this.physics.add.overlap(BolasDeHierro, player, GolpePelota, null, this);
-    this.physics.add.collider(murodestruido, player, platforms, null, this);
+        Vida -= 1;
+        Vidatext.text = "Vida: " + Vida;
+        player.setVelocityY(-220);
+        console.log(Vida);
+        if(player.x >= 1765||player.x == 2000){
+            player.x = 1450;
+            player.y = 100;
+        } 
+        console.log('pinchado');
+    }
 
+    var GolpePincho2 = function GolpePincho2(player, pinchos2) {
+
+        Vida -= 1;
+        Vidatext.text = "Vida: " + Vida;
+        player.setVelocityY(-220);
+        console.log(Vida);
+        if (player.x >= 4000 || player.x == 5000) {
+            player.x = 1450;
+            player.y = 100;
+        }
+        console.log('pinchado2');
+    }
+   
+
+    this.physics.add.overlap(pinchos, player, GolpePincho1, null, this);
+    this.physics.add.overlap(pinchos2, player, GolpePincho2, null, this);
+    this.physics.add.overlap(enemies, player, Golpeaenemigo, null, this);
+    this.physics.add.overlap(BolasDeHierro, player, GolpePelota, null, this);
 
         //TODO: CAMARA QUE SIGUE AL PERSONAJE
         this.myCam = this.cameras.main;
@@ -328,26 +426,35 @@ create() {
 
     // making the camera follow the player
     this.myCam.startFollow(player, true, 0.1, 0.1);
+    PuntosText.fixedToCamera = true,0.1,0.1;
+    Vidatext.fixedToCamera = true, 0.1, 0.1;
     var hitEnemy = function hitprojectil(beam, enemy) {
         enemy.destroy();
+        beam.destroy();
         Puntos +=15;
         PuntosText.text = "Puntos: " + Puntos ;
     }
+    var Pelotarecibedisparo = function Pelotarecibedisparo(beam, bomb, ) {
+        bomb.setTint(0xff0000);
+        beam.destroy();
+        Puntos += 15;
+        Vidabola -=1;
+        PuntosText.text = "Puntos: " + Puntos;
+        console.log(Vidabola);
+    
+    }
+
     this.bomb= bomb;
-    this.murodestruido = murodestruido;
     this.disparo = disparo
     this.projectiles = this.add.group();
+    this.physics.add.overlap(this.projectiles, BolasDeHierro, Pelotarecibedisparo, null, this);
     this.physics.add.overlap(this.projectiles, enemy, hitEnemy, null, this);
-    this.physics.add.overlap(this.projectiles, enemy2, hitEnemy, null, this);
+    this.physics.add.overlap(this.projectiles, enemies, hitEnemy, null, this);
+
     
   //  this.physics.add.overlap(enemy, this.hitprojectil, null, this);
 }
 
-    hitpared(player, murodestruible) {
-        this.murodestruible.visible = false;
-        this.murodestruible.exists = false;
-
-    }
 
 
 /*
@@ -371,23 +478,27 @@ update(time, delta) {
 
     });
 var contadorSalto = this.contadorSalto;
-   var dispar2 = this.disparo;
+
+var velocidadsalto= -450;
+
     var cursors = this.cursors;
     var player = this.player;
     var emitter = this.emitter;
     var emitter2 = this.emitter2;
     var bomb = this.bomb;
-    var murodestruido = this.murodestruido;
+    var murodestruible = this.murodestruible;
+
+   var Puntos = this.Puntos;
 
     
-
-    if (dispar2.x >= 450) {
-        dispar2.play('vuelaizquierda', true);
+    if (Vidabola <= 0) {
+        bomb.destroy();
     }
 
-    if (dispar2.x <= 100) {
-        dispar2.play('vueladerecho', true);
+    if (Vidabola <= 0) {
+        murodestruible.destroy();
     }
+
  
 
     if (Vida <= 0) {
@@ -413,12 +524,13 @@ var contadorSalto = this.contadorSalto;
     }
 
     if(player.y == 4500){
-        Vida = 0;
+        Vida=0;
         console.log(Vida);
     }
     if (this.gameOver ==true && this.R.isDown) {
     
 
+            this.R.reset();
             this.scene.stop("playGame");
             this.scene.start("bootGame");
             console.log("reinicia");        
@@ -429,16 +541,16 @@ var contadorSalto = this.contadorSalto;
     this.playerax = player.x;
 
 
- /*if(player.body.touching.right && murodestruido.body.touching.left){
-        this.contadorSalto = 0;
-        murodestruible.destroy();
-       
-    }*/
 
     if (player.body.touching.down && platform_move.body.touching.up){
         //TODO: Hacer que el personaje se mueva con la plataforma cuando se ponga encima
-        player.x = platform_move.x;
-
+        player.x += 2.5;
+        if (player.x >= 3000)
+        {
+            player.x -=2.5;
+            
+        }
+       
     }
 
     if(player.y > 2000){
@@ -451,8 +563,6 @@ var contadorSalto = this.contadorSalto;
         this.background.setDepth(0);
 
     }
-
-
 
     if (this.left.isDown) {
         player.setVelocityX(-160);
@@ -473,18 +583,24 @@ var contadorSalto = this.contadorSalto;
     }
     
 
-    if (this.up.isDown && (player.body.touching.down || contadorSalto == 1)) {
-
-        player.setVelocityY(-430);
+    if (this.up.isDown && ( player.body.touching.down ||contadorSalto ==1)) {
+        player.setVelocityY(velocidadsalto);
+        contadorSalto += 1;
         //SOUND OF THE PLAYER WHEN JUMP
         SoundJumpPlayer1.play();
+    
+        
         if (contadorSalto == 1) {
             contadorSalto = 2;
+            if(Phaser.Input.Keyboard.JustDown(this.up)){
+                player.setVelocityY(velocidadsalto)}
+
+            console.log('salto doble');
      };
 
 
     }
-
+/* TODO:Intentar que ademas de que baje lento en paredes pueda saltar otra vez desde la pared
     if (this.up.isDown && (player.body.touching.right || contadorSalto == 1)) {
 
         player.setVelocityY(-430);
@@ -507,17 +623,19 @@ var contadorSalto = this.contadorSalto;
         };
 
 
-    }
+    }*/
     
     
-    if (this.enemy.x >= 2100) {
-        this.enemy.flipX = false;
-    }
-
-    if (this.enemy.x <= 1800) {
-        this.enemy.flipX = true;
-    
-    }
+    if (this.enemy.x >= 2100) {this.enemy.flipX = false;}
+    if (this.enemy.x <= 1800) {this.enemy.flipX = true;}
+    if (this.enemy2.x <= 50) {this.enemy2.flipX = true;}
+    if(this.enemy2.x >= 300){this.enemy2.flipX = false;}
+    if (this.enemie1.x <= 600) { this.enemie1.flipX = true; }
+    if (this.enemie1.x >= 800) { this.enemie1.flipX = false; }
+    if (this.enemie2.x <= 420) { this.enemie2.flipX = true; }
+    if (this.enemie2.x >= 600) { this.enemie2.flipX = false; }
+    if (this.enemie3.x <= 2500) { this.enemie3.flipX = true; }
+    if (this.enemie3.x >= 3000) { this.enemie3.flipX = false; }
 
     if (player.body.touching.down) { // Si el jugador toca una plataforma el contador de saltos se setea en cero otra vez
         contadorSalto = 0;
@@ -531,19 +649,18 @@ var contadorSalto = this.contadorSalto;
     this.background.tilePositionX = this.myCam.scrollX * .10;
     this.profundo.tilePositionX = this.myCam.scrollX * .10;
 
-    if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
+    if (Phaser.Input.Keyboard.JustDown(this.spacebar) && time > lastFired) {
         // 2.1 call a function to create a beam instance
-        this.shootBeam();
+        var beam = new disparo(this);
+        if(beam){
+            lastFired = time + 500;
+        }
         if(this.left.isDown){
-            var beam = new disparo(this);
+            
             beam.flipX = true;
             beam.body.velocity.x = -250;
-        }else{
-            var beam = new disparo(this);
-            beam.flipX = false;
-            beam.body.velocity.x = 250;
+            
         }
-     
     }
     for (var i = 0; i < this.projectiles.getChildren().length; i++) {
         var beam = this.projectiles.getChildren()[i];
@@ -551,10 +668,5 @@ var contadorSalto = this.contadorSalto;
     }
 }
 
-
-    shootBeam() {
-        // 4.2 add the beam to the croup
-        var beam = new disparo(this);
-    }
 
 }

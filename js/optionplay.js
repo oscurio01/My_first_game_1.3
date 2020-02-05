@@ -14,8 +14,10 @@ class optionplay extends Phaser.Scene {
          this.scene.start("bootGame");
          console.log("ok")
      })
-
-     var player = this.physics.add.sprite(100, 200, 'dude');
+     
+     this.cameras.main.fadeIn(350);//Para el difuminado del principio
+     
+     var player = this.physics.add.sprite(100, 200, 'dude');//variable del jugador
 
      player.setSize(20, 30);
      player.setBounce(0.2);
@@ -147,6 +149,34 @@ class optionplay extends Phaser.Scene {
      contenedor2.add([Instrucion, movetederecha, moveteizquierda]);
 
      this.projectiles = this.add.group();
+
+
+     misMoscas = this.physics.add.group();//para testear
+     this.miMoscas = misMoscas;
+     var misMoscas;
+
+
+     for (var y = 0; y < 2; y++) {
+         for (var x = 0; x < 12; x++) {
+             var miMosca = misMoscas.create(x * 48, y * 300, 'suelo');
+             miMosca.setSize(46, 10);
+             miMosca.body.setGravityY(-300);
+         }
+         misMoscas.x = 50;
+         misMoscas.y = 340;
+         var movimientomoscas = this.tweens.timeline({
+             targets: misMoscas,
+             ease: 'lineal',
+             duration: 2000,
+             loop: -1,
+
+             tweens: [
+                 { x: 450, }, { x: 100, },]
+         });
+
+     }//final del codigo de testeo
+
+
  }
 
     update(time, delta) {

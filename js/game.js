@@ -23,6 +23,8 @@ var murodestruible;
 var BolasDeHierro;
 //es la variable de las balas
 var disparonavSprites;
+
+var lastFired = 0;
 //es la variable del tiempo que tarda la bala en salir 
 var tiempobala = 0;
 //var contadorSalto = 0;
@@ -32,6 +34,10 @@ var gameOver = false;
 var PuntosText = null;
 //Es la variable que pone la vida
 var Vida = 10;
+//vida de la bola
+var Vidabola=5;
+//
+
 //Es la variable del texto vida
 var Vidatext = null;
 //Es la variable de la pelota que mata al jugador
