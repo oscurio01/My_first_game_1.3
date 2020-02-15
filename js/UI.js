@@ -7,8 +7,8 @@ export class UI extends Phaser.Scene {
         console.log('UI');
     }
     create(){
-        this.registry.events.on('vida', (life) =>{
-            console.log(life);
+        this.registry.events.on('vida', (Vida) =>{
+            console.log(Vida);
         });
 
     }

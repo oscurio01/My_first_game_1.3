@@ -11,7 +11,7 @@ var config = {
             debug: true
         }
     },
-    scene: [Scene1, Scene2, optionplay],
+    scene: [Scene1, Scene2, optionplay, DifficutlyModes],
 };
 
 var game = new Phaser.Game(config);
@@ -24,7 +24,9 @@ var BolasDeHierro;
 //es la variable de las balas
 var disparonavSprites;
 
-var lastFired = 0;
+var lastFired = 0;//EL delay puesto en la bala
+
+var BalaConseguida = false;//es la variable que indica que has recogido el objeto bala y podras empezar a disparar
 //es la variable del tiempo que tarda la bala en salir 
 var tiempobala = 0;
 //var contadorSalto = 0;
@@ -37,7 +39,7 @@ var Vida = 10;
 //vida de la bola
 var Vidabola=5;
 //
-
+var doblesalto= false;
 //Es la variable del texto vida
 var Vidatext = null;
 //Es la variable de la pelota que mata al jugador
@@ -56,6 +58,8 @@ var upteclado;
 var enemy;
 //Es el grupo donde va enemy
 var grupoEnemy;
+//Vidas de un sub boss
+var VidasubEnemie=20;
 //es la variable de las balas
 var disparonavSprites;
 //es la variable del tiempo que tarda la bala en salir 

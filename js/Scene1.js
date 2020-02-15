@@ -40,11 +40,21 @@ preload() {
 
     this.load.image('pinchosmini_extra_large', 'assets/images/pinchos2mini_extra_large.png');
 
+    this.load.image('pinchosmini_vertical', 'assets/images/pinchos2mini_vertical.png');
+
+    this.load.image('objetoDobleSalto', 'assets/images/botarosa.png');
+
+    this.load.image('teleport', 'assets/images/teleport_prueba.png');
+
     this.load.spritesheet('dude', 'assets/images/woof2.png', { frameWidth: 32, frameHeight: 32 });
+
+    this.load.spritesheet('dudeWithDoubleJump', 'assets/images/woof2ConDobleSalto.png', { frameWidth: 32, frameHeight: 32 });
 
     this.load.spritesheet("enemy", "assets/images/bee.png", { frameWidth: 37, frameHeight: 39});
 
     this.load.spritesheet("disparo", "assets/images/41.png", { frameWidth: 32, frameHeight: 32 });
+
+    this.load.spritesheet("CogerDisparo", "assets/images/3.png", { frameWidth: 32, frameHeight: 32 });
 
     this.load.image('logo_gamma', 'assets/images/rose1.png');
 
@@ -56,9 +66,19 @@ preload() {
 
     this.load.image('menuButton', 'assets/images/Menu_button.png');
 
+    this.load.image('easyButton', 'assets/images/easy_button.png');
+
+    this.load.image('mediumButton', 'assets/images/medium_button.png');
+
+    this.load.image('hardButton', 'assets/images/hard_button.png');
+
+    this.load.image('MeatboyButton', 'assets/images/Meatboy_button.png');
+
     this.load.image('platformnegro', 'assets/images/platformnegro.png');
 
     this.load.image('tecladoimg', 'assets/images/tecladowasd1.png');
+    
+    this.load.image('porprobar', 'assets/images/laprueba.png');
 
     this.load.spritesheet('tecladow', 'assets/images/tecladow1.png', { frameWidth: 32.5, frameHeight: 30 });
 
@@ -74,7 +94,8 @@ preload() {
     this.load.spritesheet('snowflakes_large', 'assets/images/snowflakes_large.png', { frameWidth: 64, frameHeight: 64 });
     //load the audio for objects
     this.load.audio('Jump1Audio', 'assets/audio/jump_player.mp3');
-    this.load.audio('musica_fondo_audio', 'assets/audio/padoru_padoru.mp3');
+    this.load.audio('musica_fondo_audio', 'assets/audio/audioFondo.mp3');
+    this.load.audio('pandoru', 'assets/audio/padoru_padoru.mp3');
     this.load.audio('impacto_violin_audio', 'assets/audio/tenso_violinfuerte.mp3');
     this.load.audio('MovePlayer1_audio', 'assets/audio/walkSnowPlayer21.mp3');
 
@@ -112,7 +133,7 @@ create() {
         })
     });
 
-    this.BetaText = this.add.text(550, 550, 'Beta 1.3.5', { fontSize: '30px', fill: '#0d91fc' }).setDepth(1);;
+    this.BetaText = this.add.text(550, 550, 'Beta 1.3.9', { fontSize: '30px', fill: '#0d91fc' }).setDepth(1);;
     //this.scene.start("playGame");
 
   // this.prefondotry = this.add.tileSprite(0, 0, config.width, config.height, "prefondotry").setOrigin(0);
@@ -122,9 +143,9 @@ create() {
 
     playButton.on("pointerup", () =>{
         this.scene.stop("bootGame");
-        this.scene.start("playGame");
+        this.scene.start("SelectDifficulty");
         this.cameras.main.fadeIn(550);
-        Vida = 10;
+       // Vida = 10;
         console.log("ok")
     })
 

@@ -14,3 +14,25 @@ https://www.youtube.com/watch?v=HH_TzQOqVfY
 
 para el delay de las balas
 https://rexrainbow.github.io/phaser3-rex-notes/docs/site/timer/
+
+TODO:hacer una parte donde consigas x cosa por ejemplo cuando consigas 3 partes de una llave se cree la llave para desbloquear siguiente nivel::
+if(Partedellave==0 && llave1.visible == false){Partellave=Partellave+1}; 
+if(Partedellave==1 && llave2.visible == false){Partellave=Partellave+1}; 
+if(Partedellave==2 && llave3.visible == false){Partellave=Partellave+1};
+if(Partedellave==3){var llave=this.physics.add.sprite(5000, 520, 'llavecompleta')};
+O tambien:
+Numerodepartesdellaves = 0;
+llavespartidas = this.physics.add.group({key: 'llavepartida', repeat:3, setXY:{x: 3500, y: 800, stepX:1000, stepY:285}});
+
+var RecogerPartedeLlave = function RecogerPartedeLlave (player,llavespartidas){
+llavespartidas.destroy();
+Numerodepartesdellaves +=1;
+Recogerpartellave.sound.play({volume:0.2});
+Llavetext.setText= "Partes de llaves adquiridas" + Numerodepartesdellaves;
+}
+
+if(llavespartidas.countActive(true) === 0){llave.this.physics.add(5000, 520, 'llavecompleta')};
+
+
+
+TODO: hacer que el personaje se haga más pequeño cuando pierda una vida(referencia a super mario bros).
