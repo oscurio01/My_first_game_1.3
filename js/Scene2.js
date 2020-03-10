@@ -19,9 +19,10 @@ create() {
     this.cameras.main.fadeIn(550);//Para el difuminado del principio
 
     this.myCam = this.cameras.main;
+    //this.myCam.setDeadzone(200,100);
     //this.myCam.setBounds(0, 0, game.config.width * 100, game.config.height * 20);
     this.myCam.setBounds(0, 0, 21000, 5000);
-
+    
     this.contadorSalto = 0;
     //this function is for see the images and more on your game
     //START CODE FROM BACKGROUND
@@ -37,7 +38,10 @@ create() {
     SoundBackground.stop(); FOR STOP THE SOUND
     SoundBackground.pause(); FOR PAUSE THE SOUND
     SoundBackground.resume(); FOR CONTINUE THE SOUND */
-    SoundBackground.play({volume:0.3});
+    SoundBackground.stop({volume:0.3});
+    let SoundProfundo = this.sound.add('impacto_violin_audio');
+    SoundProfundo.stop({volume: 0});
+    this.SoundProfundo = SoundProfundo;
     this.input.keyboard.on('keydown_LEFT', () => {
         SoundBackground.volume -= 0.1;
     });
@@ -66,7 +70,8 @@ create() {
     let PuntosText = this.add.text(10, 10, 'Puntos: ' + Puntos , { fontSize: '30px', fill: '#0d91fc' }).setScrollFactor(0).setDepth(1);
     let Vidatext = this.add.text(10, 35, 'Vida: ' + Vida , { fontSize: '30px', fill: '#0d91fc' }).setScrollFactor(0).setDepth(1);
     this.Vidatext = Vidatext;
-
+    let VidasubEnemie1text = this.add.text(2200, 4500, 'Vida: ' + VidasubEnemie1, { fontSize: '30px', fill: '#0d91fc' }).setDepth(1);
+    this.VidasubEnemie1text = VidasubEnemie1text;
     this.Puntos=Puntos;
 
     //contenedor.add([PuntosText, Vidatext]);
@@ -78,7 +83,7 @@ create() {
 
     var platforms = this.physics.add.staticGroup();
 
-    var platforms2_move = this.physics.add.group();
+    var platforms2_move = this.physics.add.group({ allowGravity: false,immovable:true});
 
     BolasDeHierro = this.physics.add.group();
 
@@ -92,7 +97,9 @@ create() {
 
      var pinchosfalso2 = this.physics.add.staticGroup();//Usados para hacer fake(falso) ilusiones.
 
-     var pinchos_rectos = this.physics.add.group();
+    var pinchos_rectos = this.physics.add.group({ allowGravity: false, flipY: false, immovable: true});
+
+    var MurosParaSubEnemie = this.physics.add.staticGroup();
 
     piso.create(380, 543, 'suelo_largo').setSize(864, 13);//Suelo del juego
     piso.create(560, 250, 'suelo_medio').setSize(240, 13);
@@ -104,21 +111,27 @@ create() {
     piso.create(-85, 140, 'suelo_medio').setSize(240, 13);
     piso.create(155, 140, 'suelo_medio').setSize(240, 13); 
     piso.create(130, 330, 'suelo_medio').setSize(240, 13);
-    var teletransportador = platforms2_move.create(2930, 4792, 'teleport').setSize(30, 20).setScale(0.5);teletransportador.body.setAllowGravity(false);
-    //despues de la plataforma movible
-    var teletransportador = platforms2_move.create(200, 402, 'teleport').setSize(30, 20).setScale(0.5); teletransportador.body.setAllowGravity(false);
+    piso.create(1925, 574, 'suelo_medio').setSize(240, 13).setDepth(-1);
+    pisofalso.create(2055, 574, 'suelo_medio').setSize(240, 13).setDepth(-1);
+    piso.create(2605, 574, 'suelo_largo').setSize(864, 13).setDepth(-1);
     piso.create(3400, 330, 'suelo_medio').setSize(240, 13);
-    var pincho_horizontal1 = pinchos_rectos.create(300, 100, 'pinchosmini_vertical'); pincho_horizontal1.body.setAllowGravity(false); pincho_horizontal1.flipY = false;
+    piso.create(3700, 250, 'suelo_medio').setSize(240, 13);
+    piso.create(3930, 250, 'suelo_medio').setSize(240, 13);
+    piso.create(4300, 400, 'suelo_medio').setSize(240, 13);
+    piso.create(4505, 504, 'suelo_largo').setSize(864, 13);
 
+    var teletransportador = platforms2_move.create(2930, 4792, 'teleport').setSize(30, 20).setScale(0.5);
+    //despues de la plataforma movible
+    var teletransportador1 = platforms2_move.create(200, 402, 'teleport').setSize(30, 20).setScale(0.5);
+    
+    var pincho_horizontal1 = pinchos_rectos.create(300, 100, 'pinchosmini_vertical');//pinchos del inicio
                 pinchos.create(1845, 555, 'pinchosmini');//Pinchos del Juego
                 pinchos.create(1925, 555, 'pinchosmini');
     var pincho1=pinchos.create(2005, 555, 'pinchosmini');
     var pinchooescondido=pinchosfalso2.create(2085, 555, 'pinchosmini');
-    piso.create(1925, 574, 'suelo_medio').setSize(240, 13).setDepth(-1);
-    pisofalso.create(2055, 574, 'suelo_medio').setSize(240, 13).setDepth(-1);
-    piso.create(2605, 574, 'suelo_largo').setSize(864, 13).setDepth(-1);
     var pincho2=pinchos.create(2525, 555, 'pinchosmini_extra_large');
     var pincho3=pinchos2.create(3325, 555, 'pinchosmini_extra_large');
+    var pincho3 = pinchos2.create(4125, 555, 'pinchosmini_extra_large');
 
     platforms.create(-35, 145, 'plataforma_recta').setScale(2).refreshBody();//borde del mapa en la izquierda
 
@@ -128,23 +141,28 @@ create() {
     /*
     Plataforma que se mueve
     */
-    this.platform_move = platforms2_move.create(3000, 140, 'plataforma2_move').setImmovable(true).setFrictionX(1);
-    this.platform_move.body.setAllowGravity(false);
-    this.platform_move.setFrictionX(1);
+    var platform_move = platforms2_move.create(1650, 140, 'plataforma2_move').setFrictionX(1);
+    this.platform_move = platform_move;
     piso.create(980, 130, 'suelo_medio').setSize(240, 13);
     piso.create(1220, 130, 'suelo_medio').setSize(240, 13);
     piso.create(1364, 130, 'suelo').setSize(46, 13);
     piso.create(1410, 130, 'suelo').setSize(46, 13);
     piso.create(1456, 130, 'suelo').setSize(46, 13);
 
-    let timeline1 = this.tweens.timeline({
-        targets: this.platform_move,
-        ease: 'lineal',
-        duration: 9000,
+    this.tweens.timeline({
+        targets: platform_move.body.velocity,
         loop: -1,
-        yoyo:true,
         tweens: [
-            { x: 1650, }, { x: 3000 },]});
+            { x: 0, y: 0, duration: 1000, ease: 'Stepped' },
+            { x: 200, y: 0, duration: 2200, ease: 'Stepped' },
+            { x: 200, y: 0, duration: 2200, ease: 'Stepped' },
+            { x: 200, y: 0, duration: 2200, ease: 'Stepped' },
+            { x: 0, y: 0, duration: 1000, ease: 'Stepped' },
+            { x: -200, y: 0, duration: 2200, ease: 'Stepped' },
+            { x: -200, y: 0, duration: 2200, ease: 'Stepped' },
+            { x: -200, y: 0, duration: 2200, ease: 'Stepped' },
+        ]
+        });
 
     let pincho_movimiento_recto1 = this.tweens.timeline({
         targets: pincho_horizontal1, ease: 'lineal', duration: 4000,
@@ -199,14 +217,14 @@ create() {
     enemy2.setCollideWorldBounds(false);
     enemy2.body.setAllowGravity(false);
 
-    /*TODO: Crear un sub enemigo en la parte secreta que cuando muera 
-    te permita moverte a un teletransportador*/
-    var SubEnemy1 = subEnemies.create(2800, 4700, 'enemy').setImmovable(true).setSize(25,30);
-    SubEnemy1.setScale(3);
+    var SubEnemy1 = subEnemies.create(2800, 4760, 'enemy').setImmovable(true).setSize(25,30);
+    SubEnemy1.setScale(2);
     SubEnemy1.setBounce(0.2);
     SubEnemy1.setCollideWorldBounds(false);
     SubEnemy1.body.setAllowGravity(false);
+this.SubEnemy1=SubEnemy1;
 
+var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_recta');this.MurosParaSubEnemie2=MurosParaSubEnemie2;
 
     // create an animation for the player
 
@@ -242,19 +260,19 @@ create() {
     });
 
     this.anims.create({
-        key: 'CogerDisparoSeMueve',
-        frames: this.anims.generateFrameNumbers("CogerDisparo", { start: 0, end: 1 }),
+        key: 'ObjectDisparoSeMueve',
+        frames: this.anims.generateFrameNumbers("ObjectDisparo", { start: 0, end: 1 }),
         frameRate: 10,
         repeat: -1
     });
 
     //Variable de la accion coger la bala
-    var CogerDisparo = this.physics.add.sprite(50, 100, 'CogerDisparo');
-    CogerDisparo.play('CogerDisparoSeMueve', true);
-    CogerDisparo.setSize(20, 20);
-    CogerDisparo.setBounce(0.2);
-    CogerDisparo.setCollideWorldBounds(false);
-    CogerDisparo.body.setAllowGravity(false);
+    var ObjectDisparo = this.physics.add.sprite(50, 100, 'ObjectDisparo');
+    ObjectDisparo.play('ObjectDisparoSeMueve', true);
+    ObjectDisparo.setSize(20, 20);
+    ObjectDisparo.setBounce(0.2);
+    ObjectDisparo.setCollideWorldBounds(false);
+    ObjectDisparo.body.setAllowGravity(false);
 
     //variable de conseguir doble salto
     var CogerDobleSalto = this.physics.add.sprite(100, 400, 'objetoDobleSalto');
@@ -262,6 +280,20 @@ create() {
     CogerDobleSalto.setBounce(0.2);
     CogerDobleSalto.setCollideWorldBounds(false);
     CogerDobleSalto.body.setAllowGravity(false);
+
+    //variable de conseguir doble salto
+    var CogerDash = this.physics.add.sprite(400, 400, 'objetoDash');
+    CogerDash.setSize(60, 20);
+    CogerDash.setBounce(0.2);
+    CogerDash.setCollideWorldBounds(false);
+    CogerDash.body.setAllowGravity(false);
+
+    this.Dash = this.physics.add.sprite(100, 600, 'Dash');
+    this.Dash.setSize(80, 40);
+    this.Dash.setBounce(0.2);//.setScrollFactor(0);
+    this.Dash.setCollideWorldBounds(false);
+    this.Dash.body.setAllowGravity(false);
+    
 
 //Inicio del movimiento de los enemigos
     let movenemy1 = this.tweens.timeline({
@@ -281,7 +313,7 @@ create() {
         loop: -1,
 
         tweens: [
-            { x: 300,  }, { x: 50 },]
+            { x: enemy2.x+200,  }, { x: enemy2.x-5 },]
     });
 
     let movenemy3 = this.tweens.timeline({
@@ -313,6 +345,16 @@ create() {
         tweens: [
             { x: 3000, }, { x: 2500 },]
     });
+
+    let movesubenemy1 = this.tweens.timeline({
+        targets: SubEnemy1,
+        ease: 'lineal',
+        duration: 2000,
+        loop: -1,
+
+        tweens: [
+            { y: SubEnemy1.y -150, }, { y: SubEnemy1.y+1 },]
+    });
 //Final del movimiento de los enemigos
 
 /*Para el ligero movimiento de los objetos*/
@@ -325,40 +367,34 @@ create() {
         tweens: [
             { y: CogerDobleSalto.y - 12, }, { y: CogerDobleSalto.y+1 },]
     });
-
-    let moveobjShoot= this.tweens.timeline({
-        targets: CogerDisparo,
+    
+    this.tweens.timeline({
+        targets: CogerDash,
         ease: 'lineal',
         duration: 2000,
         loop: -1,
 
         tweens: [
-            { y: CogerDisparo.y - 12, }, { y: CogerDisparo.y + 1 },]
+            { y: CogerDash.y - 12, }, { y: CogerDash.y+1 },]
+    });
+
+    let moveobjShoot= this.tweens.timeline({
+        targets: ObjectDisparo,
+        ease: 'lineal',
+        duration: 2000,
+        loop: -1,
+
+        tweens: [
+            { y: ObjectDisparo.y - 12, }, { y: ObjectDisparo.y + 1 },]
     });
 /*Final de los ligeros movimientos de los objetos */
-
-var platforms1 = this.physics.add.group({
-    key: 'plataforma',
-    frameQuantity: 1,
-    setXY: { x: 400, y: 150},
-    velocityX: 60,
-    duration: 2000,
-        ease: 'Sine.easeInOut',
-        repeat: -1,
-        yoyo: true,
-    immovable: true,
-    gravityY:-300,
-});
-
-platforms1.getChildren()[0].setFrictionX(1);
 
 
 
     this.physics.add.collider(player, piso);
-    this.physics.add.collider(player, platforms);this.physics.add.collider(player, platforms1);
-    this.physics.add.collider(player, this.platform_move);
+    this.physics.add.collider(player, platforms);
+    this.physics.add.collider(platform_move,player);
     this.physics.add.collider(player, RecogerDisparo);
-   // this.physics.add.collider(player, MurosParaSubEnemie);
     this.physics.add.collider(player, GolpeDePinchoVertical);
     this.physics.add.collider(player, GolpePelota);
     this.physics.add.collider(player, hitEnemy);
@@ -366,6 +402,7 @@ platforms1.getChildren()[0].setFrictionX(1);
     this.physics.add.collider(player, GolpePincho2);
     this.physics.add.collider(player, hitEnemy);
     this.physics.add.collider(player, Pelotarecibedisparo);
+    this.physics.add.collider(player, MurosParaSubEnemie);
     this.physics.add.collider(BolasDeHierro, platforms);
     this.physics.add.collider(BolasDeHierro, piso);
     
@@ -405,6 +442,7 @@ platforms1.getChildren()[0].setFrictionX(1);
     this.R = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     this.T = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
     this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.shift = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SHIFT);
 
     this.player = player;
 
@@ -414,38 +452,21 @@ platforms1.getChildren()[0].setFrictionX(1);
       THE START STORM snowFLAKES :D
     */
     var particles = this.add.particles('snowflakes');
-
     var emitter = particles.createEmitter({
         //POSITION FROM THE SNOW
-        x: 900,
-        y: -150,
-        angle: { min: 180, max: 0 },
-        speed: 400,
-        gravityY: -30,
-        lifespan: 3000,
-        quantity: 2,
-        scale: { start: 1.0, end: 1 },
+        x: { min: -100, max: 800 },
+        y: 0,
+        lifespan: 1300,
+        speedY: { min: 200, max: 400 },
+        gravityY: 100,
+        gravityX: Phaser.Math.Between(-100, -100),
+        scale: { start: 0.2, end: 0.6 },
+        quantity: 1,
         blendMode: 'ADD'
-    });
+    }).setScrollFactor(0);
 
     this.emitter = emitter;
 
-
-
-    var particles2 = this.add.particles('snowflakes_large');
-
-    var emitter2 = particles2.createEmitter({
-        x: 900,
-        y: -150,
-        angle: { min: 280, max: 0 },
-        speed: 400,
-        gravityY: -30,
-        lifespan: 3000,
-        quantity: 2,
-        scale: { start: 0.2, end: 1 },
-        blendMode: 'ADD'
-    });
-    this.emitter2 = emitter2;
     /*
       FINAL CODE WHERE THE STORM SNOW WORKS
     */
@@ -462,20 +483,31 @@ platforms1.getChildren()[0].setFrictionX(1);
     bomb.setCollideWorldBounds(false);
     bomb.setVelocity(Phaser.Math.Between(300, 100), 20);
 
-    /*
-    FOR MAKE THE GAME STOP WHEN YOU TOUCH THE ENEMIE
-    */
+    var balasdeSubenemie = this.physics.add.group({
+        classType: balaSubenemie,
+        maxSize: 200,
+        runChildUpdate: true
+    });
+ 
+
+    this.balasdeSubenemie=balasdeSubenemie;
+
    // making the camera follow the player
    this.myCam.startFollow(player, true, 0.1, 0.1);
-//   PuntosText.fixedToCamera = true;
-   //Vidatext.fixedToCamera = true;
 
     var GolpePelota = function GolpePelota(player, bomb,){
-       Vida -=1;
+       Vida -= 1;
        Vidatext.text = "Vida: " + Vida;
         player.setVelocityY(-220);
        if(this.left){player.x += 50;bomb.x -= 100;}else{player.x -= 50;bomb.x += 100;}
-       console.log(Vida);
+        player.setAlpha(0);
+        let tw1 = this.tweens.add({
+            targets: player,
+            alpha: 1,
+            duration: 100,
+            ease: 'Linear',
+            repeat: 5,
+        });
     }
 
     var Golpeaenemigo = function Golpeaenemigo(player, enemies ) {
@@ -484,53 +516,103 @@ platforms1.getChildren()[0].setFrictionX(1);
         Vidatext.text = "Vida: " + Vida;
 
         if (this.left) { player.x += 50; } else { player.x -= 50; }
-        console.log(Vida);
+        player.setAlpha(0);
+        let tw2 = this.tweens.add({
+            targets: player,
+            alpha: 1,
+            duration: 100,
+            ease: 'Linear',
+            repeat: 5,
+        });
     }
 
     var GolpeaSubEnemigo = function GolpeaSubEnemigo(player, subEnemies) {
         Vida -= 1;
         player.setVelocityY(-220);
         Vidatext.text = "Vida: " + Vida;
+        player.x -= 200;
+        player.setAlpha(0);
+        let tw3 = this.tweens.add({
+            targets: player,
+            alpha: 1,
+            duration: 100,
+            ease: 'Linear',
+            repeat: 5,
+        });
+    }
 
-        player.x -= 100;
-        console.log(Vida);
+    var GolpeaDisparoDeSubEnemigo = function GolpeaDisparoDeSubEnemigo(player,balasubenemie) {
+        Vida -= 1;
+        balasubenemie.destroy();
+        player.setVelocityY(-220);
+        Vidatext.text = "Vida: " + Vida;
+        player.x -= 200;
+        player.setAlpha(0);
+        let tw3 = this.tweens.add({
+            targets: player,
+            alpha: 1,
+            duration: 100,
+            ease: 'Linear',
+            repeat: 5,
+        });
     }
 //primera escena donde hay pinchos
     var GolpePincho1 = function GolpePincho1(player, pinchos) {
         Vida -= 1;
         Vidatext.text = "Vida: " + Vida;
         player.setVelocityY(-220);
-        console.log(Vida);
         if(player.x >= 1765||player.x == 2000){
             player.x = 1450;
             player.y = 100;
         } 
         console.log('pinchado');
+        player.setAlpha(0);
+        let tw4 = this.tweens.add({
+            targets: player,
+            alpha: 1,
+            duration: 100,
+            ease: 'Linear',
+            repeat: 5,
+        });
     }
 //segunda escena lejana donde hay pinchos
     var GolpePincho2 = function GolpePincho2(player, pinchos2) {
         Vida -= 1;
         Vidatext.text = "Vida: " + Vida;
         player.setVelocityY(-220);
-        console.log(Vida);
         if (player.x >= 3000 || player.x == 5000) {
-            player.x = 3300;
-            player.y = 240;
+            
+            player.y = player.y -=300;
         }
         console.log('pinchado2');
+        player.setAlpha(0);
+        let tw5 = this.tweens.add({
+            targets: player,
+            alpha: 1,
+            duration: 100,
+            ease: 'Linear',
+            repeat: 5,
+        });
     }
+
     var GolpeDePinchoVertical = function GolpeDePinchoVertical(pincho_horizontal1, player) {
         Vida -= 1;
         Vidatext.text = "Vida: " + Vida;
-        if (this.left) { player.x += 60; }  if (this.right){ player.x -= 120;console.log('esta') }
-        console.log(Vida);
+        if (this.left) { player.x += 120; }  if (this.right){ player.x -= 120;console.log('esta') }
         console.log('pinchahorizontal');
-    }
-    
+        player.setAlpha(0);
+        let tw6 = this.tweens.add({
+            targets: player,
+            alpha: 1,
+            duration: 100,
+            ease: 'Linear',
+            repeat: 5,
+        });
+    }   
    
-    var RecogerDisparo = function RecogerDisparo(CogerDisparo, player) {
+    var RecogerDisparo = function RecogerDisparo(ObjectDisparo, player) {
         
-        CogerDisparo.destroy();
+        ObjectDisparo.destroy();
         BalaConseguida =true;
         alert('Balas adquiridas');
         console.log('Balas adquiridas');
@@ -543,94 +625,121 @@ platforms1.getChildren()[0].setFrictionX(1);
         alert('Doble salto adquirido');
         console.log('Doble salto adquirido');
     }
+    var RecogerCogerDash = function RecogerCogerDash(CogerDash, player) {
+
+        CogerDash.destroy();
+        Deslizconseguido = true;
+        alert('Dash adquirido');
+        console.log('Dash adquirido');
+    }
+    
 
     var activarteletranstporte = function activarteletranstporte(teletransportador, player) {
 
+        player.x=3300;player.y=500;
+        
+    }
+
+    var activarteletranstporte1 = function activarteletranstporte1(teletransportador1, player) {
+
         player.x=2500;player.y=4500;
         
-        console.log('Teletransportado');
     }
-    
 
     var hitEnemy = function hitprojectil(beam, enemy) {
         enemy.destroy();
         beam.destroy();
         Puntos +=15;
         PuntosText.text = "Puntos: " + Puntos ;
+        
     }
-    var hitSubEnemy = function hitprojectil(beam, subEnemy) {
-        VidasubEnemie -=1
+    var hitSubEnemy1 = function hitprojectil(beam, SubEnemy1) {
+        VidasubEnemie1 -=1
         beam.destroy();
         Puntos += 15;
         PuntosText.text = "Puntos: " + Puntos;
-        Vida +=3;
-        console.log(VidasubEnemie);
+        VidasubEnemie1text.text = 'Vida: ' + VidasubEnemie1;
+        console.log(VidasubEnemie1);
     }
     var Pelotarecibedisparo = function Pelotarecibedisparo(beam, bomb, ) {
-        bomb.setTint(0xff0000);
         beam.destroy();
         Puntos += 15;
         Vidabola -=1;
         PuntosText.text = "Puntos: " + Puntos;
         console.log(Vidabola);
-    
+        bomb.setAlpha(0);
+        let tw7 = this.tweens.add({
+            targets: bomb,
+            alpha: 1,
+            duration: 100,
+            ease: 'Linear',
+            repeat: 5,
+        });
     }
-    var coliderbeam = function coliderbeam(beam, platforms, MurosParaSubEnemie) {
+    var coliderbeam = function coliderbeam(beam, platforms) {
         beam.destroy();
         console.log('destruida');
 
-    }
+    }  
 
-  
+
+    var coliderbeam2 = function coliderbeam2(beam, MurosParaSubEnemie) { beam.destroy(); }; this.coliderbeam2 = coliderbeam2;
     
+
+   
     this.bomb= bomb;
     this.disparo = disparo
-    this.physics.add.overlap(CogerDisparo, player, RecogerDisparo, null, this);
+    this.physics.add.overlap(ObjectDisparo, player, RecogerDisparo, null, this);
     this.physics.add.overlap(teletransportador, player, activarteletranstporte, null, this);
+    this.physics.add.overlap(teletransportador1, player, activarteletranstporte1, null, this);
     this.physics.add.overlap(pincho_horizontal1, player, GolpeDePinchoVertical, null, this);
     this.physics.add.overlap(CogerDobleSalto, player, RecogerDoblesalto, null, this);
+    this.physics.add.overlap(CogerDash, player, RecogerCogerDash, null, this);
     this.physics.add.overlap(pinchos, player, GolpePincho1, null, this);
     this.physics.add.overlap(pinchos2, player, GolpePincho2, null, this);
     this.physics.add.overlap(enemies, player, Golpeaenemigo, null, this);
     this.physics.add.overlap(BolasDeHierro, player, GolpePelota, null, this);
-    this.physics.add.overlap(subEnemies, player, GolpeaSubEnemigo, null, this);
-    
+    this.physics.add.overlap(subEnemies, player, GolpeaSubEnemigo, null, this); 
+    this.physics.add.overlap(balasdeSubenemie, player, GolpeaDisparoDeSubEnemigo, null, this);
+
     this.projectiles = this.add.group();
     this.physics.add.overlap(this.projectiles, BolasDeHierro, Pelotarecibedisparo, null, this);
     this.physics.add.overlap(this.projectiles, platforms, coliderbeam, null, this);
     this.physics.add.overlap(this.projectiles, enemy, hitEnemy, null, this);
     this.physics.add.overlap(this.projectiles, null, this);
     this.physics.add.overlap(this.projectiles, enemies, hitEnemy, null, this);
-    this.physics.add.overlap(this.projectiles, subEnemies, hitSubEnemy, null, this);
+    this.physics.add.overlap(this.projectiles, subEnemies, hitSubEnemy1, null, this);
+    this.physics.add.overlap(this.projectiles, MurosParaSubEnemie, coliderbeam2, null, this);
 
-    this.platforms1=platforms1;
+
+
   //  this.physics.add.overlap(enemy, this.hitprojectil, null, this);
-}
+
+}//Final del create
 salta(){
+    let SoundJumpPlayer1 = this.sound.add('Jump1Audio');
         if(this.contadorSalto <2){
             this.player.setVelocityY(-425);
             this.contadorSalto++;
             console.log('contadorsalta',this.contadorSalto);
-        }
+            SoundJumpPlayer1.play({ volume: 0.2 });}
+
+        if(this.player.body.touching.right){
+            SoundJumpPlayer1.stop();}
     
 
 }
 
-MurosParaSubEnemie(){
-    var MurosParaSubEnemie = this.physics.add.staticGroup();
-    var MurosParaSubEnemie1 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_recta');
-    var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2100, 4595, 'plataforma_recta');
-    var MurosParaSubEnemie3 = MurosParaSubEnemie.create(2500, 4370, 'plataforma').setScale(2).refreshBody();
-
-    var coliderbeam2 = function coliderbeam2(beam, platforms, MurosParaSubEnemie) {
-        beam.destroy();
-        console.log('destruida');
-
-    }
+MurosParaSubEnemie1(){
+   var MurosParaSubEnemie = this.physics.add.staticGroup();
+   var MurosParaSubEnemie1 = MurosParaSubEnemie.create(2100, 4595, 'plataforma_recta');
+   var MurosParaSubEnemie3 = MurosParaSubEnemie.create(2485, 4370, 'plataforma').setScale(2).refreshBody();
     this.physics.add.collider(this.player, MurosParaSubEnemie);
-    this.physics.add.overlap(this.projectiles, MurosParaSubEnemie, coliderbeam2, null, this);
-   
-}
+    this.physics.add.overlap(this.projectiles, MurosParaSubEnemie, this.coliderbeam2, null, this);
+    this.physics.add.overlap(this.balasdeSubenemie, MurosParaSubEnemie, this.coliderbeam2, null, this);
+    
+}  
+
 
 /*
 
@@ -646,18 +755,21 @@ MurosParaSubEnemie(){
 update(time, delta) {
     //THIS LET IS FOR THE AUDIO WORKING ALL THE TIME
     let SoundJumpPlayer1 = this.sound.add('Jump1Audio');
-    let SoundBeam = this.sound.add('MovePlayer1_audio');
-   let SoundBackground = this.SoundBackground;
-
-var contadorSalto = this.contadorSalto;
-
+    let SoundBackground = this.SoundBackground;
+    let SoundProfundo = this.SoundProfundo;
+    var VidasubEnemie1text = this.VidasubEnemie1text;
+    VidasubEnemie1text.setPosition(this.SubEnemy1.x - 100, this.SubEnemy1.y - 50);
 
     var cursors = this.cursors;
     var player = this.player;
     var emitter = this.emitter;
-    var emitter2 = this.emitter2;
     var bomb = this.bomb;
     var murodestruible = this.murodestruible;
+    var MurosParaSubEnemie1 = this.MurosParaSubEnemie1;
+    var MurosParaSubEnemie2 = this.MurosParaSubEnemie2;
+    var coliderbeam2 = this.coliderbeam2;
+    var platform_move = this.platform_move;
+
   //  var BalaConseguida = this.BalaConseguida;
    var Puntos = this.Puntos;
     if (Phaser.Input.Keyboard.JustDown(this.T)) {
@@ -665,15 +777,13 @@ var contadorSalto = this.contadorSalto;
         console.log('la y del jugador es ' + player.y)
     }
 
-   // if(this.platforms1.getChildren()[0].x >= 2000){this.platforms1.getChildren()[0].x.setVelocityX(-70);}
-
-    if (player.x >= 2400 && this.player.y >= 4600) {
-        this.MurosParaSubEnemie();
-
+    
+    if (player.x >=2200 && player.x <3000 && player.y>=4600 && player.y <5000) {
+      this.MurosParaSubEnemie1();
+      //this.myCam.stopFollow(player, true, 0.1, 0.1);
+    
+      
     }
-
-
-
 
 /*TODO:hacer que la bala desaparezca cuando se salga de pantalla*/ 
     if (beam > this.myCam.width) {
@@ -687,6 +797,17 @@ var contadorSalto = this.contadorSalto;
     if (Vidabola <= 0) {
         murodestruible.destroy();
     }
+    if (VidasubEnemie1 == 0 ) {
+        this.SubEnemy1.destroy();
+        MurosParaSubEnemie2.destroy();
+        VidasubEnemie1text.destroy();
+        Vida ++;
+        this.Vidatext.text = "Vida: " + Vida;
+        this.myCam.shake(500);
+        VidasubEnemie1=-1;
+       
+        
+    }
 //Cambios de tamaño a medida del cambio de vida
     if(Vida == 10){
         player.setScale(1);
@@ -695,39 +816,29 @@ var contadorSalto = this.contadorSalto;
     if (Vida == 9) {
         player.setScale(0.9);
     }
-    if (Vida == 8) {
+    if (Vida <= 8) {
         player.setScale(0.8);
     }
 
 //Fin del cambio de tamaño
     if (Vida <= 0) {//cuando tengas 0 vidas
         this.gameOver = true;
-        
         this.physics.pause();
-
-
         GameText = this.add.text(250, 250, 'Game Over', {
             font: 'bold 48px Arial',
-            fill: '#ff0000',
+            fill: '#ff0000',});
 
-        });
         GameText.setPosition(player.x-100, player.y -120);
-
-        emitter.stop();
-        emitter2.stop();
+       // emitter.stop();
         player.setTint(0xff0000);
 
         bomb.destroy();
-        if (time > lastFired){
-            lastFired = time + 1000;
-      console.log('zawardo');
-        }
 
     }
 
-    if(player.y >= 5000){//cuando el jugador llegue más abajo que la camara en 5000
+
+    if(player.y >= 4955){//cuando el jugador llegue más abajo que la camara en 5000
         Vida=0;
-        console.log(Vida);
     }
     if (this.gameOver ==true && this.R.isDown) {
     
@@ -740,31 +851,29 @@ var contadorSalto = this.contadorSalto;
             Vidabola = 5;
             BalaConseguida = false;
             this.gameOver=false;
-        
+            VidasubEnemie1=true;
+            Deslizconseguido=false;
+
 
     }
-    var platform_move = this.platform_move;
+
     this.playerax = player.x;
 
 
-   /* if (player.body.touching.down && platform_move.body.touching.up){
-        //TODO: Hacer que el personaje se mueva con la plataforma cuando se ponga encima(mediohecho pero aun no.)
-        player.x += 2.5;
-        if (player.x >= 3000)
-        {
-            player.x -=2.5;
-        }
-       
-    }*/
 
     if(player.y > 2000){
         this.profundo.setDepth(-1);
         this.background.setDepth(-2);
+        SoundBackground.pause();
+        SoundProfundo.volume = 0.3;
+        emitter.stop();
     }
     else if (player.y < 2000){
         this.profundo.setDepth(-2);
         this.background.setDepth(-1);
-
+        SoundBackground.resume();
+        SoundProfundo.resume();
+        emitter.start();
     }
     //El rastro que deja el personaje al moverse
     var partticulamovimiento1 = this.add.particles('porprobar'); partticulamovimiento1.setDepth(-1);
@@ -776,6 +885,7 @@ var contadorSalto = this.contadorSalto;
     var emittermovimiento2 = partticulamovimiento2.createEmitter({x: 100,y: 450, angle: { min: 300, max: 360 },
         speed: 400, lifespan: 50, scale: { start: 0.5, end: 1 }, blendMode: 'ADD', on: false,});
     emittermovimiento2.setPosition(player.x - 17, player.y + 12);  
+    this.Dash.setPosition(player.x - 50, player.y + 150);
     //La accion que se ejecuta cuando el personaje se mueve a la izquierda
     if (this.left.isDown) {
         player.setVelocityX(-160);
@@ -790,10 +900,21 @@ var contadorSalto = this.contadorSalto;
         if(player.body.touching.down){
             emittermovimiento2.setPosition(player.x + 21, player.y + 12);  
             emittermovimiento2.emitParticle(6);}
-
+        if (Phaser.Input.Keyboard.JustDown(this.shift)&& time > delay1 &&Deslizconseguido==true){
+            delay1 = time + 750;
+            this.Dash.setAlpha(0);
+            this.tweens.add({
+                targets: this.Dash,
+                alpha: 1,
+                duration: 100,
+                ease: 'Linear',
+                repeat: 5,
+            });
+               player.setVelocityX(-5000);
+            }
         //this.background.tilePositionX -= 1.5;
     }
-    else if (this.right.isDown) {//La accion que se ejecuta cuando el personaje se mueve a la derecha
+     else if (this.right.isDown) {//La accion que se ejecuta cuando el personaje se mueve a la derecha
         player.setVelocityX(160);
         if (doblesalto == false){
             player.flipX = false;
@@ -802,6 +923,18 @@ var contadorSalto = this.contadorSalto;
             player.flipX = false;
             player.anims.play('rightConDobleSalto', true);
         }
+        if (Phaser.Input.Keyboard.JustDown(this.shift)&& time > delay2 && Deslizconseguido==true){
+            delay2 = time + 750;
+            this.Dash.setAlpha(0);
+            this.tweens.add({
+                targets: this.Dash,
+                alpha: 1,
+                duration: 100,
+                ease: 'Linear',
+                repeat: 5,
+            });
+            player.setVelocityX(5000);
+        }
         if (player.body.touching.down) {emittermovimiento1.emitParticle(6);}
         //this.background.tilePositionX += 1.5;
     }
@@ -809,18 +942,15 @@ var contadorSalto = this.contadorSalto;
         player.setVelocityX(0);
         
         if (doblesalto == false) {
-            //player.flipX = false;
             player.anims.play('turn');}
 
         if (doblesalto == true) {
-            //player.flipX = false;
             player.anims.play('turnConDobleSalto', true);
         }
     }
     // Si el jugador toca una plataforma el contador de saltos se resetea en cero otra vez
     if (this.player.body.touching.down) { 
         this.contadorSalto = 0;
-        console.log('contadorsalta1', this.contadorSalto);
     }
 
     if(doblesalto ==true){
@@ -828,21 +958,23 @@ var contadorSalto = this.contadorSalto;
             this.salta();
         }}
 
-    if (this.up.isDown &&(player.body.touching.down|| this.contadorSalto == 0)) {
+    if (Phaser.Input.Keyboard.JustDown(this.up) &&(player.body.touching.down|| this.contadorSalto == 0)) {
         player.setVelocityY(-425);
         //SOUND OF THE PLAYER WHEN JUMP
         SoundJumpPlayer1.play({ volume: 0.2 });      
     }
-    /* TODO:Intentar que ademas de que baje lento en paredes pueda saltar otra vez desde la pared(hecho)*/
+    
     if (player.body.touching.right) {
         this.player.setVelocityY(20);
         this.contadorSalto = 0;
         console.log('ese =', this.contadorSalto);
+        SoundJumpPlayer1.stop();
     }
     if (player.body.touching.left) {
         this.player.setVelocityY(20);
         this.contadorSalto = 0;
         console.log('ese =', this.contadorSalto);
+        SoundJumpPlayer1.stop();
     }
 
     if (player.velocity < 0) {//Parar el emiter cuando te detengas
@@ -857,9 +989,9 @@ var contadorSalto = this.contadorSalto;
     
     
     if (this.enemy.x >= 2100) {this.enemy.flipX = false;}
-    if (this.enemy.x <= 1800) {this.enemy.flipX = true;}
-    if (this.enemy2.x <= 50) {this.enemy2.flipX = true;}
-    if(this.enemy2.x >= 300){this.enemy2.flipX = false;}
+    if (this.enemy.x <= 1800) {this.enemy.flipX = true;} 
+    if (this.enemy2.x <= 50) {this.enemy2.flipX = true;} 
+    if(this.enemy2.x >= 245){this.enemy2.flipX = false;}
     if (this.enemie1.x <= 600) { this.enemie1.flipX = true; }
     if (this.enemie1.x >= 800) { this.enemie1.flipX = false; }
     if (this.enemie2.x <= 420) { this.enemie2.flipX = true; }
@@ -875,28 +1007,49 @@ var contadorSalto = this.contadorSalto;
     this.background.tilePositionX = this.myCam.scrollX * .10;
     this.profundo.tilePositionX = this.myCam.scrollX * .10;
 
-    if (Phaser.Input.Keyboard.JustDown(this.spacebar) &&BalaConseguida == true && time > lastFired) {
-        /*TODO:cambiar esto por "false" y crear un
-    objeto que al tocarlo permita volverlo "true"(Hecho)    */
+    if( player.x >=2300 && player.x <2850 && player.y>=4500 && player.y <5000 && time > lastFired2&&VidasubEnemie1>=1){
+        var balaSubenemie = this.balasdeSubenemie.get();balaSubenemie.body.setGravityY(-150);
+
+        if(balaSubenemie){
+            balaSubenemie.fire(this.SubEnemy1.x,this.SubEnemy1.y);
+            lastFired2 = time + 1000;
+            
+        }
+        
+    }
+   
+
+    if (this.spacebar.isDown &&BalaConseguida == true && time > lastFired) {
         // call a function to create a beam instance
         /*  var o[0,1]
             0 =positionderecha ==true, positionizquierda ==false;
             1 = positionizquierda==true, positionderecha == false;*/
-        SoundBeam.play({ volume: 0.4 });
+
         var beam = new disparo(this);
         player.flipX=false;
         if(beam){
-            lastFired = time + 500;
+            lastFired = time + 750;
+            
+           // time.add(100,resetbala, this);
         }
         if(this.left.isDown){
             beam.flipX = true;
             beam.body.velocity.x = -250;
         }
+
     }
+                
+   // var resetbala=function resetbala(){beam.destroy(); }
     for (var i = 0; i < this.projectiles.getChildren().length; i++) {
         var beam = this.projectiles.getChildren()[i];
         beam.update();}
 
+        if(beam<player.x+50){
+            beam.destroy();
+            console.log('funciono');
+        }
+
+        
 }
 //Final del Update
 }

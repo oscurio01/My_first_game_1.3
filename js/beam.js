@@ -17,7 +17,6 @@ class disparo extends Phaser.GameObjects.Sprite{
     this.body.setSize(25, 15);
     this.body.checkWorldBounds = true;
     this.body.outOfCameraBoundsKill = true;
-   
       
         this.play("vueladerecho");
       this.body.velocity.x = 250;

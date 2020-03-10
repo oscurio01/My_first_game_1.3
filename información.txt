@@ -32,7 +32,3 @@ Llavetext.setText= "Partes de llaves adquiridas" + Numerodepartesdellaves;
 }
 
 if(llavespartidas.countActive(true) === 0){llave.this.physics.add(5000, 520, 'llavecompleta')};
-
-
-
-TODO: hacer que el personaje se haga más pequeño cuando pierda una vida(referencia a super mario bros).

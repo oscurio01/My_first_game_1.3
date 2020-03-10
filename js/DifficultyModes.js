@@ -6,8 +6,6 @@ class DifficutlyModes extends Phaser.Scene {
 
 create(){
 
-    console.log('hola');
-
     let Easy = this.add.image(this.game.renderer.width / 2.1, this.game.renderer.height / 4, "easyButton").setDepth(1);
 
     let Medium = this.add.image(this.game.renderer.width / 2.1, this.game.renderer.height / 2.5, "mediumButton").setDepth(1);

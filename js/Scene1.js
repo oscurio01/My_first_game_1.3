@@ -16,6 +16,7 @@ class Scene1 extends Phaser.Scene {
 */
 preload() {
     //this line is for load the images what you wanna see on your game
+    
     this.load.image('background', 'assets/images/fondo.jpg');
 
     this.load.image('profundo', 'assets/images/title_bg.jpg');
@@ -44,6 +45,10 @@ preload() {
 
     this.load.image('objetoDobleSalto', 'assets/images/botarosa.png');
 
+    this.load.image('objetoDash', 'assets/images/Objeto_Viento.png');
+
+    this.load.image('Dash', 'assets/images/Objeto_Viento2.png');
+
     this.load.image('teleport', 'assets/images/teleport_prueba.png');
 
     this.load.spritesheet('dude', 'assets/images/woof2.png', { frameWidth: 32, frameHeight: 32 });
@@ -54,7 +59,9 @@ preload() {
 
     this.load.spritesheet("disparo", "assets/images/41.png", { frameWidth: 32, frameHeight: 32 });
 
-    this.load.spritesheet("CogerDisparo", "assets/images/3.png", { frameWidth: 32, frameHeight: 32 });
+    this.load.image('SubEnemieDisparo', 'assets/images/disparoSubEnemy.png');
+
+    this.load.spritesheet("ObjectDisparo", "assets/images/4.png", { frameWidth: 32, frameHeight: 32 });
 
     this.load.image('logo_gamma', 'assets/images/rose1.png');
 
@@ -133,7 +140,7 @@ create() {
         })
     });
 
-    this.BetaText = this.add.text(550, 550, 'Beta 1.3.9', { fontSize: '30px', fill: '#0d91fc' }).setDepth(1);;
+    this.BetaText = this.add.text(550, 550, 'Beta 1.4.2', { fontSize: '30px', fill: '#0d91fc' }).setDepth(1);;
     //this.scene.start("playGame");
 
   // this.prefondotry = this.add.tileSprite(0, 0, config.width, config.height, "prefondotry").setOrigin(0);

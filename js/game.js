@@ -26,20 +26,27 @@ var disparonavSprites;
 
 var lastFired = 0;//EL delay puesto en la bala
 
+var lastFired2 = 0;
+
+var delay1= 0;
+
+var delay2 = 0;
+
 var BalaConseguida = false;//es la variable que indica que has recogido el objeto bala y podras empezar a disparar
-//es la variable del tiempo que tarda la bala en salir 
-var tiempobala = 0;
-//var contadorSalto = 0;
-//Es la variable del gameover
-var gameOver = false;
-//es la variable del text puntos
-var PuntosText = null;
-//Es la variable que pone la vida
-var Vida = 10;
-//vida de la bola
-var Vidabola=5;
-//
-var doblesalto= false;
+
+var tiempobala = 0;//es la variable del tiempo que tarda la bala en salir 
+
+var Deslizconseguido= false; //La variable para poder hacer un Dash(desliz)
+
+var gameOver = false;//Es la variable del gameover
+
+var PuntosText = null;//es la variable del text puntos
+
+var Vida = 10;//Es la variable que pone la vida
+
+var Vidabola=5;//vida de la bola
+
+var doblesalto= false;//la variable para poder hacer doble salto
 //Es la variable del texto vida
 var Vidatext = null;
 //Es la variable de la pelota que mata al jugador
@@ -59,10 +66,11 @@ var enemy;
 //Es el grupo donde va enemy
 var grupoEnemy;
 //Vidas de un sub boss
-var VidasubEnemie=20;
-//es la variable de las balas
-var disparonavSprites;
+var VidasubEnemie1 = 20;
+var VidasubEnemie2 = 20;
+var VidasubEnemie3 = 20;
+var VidasubEnemie4 = 20;
+var VidasubEnemie5 = 20;
+
 //es la variable del tiempo que tarda la bala en salir 
 var tiempobala = 0;
-
-
