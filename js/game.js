@@ -30,8 +30,6 @@ var lastFired2 = 0;
 
 var delay1= 0;
 
-var delay2 = 0;
-
 var BalaConseguida = false;//es la variable que indica que has recogido el objeto bala y podras empezar a disparar
 
 var tiempobala = 0;//es la variable del tiempo que tarda la bala en salir 

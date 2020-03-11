@@ -288,11 +288,8 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     CogerDash.setCollideWorldBounds(false);
     CogerDash.body.setAllowGravity(false);
 
-    this.Dash = this.physics.add.sprite(100, 600, 'Dash');
-    this.Dash.setSize(80, 40);
-    this.Dash.setBounce(0.2);//.setScrollFactor(0);
-    this.Dash.setCollideWorldBounds(false);
-    this.Dash.body.setAllowGravity(false);
+    this.Dash =  this.add.image(50, 550, 'Dash').setDepth(1).setScrollFactor(0);
+
     
 
 //Inicio del movimiento de los enemigos
@@ -598,7 +595,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     var GolpeDePinchoVertical = function GolpeDePinchoVertical(pincho_horizontal1, player) {
         Vida -= 1;
         Vidatext.text = "Vida: " + Vida;
-        if (this.left) { player.x += 120; }  if (this.right){ player.x -= 120;console.log('esta') }
+        if (this.left) { player.x += 120; } else if (this.right){ player.x -= 120;console.log('esta') }else{player.x += 120;}
         console.log('pinchahorizontal');
         player.setAlpha(0);
         let tw6 = this.tweens.add({
@@ -619,7 +616,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     }
 
     var RecogerDoblesalto = function RecogerDoblesalto(CogerDobleSalto, player) {
-
+ 
         CogerDobleSalto.destroy();
         doblesalto = true;
         alert('Doble salto adquirido');
@@ -885,9 +882,8 @@ update(time, delta) {
     var emittermovimiento2 = partticulamovimiento2.createEmitter({x: 100,y: 450, angle: { min: 300, max: 360 },
         speed: 400, lifespan: 50, scale: { start: 0.5, end: 1 }, blendMode: 'ADD', on: false,});
     emittermovimiento2.setPosition(player.x - 17, player.y + 12);  
-    this.Dash.setPosition(player.x - 50, player.y + 150);
-    //La accion que se ejecuta cuando el personaje se mueve a la izquierda
-    if (this.left.isDown) {
+ 
+    if (this.left.isDown) {   //La accion que se ejecuta cuando el personaje se mueve a la izquierda
         player.setVelocityX(-160);
         if (doblesalto == false) {
         player.flipX = true;
@@ -901,16 +897,16 @@ update(time, delta) {
             emittermovimiento2.setPosition(player.x + 21, player.y + 12);  
             emittermovimiento2.emitParticle(6);}
         if (Phaser.Input.Keyboard.JustDown(this.shift)&& time > delay1 &&Deslizconseguido==true){
-            delay1 = time + 750;
+            delay1 = time + 1750;
             this.Dash.setAlpha(0);
             this.tweens.add({
                 targets: this.Dash,
                 alpha: 1,
-                duration: 100,
+                duration:200,
                 ease: 'Linear',
                 repeat: 5,
             });
-               player.setVelocityX(-5000);
+            player.x = player.x-100;
             }
         //this.background.tilePositionX -= 1.5;
     }
@@ -923,17 +919,19 @@ update(time, delta) {
             player.flipX = false;
             player.anims.play('rightConDobleSalto', true);
         }
-        if (Phaser.Input.Keyboard.JustDown(this.shift)&& time > delay2 && Deslizconseguido==true){
-            delay2 = time + 750;
+        if (Phaser.Input.Keyboard.JustDown(this.shift)&& time > delay1 && Deslizconseguido==true){
+            this.physics.add.overlap(murodestruible, player, null, this);
+            
+            delay1 = time + 1750;
             this.Dash.setAlpha(0);
             this.tweens.add({
                 targets: this.Dash,
                 alpha: 1,
-                duration: 100,
+                duration:200,
                 ease: 'Linear',
                 repeat: 5,
             });
-            player.setVelocityX(5000);
+            player.x = player.x+100;
         }
         if (player.body.touching.down) {emittermovimiento1.emitParticle(6);}
         //this.background.tilePositionX += 1.5;

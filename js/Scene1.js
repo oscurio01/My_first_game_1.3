@@ -59,6 +59,8 @@ preload() {
 
     this.load.spritesheet("disparo", "assets/images/41.png", { frameWidth: 32, frameHeight: 32 });
 
+    this.load.spritesheet('llaves', 'assets/images/Llaves.png', { frameWidth: 64, frameHeight: 64 });
+
     this.load.image('SubEnemieDisparo', 'assets/images/disparoSubEnemy.png');
 
     this.load.spritesheet("ObjectDisparo", "assets/images/4.png", { frameWidth: 32, frameHeight: 32 });
