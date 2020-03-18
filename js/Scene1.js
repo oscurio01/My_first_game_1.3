@@ -43,6 +43,8 @@ preload() {
 
     this.load.image('pinchosmini_vertical', 'assets/images/pinchos2mini_vertical.png');
 
+    this.load.image('pinchos_vertical', 'assets/images/pinchos2_vertical.png');
+
     this.load.image('objetoDobleSalto', 'assets/images/botarosa.png');
 
     this.load.image('objetoDash', 'assets/images/Objeto_Viento.png');
@@ -59,7 +61,13 @@ preload() {
 
     this.load.spritesheet("disparo", "assets/images/41.png", { frameWidth: 32, frameHeight: 32 });
 
-    this.load.spritesheet('llaves', 'assets/images/Llaves.png', { frameWidth: 64, frameHeight: 64 });
+    this.load.image('llavesnegra', 'assets/images/LlavesNegra.png');
+
+    this.load.image('llaves1', 'assets/images/Llaves1.png');
+
+    this.load.image('llaves2', 'assets/images/Llaves2.png');
+
+    this.load.image('llaves3', 'assets/images/Llaves3.png');
 
     this.load.image('SubEnemieDisparo', 'assets/images/disparoSubEnemy.png');
 

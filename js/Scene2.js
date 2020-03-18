@@ -97,7 +97,7 @@ create() {
 
      var pinchosfalso2 = this.physics.add.staticGroup();//Usados para hacer fake(falso) ilusiones.
 
-    var pinchos_rectos = this.physics.add.group({ allowGravity: false, flipY: false, immovable: true});
+    var pinchos_rectos = this.physics.add.group({ allowGravity: false, flipY: false, immovable: true,});
 
     var MurosParaSubEnemie = this.physics.add.staticGroup();
 
@@ -118,26 +118,39 @@ create() {
     piso.create(3700, 250, 'suelo_medio').setSize(240, 13);
     piso.create(3930, 250, 'suelo_medio').setSize(240, 13);
     piso.create(4300, 400, 'suelo_medio').setSize(240, 13);
+    piso.create(4550, 330, 'suelo').setSize(48, 13);
+    piso.create(4800, 400, 'suelo_medio').setSize(240, 13);
     piso.create(4505, 504, 'suelo_largo').setSize(864, 13);
+    piso.create(5369, 504, 'suelo_largo').setSize(864, 13);
+    piso.create(6769, 504, 'suelo_largo').setSize(864, 13);
+    
 
     var teletransportador = platforms2_move.create(2930, 4792, 'teleport').setSize(30, 20).setScale(0.5);
     //despues de la plataforma movible
     var teletransportador1 = platforms2_move.create(200, 402, 'teleport').setSize(30, 20).setScale(0.5);
     
     var pincho_horizontal1 = pinchos_rectos.create(300, 100, 'pinchosmini_vertical');//pinchos del inicio
+    var pincho_horizontal2 = pinchos_rectos.create(4600, 300, 'pinchos_vertical');
+    var pincho_horizontal3 = pinchos_rectos.create(5600, 300, 'pinchos_vertical');
+    pincho_horizontal2.flipX = true;
+    pincho_horizontal3.flipX = true;
                 pinchos.create(1845, 555, 'pinchosmini');//Pinchos del Juego
                 pinchos.create(1925, 555, 'pinchosmini');
-    var pincho1=pinchos.create(2005, 555, 'pinchosmini');
+    pinchos.create(2005, 555, 'pinchosmini');
     var pinchooescondido=pinchosfalso2.create(2085, 555, 'pinchosmini');
-    var pincho2=pinchos.create(2525, 555, 'pinchosmini_extra_large');
-    var pincho3=pinchos2.create(3325, 555, 'pinchosmini_extra_large');
-    var pincho3 = pinchos2.create(4125, 555, 'pinchosmini_extra_large');
+    pinchos.create(2525, 555, 'pinchosmini_extra_large');
+    pinchos2.create(3325, 555, 'pinchosmini_extra_large');
+    pinchos2.create(4125, 555, 'pinchosmini_extra_large');
+    
 
     platforms.create(-35, 145, 'plataforma_recta').setScale(2).refreshBody();//borde del mapa en la izquierda
 
-   var murodestruible = platforms.create(840, 145, 'plataforma_recta');//Muro que se destruye al conseguir matar al 1 boss o conseguir la llave
-    murodestruible.setScale(2).refreshBody();
-    this.murodestruible=murodestruible;
+    this.murodestruible = platforms.create(840, 145, 'plataforma_recta');//Muro que se destruye al conseguir matar al 1 boss o conseguir la llave
+    this.murodestruible.setScale(2).refreshBody();
+    
+
+    this.Murofinal = platforms.create(10000, 455, 'plataforma_recta');//Muro que se destruye al conseguir matar al 1 boss o conseguir la llave
+    
     /*
     Plataforma que se mueve
     */
@@ -164,11 +177,19 @@ create() {
         ]
         });
 
-    let pincho_movimiento_recto1 = this.tweens.timeline({
+    this.tweens.timeline({
         targets: pincho_horizontal1, ease: 'lineal', duration: 4000,
         loop: -1,
         tweens: [{ y: 450, }, { y: 100 },]});
-
+    this.tweens.timeline({
+        targets: pincho_horizontal2, ease: 'lineal', duration: 1000,
+        loop: -1,
+        tweens: [{ y: pincho_horizontal2.y + 120, }, { y: pincho_horizontal2.y+1 },]});
+    this.tweens.timeline({
+        targets: pincho_horizontal3, ease: 'lineal', duration: 1000,
+        loop: -1,
+        tweens: [{ y: pincho_horizontal3.y + 120, }, { y: pincho_horizontal3.y + 1 },]
+    });
     /*
     PARTE del "las profundidades, es la parte del juego donde caes hacia abajo y peleas en un lugar más oscuro"
     */
@@ -176,7 +197,7 @@ create() {
     piso.create(2525, 4800, 'suelo_largo').setSize(864, 13).setDepth(-1);
     piso.create(2085, 4800, 'suelo_medio').setSize(240, 13);
     
-
+   
     //START CODE PLAYER
     var player = this.physics.add.sprite(100, 450, 'dude');
 
@@ -186,42 +207,35 @@ create() {
     player.body.setGravityY(300);
 
     //variable de enemigos
-    var enemies = this.physics.add.group();//Grupo de enemigos
+    var enemies = this.physics.add.group({ allowGravity: false, collideWorldBounds: false, bounce:0.2, });//Grupo de enemigos
 
-    var subEnemies = this.physics.add.group();//Grupo de enemigos
+    var subEnemies = this.physics.add.group({ allowGravity: false, collideWorldBounds: false, bounce: 0.2, });//Grupo de enemigos
 
     var enemy = enemies.create(1800, 100, 'enemy').setImmovable(true);
     enemy.setSize(20, 30);
-    enemy.setBounce(0.2);
-    enemy.setCollideWorldBounds(false);
-    enemy.body.setAllowGravity(false);
 
     var enemie1 = enemies.create(800,380,'enemy').setImmovable(true);//primer enemigo
     enemie1.setSize(20, 30);
-    enemie1.setCollideWorldBounds(false);
-    enemie1.body.setAllowGravity(false);
+
 
     var enemie2 = enemies.create(420,350,'enemy').setImmovable(true);
-    enemie2.body.setAllowGravity(false);
-    enemie2.setCollideWorldBounds(false);
     enemie2.setSize(20, 30);
 
     var enemie3 = enemies.create(2500, 100, 'enemy').setImmovable(true);
-    enemie3.body.setAllowGravity(false);
-    enemie3.setCollideWorldBounds(false);
     enemie3.setSize(20, 30);
+
+    var enemie4 = enemies.create(4200, 370, 'enemy').setImmovable(true);
+    enemie4.setSize(20, 30);
+
+    var enemie5 = enemies.create(4900, 370, 'enemy').setImmovable(true);
+    enemie5.setSize(20, 30);
   
     var enemy2 = enemies.create(50,300,'enemy').setImmovable(true);
     enemy2.setSize(20, 30);
-    enemy2.setBounce(0.2);
-    enemy2.setCollideWorldBounds(false);
-    enemy2.body.setAllowGravity(false);
+
 
     var SubEnemy1 = subEnemies.create(2800, 4760, 'enemy').setImmovable(true).setSize(25,30);
     SubEnemy1.setScale(2);
-    SubEnemy1.setBounce(0.2);
-    SubEnemy1.setCollideWorldBounds(false);
-    SubEnemy1.body.setAllowGravity(false);
 this.SubEnemy1=SubEnemy1;
 
 var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_recta');this.MurosParaSubEnemie2=MurosParaSubEnemie2;
@@ -239,11 +253,15 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     this.enemie1 = enemie1;
     this.enemie2 = enemie2;
     this.enemie3 = enemie3;
+    this.enemie4 = enemie4;
+    this.enemie5 = enemie5;
     enemy.play('fly', true);
     enemy2.play('fly', true);
     enemie1.play('fly', true);
     enemie2.play('fly', true);
     enemie3.play('fly', true);
+    enemie4.play('fly', true);
+    enemie5.play('fly', true);
     SubEnemy1.play('fly', true);
     this.anims.create({
         key: 'vueladerecho',
@@ -288,7 +306,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     CogerDash.setCollideWorldBounds(false);
     CogerDash.body.setAllowGravity(false);
 
-    this.Dash =  this.add.image(50, 550, 'Dash').setDepth(1).setScrollFactor(0);
+    
 
     
 
@@ -341,6 +359,26 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
 
         tweens: [
             { x: 3000, }, { x: 2500 },]
+    });
+
+    this.tweens.timeline({
+        targets: enemie4,
+        ease: 'lineal',
+        duration: 2000,
+        loop: -1,
+
+        tweens: [
+            { x: enemie4.x + 200, }, { x: enemie4.x - 5 }]
+    });
+
+    this.tweens.timeline({
+        targets: enemie5,
+        ease: 'lineal',
+        duration: 2000,
+        loop: -1,
+
+        tweens: [
+            { x: enemie5.x - 200 },{ x: enemie5.x + 5, }]
     });
 
     let movesubenemy1 = this.tweens.timeline({
@@ -606,6 +644,33 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
             repeat: 5,
         });
     }   
+    var GolpeDePinchoVertical2 = function GolpeDePinchoVertical2(pincho_horizontal2, player) {
+        Vida -= 1;
+        Vidatext.text = "Vida: " + Vida;
+        if (this.left) { player.x -= 120; } else if (this.right) { player.x -= 120; console.log('esta') }
+        console.log('pinchahorizontal');
+        player.setAlpha(0);
+        let tw6 = this.tweens.add({
+            targets: player,
+            alpha: 1,
+            duration: 100,
+            ease: 'Linear',
+            repeat: 5,
+        });}
+    var GolpeDePinchoVertical3 = function GolpeDePinchoVertical3(pincho_horizontal3, player) {
+        Vida -= 1;
+        Vidatext.text = "Vida: " + Vida;
+        if (this.left) { player.x -= 120; } else if (this.right) { player.x -= 120; console.log('esta') }
+        console.log('pinchahorizontal');
+        player.setAlpha(0);
+        let tw6 = this.tweens.add({
+            targets: player,
+            alpha: 1,
+            duration: 100,
+            ease: 'Linear',
+            repeat: 5,
+        });
+    }
    
     var RecogerDisparo = function RecogerDisparo(ObjectDisparo, player) {
         
@@ -628,18 +693,19 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
         Deslizconseguido = true;
         alert('Dash adquirido');
         console.log('Dash adquirido');
-    }
+    } 
+    this.RecogerCogerDash = RecogerCogerDash;
     
 
     var activarteletranstporte = function activarteletranstporte(teletransportador, player) {
 
-        player.x=3300;player.y=500;
+        player.x=4500;player.y=300;
         
     }
 
     var activarteletranstporte1 = function activarteletranstporte1(teletransportador1, player) {
 
-        player.x=2500;player.y=4500;
+        player.x=4500;player.y=300;
         
     }
 
@@ -678,11 +744,16 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
         console.log('destruida');
 
     }  
-
+    var coliderbeamPinchos = function coliderbeamPinchos(beam, pincho_horizontal1) {
+        beam.destroy();console.log('destruida');}
+    var coliderbeamPinchos2 = function coliderbeamPinchos2(beam, pincho_horizontal2) {
+        beam.destroy(); console.log('destruida');
+    }  
+    var coliderbeamPinchos3 = function coliderbeamPinchos3(beam, pincho_horizontal3) {
+        beam.destroy(); console.log('destruida');
+    }  
 
     var coliderbeam2 = function coliderbeam2(beam, MurosParaSubEnemie) { beam.destroy(); }; this.coliderbeam2 = coliderbeam2;
-    
-
    
     this.bomb= bomb;
     this.disparo = disparo
@@ -690,6 +761,8 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     this.physics.add.overlap(teletransportador, player, activarteletranstporte, null, this);
     this.physics.add.overlap(teletransportador1, player, activarteletranstporte1, null, this);
     this.physics.add.overlap(pincho_horizontal1, player, GolpeDePinchoVertical, null, this);
+    this.physics.add.overlap(pincho_horizontal2, player, GolpeDePinchoVertical2, null, this);
+    this.physics.add.overlap(pincho_horizontal3, player, GolpeDePinchoVertical3, null, this);
     this.physics.add.overlap(CogerDobleSalto, player, RecogerDoblesalto, null, this);
     this.physics.add.overlap(CogerDash, player, RecogerCogerDash, null, this);
     this.physics.add.overlap(pinchos, player, GolpePincho1, null, this);
@@ -701,7 +774,10 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
 
     this.projectiles = this.add.group();
     this.physics.add.overlap(this.projectiles, BolasDeHierro, Pelotarecibedisparo, null, this);
-    this.physics.add.overlap(this.projectiles, platforms, coliderbeam, null, this);
+    this.physics.add.overlap(this.projectiles, platforms, coliderbeam, null, this); 
+    this.physics.add.overlap(this.projectiles, pincho_horizontal1, coliderbeamPinchos, null, this); 
+    this.physics.add.overlap(this.projectiles, pincho_horizontal2, coliderbeamPinchos2, null, this); 
+    this.physics.add.overlap(this.projectiles, pincho_horizontal3, coliderbeamPinchos3, null, this); 
     this.physics.add.overlap(this.projectiles, enemy, hitEnemy, null, this);
     this.physics.add.overlap(this.projectiles, null, this);
     this.physics.add.overlap(this.projectiles, enemies, hitEnemy, null, this);
@@ -722,9 +798,7 @@ salta(){
             SoundJumpPlayer1.play({ volume: 0.2 });}
 
         if(this.player.body.touching.right){
-            SoundJumpPlayer1.stop();}
-    
-
+            SoundJumpPlayer1.stop();}    
 }
 
 MurosParaSubEnemie1(){
@@ -736,6 +810,22 @@ MurosParaSubEnemie1(){
     this.physics.add.overlap(this.balasdeSubenemie, MurosParaSubEnemie, this.coliderbeam2, null, this);
     
 }  
+
+PartesDeLLave() {
+    this.PartedeLLaveNegra = this.add.image(200, 550, 'llavesnegra').setDepth(1).setScrollFactor(0);
+    if(ParteDeLLave1Adquirida==true){
+        this.PartedeLLave1 = this.add.image(200, 550, 'llaves1').setDepth(1).setScrollFactor(0);
+    }
+    if (ParteDeLLave2Adquirida == true){
+        this.PartedeLLave2 = this.add.image(200, 550, 'llaves2').setDepth(1).setScrollFactor(0);
+    }
+    if (ParteDeLLave3Adquirida == true) {
+        this.PartedeLLave3 = this.add.image(200, 550, 'llaves3').setDepth(1).setScrollFactor(0);
+        this.PartedeLLaveNegra.destroy();
+    }
+
+}
+
 
 
 /*
@@ -778,7 +868,7 @@ update(time, delta) {
     if (player.x >=2200 && player.x <3000 && player.y>=4600 && player.y <5000) {
       this.MurosParaSubEnemie1();
       //this.myCam.stopFollow(player, true, 0.1, 0.1);
-    
+        this.PartesDeLLave();
       
     }
 
@@ -802,9 +892,14 @@ update(time, delta) {
         this.Vidatext.text = "Vida: " + Vida;
         this.myCam.shake(500);
         VidasubEnemie1=-1;
-       
+        ParteDeLLave3Adquirida=true;
         
     }
+
+    if (ParteDeLLave3Adquirida==true){
+        this.Murofinal.destroy();
+    }
+
 //Cambios de tamaño a medida del cambio de vida
     if(Vida == 10){
         player.setScale(1);
@@ -833,8 +928,11 @@ update(time, delta) {
 
     }
 
+    if (VidasubEnemie1 <= 0 && this.RecogerCogerDash){
+        this.Dash = this.add.image(50, 550, 'Dash').setDepth(1).setScrollFactor(0);
+    }
 
-    if(player.y >= 4955){//cuando el jugador llegue más abajo que la camara en 5000
+    if(player.y >= 4975){//cuando el jugador llegue más abajo que la camara en 5000
         Vida=0;
     }
     if (this.gameOver ==true && this.R.isDown) {
@@ -994,16 +1092,15 @@ update(time, delta) {
     if (this.enemie1.x >= 800) { this.enemie1.flipX = false; }
     if (this.enemie2.x <= 420) { this.enemie2.flipX = true; }
     if (this.enemie2.x >= 600) { this.enemie2.flipX = false; }
-    if (this.enemie3.x <= 2500) { this.enemie3.flipX = true; }
+    if (this.enemie3.x <= 2500) { this.enemie3.flipX = true; } 
     if (this.enemie3.x >= 3000) { this.enemie3.flipX = false; }
+    if (this.enemie4.x <= 4200) { this.enemie4.flipX = true; }
+    if (this.enemie4.x >= 4400) { this.enemie4.flipX = false; }
+    if (this.enemie5.x <= 4700) { this.enemie5.flipX = true; }
+    if (this.enemie5.x >= 4900) { this.enemie5.flipX = false; }
 
-
-    //FINAL FROM CODE AUDIO WHILE YOU MOVE
-   // this.background.tilePositionX -= 0.5;
-
-   // TODO: MOVIMIENTO DE CAMARA CON FONDO(Hecho)
     this.background.tilePositionX = this.myCam.scrollX * .10;
-    this.profundo.tilePositionX = this.myCam.scrollX * .10;
+    //this.profundo.tilePositionX = this.myCam.scrollX * .10;
 
     if( player.x >=2300 && player.x <2850 && player.y>=4500 && player.y <5000 && time > lastFired2&&VidasubEnemie1>=1){
         var balaSubenemie = this.balasdeSubenemie.get();balaSubenemie.body.setGravityY(-150);
@@ -1041,12 +1138,10 @@ update(time, delta) {
     for (var i = 0; i < this.projectiles.getChildren().length; i++) {
         var beam = this.projectiles.getChildren()[i];
         beam.update();}
-
-        if(beam<player.x+50){
-            beam.destroy();
-            console.log('funciono');
-        }
-
+    if (beam <= player.x + 100) {
+        beam.destroy();
+        console.log('funciono');
+    }
         
 }
 //Final del Update

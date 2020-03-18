@@ -40,6 +40,12 @@ var gameOver = false;//Es la variable del gameover
 
 var PuntosText = null;//es la variable del text puntos
 
+ParteDeLLave1Adquirida =true;
+
+ParteDeLLave2Adquirida = true;
+
+ParteDeLLave3Adquirida = false;
+
 var Vida = 10;//Es la variable que pone la vida
 
 var Vidabola=5;//vida de la bola
