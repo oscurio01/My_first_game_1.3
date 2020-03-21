@@ -150,7 +150,7 @@ create() {
         })
     });
 
-    this.BetaText = this.add.text(550, 550, 'Beta 1.4.2', { fontSize: '30px', fill: '#0d91fc' }).setDepth(1);;
+    this.BetaText = this.add.text(550, 550, 'Beta 1.4.3', { fontSize: '30px', fill: '#0d91fc' }).setDepth(1);;
     //this.scene.start("playGame");
 
   // this.prefondotry = this.add.tileSprite(0, 0, config.width, config.height, "prefondotry").setOrigin(0);

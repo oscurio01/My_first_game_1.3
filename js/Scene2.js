@@ -123,6 +123,7 @@ create() {
     piso.create(4505, 504, 'suelo_largo').setSize(864, 13);
     piso.create(5369, 504, 'suelo_largo').setSize(864, 13);
     piso.create(6769, 504, 'suelo_largo').setSize(864, 13);
+
     
 
     var teletransportador = platforms2_move.create(2930, 4792, 'teleport').setSize(30, 20).setScale(0.5);
@@ -217,6 +218,8 @@ create() {
     var enemie1 = enemies.create(800,380,'enemy').setImmovable(true);//primer enemigo
     enemie1.setSize(20, 30);
 
+    var enemy2 = enemies.create(50, 300, 'enemy').setImmovable(true);
+    enemy2.setSize(20, 30);
 
     var enemie2 = enemies.create(420,350,'enemy').setImmovable(true);
     enemie2.setSize(20, 30);
@@ -229,14 +232,18 @@ create() {
 
     var enemie5 = enemies.create(4900, 370, 'enemy').setImmovable(true);
     enemie5.setSize(20, 30);
+    
+    var enemie6 = enemies.create(4400, 480, 'enemy').setImmovable(true);
+    enemie6.setSize(20, 30);
+
+    var enemie7 = enemies.create(4700, 480, 'enemy').setImmovable(true);
+    enemie7.setSize(20, 30);
   
-    var enemy2 = enemies.create(50,300,'enemy').setImmovable(true);
-    enemy2.setSize(20, 30);
+    var enemie8 = enemies.create(4500, 300, 'enemy').setImmovable(true); enemie8.setSize(20, 30);
 
 
     var SubEnemy1 = subEnemies.create(2800, 4760, 'enemy').setImmovable(true).setSize(25,30);
-    SubEnemy1.setScale(2);
-this.SubEnemy1=SubEnemy1;
+    SubEnemy1.setScale(2); this.SubEnemy1=SubEnemy1;
 
 var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_recta');this.MurosParaSubEnemie2=MurosParaSubEnemie2;
 
@@ -255,6 +262,9 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     this.enemie3 = enemie3;
     this.enemie4 = enemie4;
     this.enemie5 = enemie5;
+    this.enemie6 = enemie6;
+    this.enemie7 = enemie7; 
+    this.enemie8 = enemie8;
     enemy.play('fly', true);
     enemy2.play('fly', true);
     enemie1.play('fly', true);
@@ -262,6 +272,9 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     enemie3.play('fly', true);
     enemie4.play('fly', true);
     enemie5.play('fly', true);
+    enemie6.play('fly', true);
+    enemie7.play('fly', true);
+    enemie8.play('fly', true);
     SubEnemy1.play('fly', true);
     this.anims.create({
         key: 'vueladerecho',
@@ -381,6 +394,35 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
             { x: enemie5.x - 200 },{ x: enemie5.x + 5, }]
     });
 
+    this.tweens.timeline({
+        targets: enemie6,
+        ease: 'lineal',
+        duration: 2000,
+        loop: -1,
+
+        tweens: [
+            { x: enemie6.x - 200, }, { x: enemie6.x + 5 }]
+    });
+
+    this.tweens.timeline({
+        targets: enemie7,
+        ease: 'lineal',
+        duration: 2000,
+        loop: -1,
+
+        tweens: [
+            { x: enemie7.x + 200 }, { x: enemie7.x - 5, }]});
+
+    this.tweens.timeline({
+        targets: enemie8,
+        ease: 'lineal',
+        duration: 2000,
+        loop: -1,
+
+        tweens: [
+            { x: enemie8.x + 100 }, { x: enemie8.x - 5, }]
+    });
+
     let movesubenemy1 = this.tweens.timeline({
         targets: SubEnemy1,
         ease: 'lineal',
@@ -388,8 +430,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
         loop: -1,
 
         tweens: [
-            { y: SubEnemy1.y -150, }, { y: SubEnemy1.y+1 },]
-    });
+            { y: SubEnemy1.y -150, }, { y: SubEnemy1.y+1 },]});
 //Final del movimiento de los enemigos
 
 /*Para el ligero movimiento de los objetos*/
@@ -435,7 +476,6 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     this.physics.add.collider(player, hitEnemy);
     this.physics.add.collider(player, GolpePincho1);
     this.physics.add.collider(player, GolpePincho2);
-    this.physics.add.collider(player, hitEnemy);
     this.physics.add.collider(player, Pelotarecibedisparo);
     this.physics.add.collider(player, MurosParaSubEnemie);
     this.physics.add.collider(BolasDeHierro, platforms);
@@ -630,21 +670,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
         });
     }
 
-    var GolpeDePinchoVertical = function GolpeDePinchoVertical(pincho_horizontal1, player) {
-        Vida -= 1;
-        Vidatext.text = "Vida: " + Vida;
-        if (this.left) { player.x += 120; } else if (this.right){ player.x -= 120;console.log('esta') }else{player.x += 120;}
-        console.log('pinchahorizontal');
-        player.setAlpha(0);
-        let tw6 = this.tweens.add({
-            targets: player,
-            alpha: 1,
-            duration: 100,
-            ease: 'Linear',
-            repeat: 5,
-        });
-    }   
-    var GolpeDePinchoVertical2 = function GolpeDePinchoVertical2(pincho_horizontal2, player) {
+    var GolpeDePinchoVertical = function GolpeDePinchoVertical(player, pinchos_rectos) {
         Vida -= 1;
         Vidatext.text = "Vida: " + Vida;
         if (this.left) { player.x -= 120; } else if (this.right) { player.x -= 120; console.log('esta') }
@@ -656,21 +682,8 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
             duration: 100,
             ease: 'Linear',
             repeat: 5,
-        });}
-    var GolpeDePinchoVertical3 = function GolpeDePinchoVertical3(pincho_horizontal3, player) {
-        Vida -= 1;
-        Vidatext.text = "Vida: " + Vida;
-        if (this.left) { player.x -= 120; } else if (this.right) { player.x -= 120; console.log('esta') }
-        console.log('pinchahorizontal');
-        player.setAlpha(0);
-        let tw6 = this.tweens.add({
-            targets: player,
-            alpha: 1,
-            duration: 100,
-            ease: 'Linear',
-            repeat: 5,
-        });
-    }
+        });};
+
    
     var RecogerDisparo = function RecogerDisparo(ObjectDisparo, player) {
         
@@ -760,9 +773,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     this.physics.add.overlap(ObjectDisparo, player, RecogerDisparo, null, this);
     this.physics.add.overlap(teletransportador, player, activarteletranstporte, null, this);
     this.physics.add.overlap(teletransportador1, player, activarteletranstporte1, null, this);
-    this.physics.add.overlap(pincho_horizontal1, player, GolpeDePinchoVertical, null, this);
-    this.physics.add.overlap(pincho_horizontal2, player, GolpeDePinchoVertical2, null, this);
-    this.physics.add.overlap(pincho_horizontal3, player, GolpeDePinchoVertical3, null, this);
+    this.physics.add.overlap(pinchos_rectos, player, GolpeDePinchoVertical, null, this);
     this.physics.add.overlap(CogerDobleSalto, player, RecogerDoblesalto, null, this);
     this.physics.add.overlap(CogerDash, player, RecogerCogerDash, null, this);
     this.physics.add.overlap(pinchos, player, GolpePincho1, null, this);
@@ -1098,6 +1109,12 @@ update(time, delta) {
     if (this.enemie4.x >= 4400) { this.enemie4.flipX = false; }
     if (this.enemie5.x <= 4700) { this.enemie5.flipX = true; }
     if (this.enemie5.x >= 4900) { this.enemie5.flipX = false; }
+    if (this.enemie6.x <= 4200) { this.enemie6.flipX = true; }
+    if (this.enemie6.x >= 4400) { this.enemie6.flipX = false; }
+    if (this.enemie7.x <= 4700) { this.enemie7.flipX = true; }
+    if (this.enemie7.x >= 4900) { this.enemie7.flipX = false; }
+    if (this.enemie8.x <= 4500) { this.enemie8.flipX = true; }
+    if (this.enemie8.x >= 4600) { this.enemie8.flipX = false; }
 
     this.background.tilePositionX = this.myCam.scrollX * .10;
     //this.profundo.tilePositionX = this.myCam.scrollX * .10;
