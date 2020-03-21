@@ -57,7 +57,9 @@ preload() {
 
     this.load.spritesheet('dudeWithDoubleJump', 'assets/images/woof2ConDobleSalto.png', { frameWidth: 32, frameHeight: 32 });
 
-    this.load.spritesheet("enemy", "assets/images/bee.png", { frameWidth: 37, frameHeight: 39});
+    this.load.spritesheet("enemy", "assets/images/bee.png", { frameWidth: 37, frameHeight: 39 }); 
+
+    this.load.spritesheet("enemigo_saltador", "assets/images/enemigo_saltador.png", { frameWidth: 50, frameHeight: 54 });
 
     this.load.spritesheet("disparo", "assets/images/41.png", { frameWidth: 32, frameHeight: 32 });
 

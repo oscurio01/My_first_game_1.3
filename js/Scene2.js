@@ -76,9 +76,6 @@ create() {
 
     //contenedor.add([PuntosText, Vidatext]);
 
-    /*contenedor.cameraOffset.x = 10; // Ubicamos el sprite contenedor de la cámara en las coordenadas 10, 10
-    contenedor.cameraOffset.y = 10;
-    */
     //we have 5 platforms the first is for the base and the others is for jump up
 
     var platforms = this.physics.add.staticGroup();
@@ -210,6 +207,8 @@ create() {
     //variable de enemigos
     var enemies = this.physics.add.group({ allowGravity: false, collideWorldBounds: false, bounce:0.2, });//Grupo de enemigos
 
+    var enemies_saltantes = this.physics.add.group({ collideWorldBounds: false, bounce: 0.2, });//Grupo de enemigos
+
     var subEnemies = this.physics.add.group({ allowGravity: false, collideWorldBounds: false, bounce: 0.2, });//Grupo de enemigos
 
     var enemy = enemies.create(1800, 100, 'enemy').setImmovable(true);
@@ -241,6 +240,8 @@ create() {
   
     var enemie8 = enemies.create(4500, 300, 'enemy').setImmovable(true); enemie8.setSize(20, 30);
 
+    this.enemie1_salta = enemies_saltantes.create(5000, 300, 'enemigo_saltador').setImmovable(true); this.enemie1_salta.setSize(45, 50);
+    this.enemie1_salta.body.angularVelocity = 200;
 
     var SubEnemy1 = subEnemies.create(2800, 4760, 'enemy').setImmovable(true).setSize(25,30);
     SubEnemy1.setScale(2); this.SubEnemy1=SubEnemy1;
@@ -467,8 +468,10 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
 
 
 
-    this.physics.add.collider(player, piso);
+    this.physics.add.collider(player, piso); 
     this.physics.add.collider(player, platforms);
+    this.physics.add.collider(enemies_saltantes, piso); 
+    this.physics.add.collider(enemies_saltantes, platforms);
     this.physics.add.collider(platform_move,player);
     this.physics.add.collider(player, RecogerDisparo);
     this.physics.add.collider(player, GolpeDePinchoVertical);
@@ -586,6 +589,22 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     }
 
     var Golpeaenemigo = function Golpeaenemigo(player, enemies ) {
+        Vida -= 1;
+        player.setVelocityY(-220);
+        Vidatext.text = "Vida: " + Vida;
+
+        if (this.left) { player.x += 50; } else { player.x -= 50; }
+        player.setAlpha(0);
+        let tw2 = this.tweens.add({
+            targets: player,
+            alpha: 1,
+            duration: 100,
+            ease: 'Linear',
+            repeat: 5,
+        });
+    }
+
+    var Golpeaenemigo_saltante = function Golpeaenemigo_saltante(player, enemies_saltantes) {
         Vida -= 1;
         player.setVelocityY(-220);
         Vidatext.text = "Vida: " + Vida;
@@ -778,7 +797,8 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     this.physics.add.overlap(CogerDash, player, RecogerCogerDash, null, this);
     this.physics.add.overlap(pinchos, player, GolpePincho1, null, this);
     this.physics.add.overlap(pinchos2, player, GolpePincho2, null, this);
-    this.physics.add.overlap(enemies, player, Golpeaenemigo, null, this);
+    this.physics.add.overlap(enemies, player, Golpeaenemigo, null, this); 
+    this.physics.add.overlap(enemies_saltantes, player, Golpeaenemigo_saltante, null, this);
     this.physics.add.overlap(BolasDeHierro, player, GolpePelota, null, this);
     this.physics.add.overlap(subEnemies, player, GolpeaSubEnemigo, null, this); 
     this.physics.add.overlap(balasdeSubenemie, player, GolpeaDisparoDeSubEnemigo, null, this);
@@ -1093,7 +1113,18 @@ update(time, delta) {
         emittermovimiento1.setSpeed(player.x / 2);    
     }
     
-    
+    if (this.enemie1_salta.body.blocked.down || this.enemie1_salta.body.blocked.up || this.enemie1_salta.body.blocked.left || this.enemie1_salta.body.blocked.right){
+        const randomVelocity = (Math.random() * 150);
+        const headsOrTails = (Math.random() > 0.5);
+        this.enemie1_salta.setVelocityY(-300);
+        if (headsOrTails) {
+            this.enemie1_salta.body.setVelocityX(randomVelocity);
+        }
+        else{
+            this.enemie1_salta.body.setVelocityX(-randomVelocity);
+        }
+
+    }
     
     if (this.enemy.x >= 2100) {this.enemy.flipX = false;}
     if (this.enemy.x <= 1800) {this.enemy.flipX = true;} 
