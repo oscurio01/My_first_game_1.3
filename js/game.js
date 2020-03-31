@@ -71,10 +71,10 @@ var enemy;
 var grupoEnemy;
 //Vidas de un sub boss
 var VidasubEnemie1 = 20;
-var VidasubEnemie2 = 20;
-var VidasubEnemie3 = 20;
-var VidasubEnemie4 = 20;
-var VidasubEnemie5 = 20;
+var VidaBossEnemie1 = 10;
+var VidaBossEnemie2 = 15;
+var VidaBossEnemie3 = 20;
+var VidaBossEnemie4 = 25;
 
 //es la variable del tiempo que tarda la bala en salir 
 var tiempobala = 0;

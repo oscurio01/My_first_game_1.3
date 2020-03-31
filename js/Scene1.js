@@ -27,6 +27,10 @@ preload() {
 
     this.load.image('plataforma_recta', 'assets/images/platform_right.png');
 
+    this.load.image('Semiplataforma_recta', 'assets/images/platform_self_right.png'); 
+    
+    this.load.image('MiniPlataforma_recta', 'assets/images/mini_platform_self.png');
+
     this.load.image('suelo', 'assets/images/ground.png');
 
     this.load.image('suelo_medio', 'assets/images/ground_middle.png');
@@ -53,9 +57,11 @@ preload() {
 
     this.load.image('teleport', 'assets/images/teleport_prueba.png');
 
+    this.load.image('lever', 'assets/images/lever.png');
+
     this.load.spritesheet('dude', 'assets/images/woof2.png', { frameWidth: 32, frameHeight: 32 });
 
-    this.load.spritesheet('dudeWithDoubleJump', 'assets/images/woof2ConDobleSalto.png', { frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('dudeWithDoubleJump', 'assets/images/woof2WithDoubleJump.png', { frameWidth: 32, frameHeight: 32 });
 
     this.load.spritesheet("enemy", "assets/images/bee.png", { frameWidth: 37, frameHeight: 39 }); 
 

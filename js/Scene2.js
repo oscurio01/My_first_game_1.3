@@ -10,7 +10,7 @@ class Scene2 extends Phaser.Scene {
   =          =     =      =           =     =           =           =
   =          =      =     =           =     =           =           =
   =======    =       =    ========    =     =           =           ========
-*/
+*/ 
 
 
 
@@ -72,19 +72,23 @@ create() {
     this.Vidatext = Vidatext;
     let VidasubEnemie1text = this.add.text(2200, 4500, 'Vida: ' + VidasubEnemie1, { fontSize: '30px', fill: '#0d91fc' }).setDepth(1);
     this.VidasubEnemie1text = VidasubEnemie1text;
+    let VidasBossEnemie1text = this.add.text(2200, 4500, 'Vida: ' + VidaBossEnemie1, { fontSize: '30px', fill: '#0d91fc' }).setDepth(1);
+    this.VidasBossEnemie1text = VidasBossEnemie1text;
     this.Puntos=Puntos;
 
     //contenedor.add([PuntosText, Vidatext]);
 
-    //we have 5 platforms the first is for the base and the others is for jump up
+    //we have 5 platforms the first is for the base and the others is for jump up 
 
     var platforms = this.physics.add.staticGroup();
 
     var platforms2_move = this.physics.add.group({ allowGravity: false,immovable:true});
 
-    BolasDeHierro = this.physics.add.group();
+    this.lever = this.physics.add.group({ allowGravity: false, immovable: true });
 
-    var piso = this.physics.add.staticGroup();
+    var BolasDeHierro = this.physics.add.group();
+
+    var piso = this.physics.add.staticGroup(); this.piso=piso;
 
     var pisofalso = this.physics.add.staticGroup();
 
@@ -119,19 +123,27 @@ create() {
     piso.create(4800, 400, 'suelo_medio').setSize(240, 13);
     piso.create(4505, 504, 'suelo_largo').setSize(864, 13);
     piso.create(5369, 504, 'suelo_largo').setSize(864, 13);
-    piso.create(6769, 504, 'suelo_largo').setSize(864, 13);
+    piso.create(6233, 504, 'suelo_largo').setSize(864, 13); 
+    piso.create(5700, 436, 'suelo').setSize(48, 13);
+    piso.create(5600, 336, 'suelo').setSize(48, 13);
+    piso.create(7069, 3310, 'suelo_largo').setSize(864, 13);
+    piso.create(7930, 3310, 'suelo_largo').setSize(864, 13);
+    piso.create(8790, 3310, 'suelo_largo').setSize(864, 13);
+    piso.create(9290, 3310, 'suelo_largo').setSize(864, 13);
 
-    
+    this.lever1 = this.lever.create(7575, 3288, 'lever');
 
     var teletransportador = platforms2_move.create(2930, 4792, 'teleport').setSize(30, 20).setScale(0.5);
     //despues de la plataforma movible
     var teletransportador1 = platforms2_move.create(200, 402, 'teleport').setSize(30, 20).setScale(0.5);
     
     var pincho_horizontal1 = pinchos_rectos.create(300, 100, 'pinchosmini_vertical');//pinchos del inicio
-    var pincho_horizontal2 = pinchos_rectos.create(4600, 300, 'pinchos_vertical');
-    var pincho_horizontal3 = pinchos_rectos.create(5600, 300, 'pinchos_vertical');
-    pincho_horizontal2.flipX = true;
-    pincho_horizontal3.flipX = true;
+    var pincho_horizontal2 = pinchos_rectos.create(4600, 300, 'pinchos_vertical'); pincho_horizontal2.flipX = true;
+    var pincho_horizontal3 = pinchos_rectos.create(5800, 300, 'pinchos_vertical'); pincho_horizontal3.flipX = true;
+    var pincho_horizontal4 = pinchos_rectos.create(6655, 910, 'pinchosmini_extra_large').setSize(20, 800); pincho_horizontal4.angle = 90;
+    var pincho_horizontal5 = pinchos_rectos.create(6655, 1710, 'pinchosmini_extra_large').setSize(20, 800); pincho_horizontal5.angle = 90;
+    var pincho_horizontal6 = pinchos_rectos.create(6655, 2510, 'pinchosmini_extra_large').setSize(20, 800); pincho_horizontal6.angle = 90;
+    var pincho_horizontal7 = pinchos_rectos.create(6655, 2910, 'pinchosmini_extra_large').setSize(20, 800); pincho_horizontal7.angle = 90;
                 pinchos.create(1845, 555, 'pinchosmini');//Pinchos del Juego
                 pinchos.create(1925, 555, 'pinchosmini');
     pinchos.create(2005, 555, 'pinchosmini');
@@ -145,8 +157,12 @@ create() {
 
     this.murodestruible = platforms.create(840, 145, 'plataforma_recta');//Muro que se destruye al conseguir matar al 1 boss o conseguir la llave
     this.murodestruible.setScale(2).refreshBody();
-    
-
+    this.murodestruible2 = platforms.create(8330, 2910, 'plataforma_recta');//Muro que se destruye al conseguir matar al 1 boss o conseguir la llave
+    this.murodestruible2.setScale(2).refreshBody();
+    platforms.create(5740, 370, 'Semiplataforma_recta');
+    platforms.create(7515, 3240, 'MiniPlataforma_recta');
+    platforms.create(7700, 3190, 'plataforma');
+    platforms.create(8000, 3190, 'plataforma');
     this.Murofinal = platforms.create(10000, 455, 'plataforma_recta');//Muro que se destruye al conseguir matar al 1 boss o conseguir la llave
     
     /*
@@ -207,6 +223,8 @@ create() {
     //variable de enemigos
     var enemies = this.physics.add.group({ allowGravity: false, collideWorldBounds: false, bounce:0.2, });//Grupo de enemigos
 
+    var enemies_rotatorios = this.physics.add.group({ allowGravity: false, collideWorldBounds: false, bounce: 0.2, });//Grupo de enemigos
+
     var enemies_saltantes = this.physics.add.group({ collideWorldBounds: false, bounce: 0.2, });//Grupo de enemigos
 
     var subEnemies = this.physics.add.group({ allowGravity: false, collideWorldBounds: false, bounce: 0.2, });//Grupo de enemigos
@@ -240,14 +258,41 @@ create() {
   
     var enemie8 = enemies.create(4500, 300, 'enemy').setImmovable(true); enemie8.setSize(20, 30);
 
+    var enemie9 = enemies_rotatorios.create(7665, 3228, 'enemigo_saltador').setImmovable(true); enemie9.setSize(35, 33); enemie9.setScale(.7);
+    enemie9.body.angularVelocity = 200;
+    var enemie10 = enemies_rotatorios.create(7725, 3228, 'enemigo_saltador').setImmovable(true); enemie10.setSize(35, 33); enemie10.setScale(.7);
+    enemie10.body.angularVelocity = 200;
+    var enemie11 = enemies_rotatorios.create(7760, 3228, 'enemigo_saltador').setImmovable(true); enemie11.setSize(35, 33); enemie11.setScale(.7);
+    enemie11.body.angularVelocity = 200;
+    var enemie12 = enemies_rotatorios.create(7820, 3298, 'enemigo_saltador').setImmovable(true); enemie12.setSize(35, 33); enemie12.setScale(.7);
+    enemie12.body.angularVelocity = 200;
+    var enemie13 = enemies_rotatorios.create(7870, 3228, 'enemigo_saltador').setImmovable(true); enemie13.setSize(35, 33); enemie13.setScale(.7);
+    enemie13.body.angularVelocity = 200;
+    var enemie14 = enemies_rotatorios.create(7930, 3298, 'enemigo_saltador').setImmovable(true); enemie14.setSize(35, 33); enemie14.setScale(.7);
+    enemie14.body.angularVelocity = 200;
+    var enemie15 = enemies_rotatorios.create(8005, 3228, 'enemigo_saltador').setImmovable(true); enemie15.setSize(35, 33); enemie15.setScale(.7);
+    enemie15.body.angularVelocity = 200;
+    var enemie16 = enemies_rotatorios.create(8055, 3298, 'enemigo_saltador').setImmovable(true); enemie16.setSize(35, 33); enemie16.setScale(.7);
+    enemie16.body.angularVelocity = 200;
+    var enemie17 = enemies_rotatorios.create(8105, 3228, 'enemigo_saltador').setImmovable(true); enemie17.setSize(35, 33); enemie17.setScale(.7);
+    enemie17.body.angularVelocity = 200;
+
     this.enemie1_salta = enemies_saltantes.create(5000, 300, 'enemigo_saltador').setImmovable(true); this.enemie1_salta.setSize(45, 50);
     this.enemie1_salta.body.angularVelocity = 200;
+    this.enemie2_salta = enemies_saltantes.create(5300, 300, 'enemigo_saltador').setImmovable(true); this.enemie2_salta.setSize(45, 50);
+    this.enemie2_salta.body.angularVelocity = 200;
+    this.enemie3_salta = enemies_saltantes.create(7169, 3210, 'enemigo_saltador').setImmovable(true); this.enemie3_salta.setSize(45, 50);
+    this.enemie3_salta.body.angularVelocity = 200;
+
 
     var SubEnemy1 = subEnemies.create(2800, 4760, 'enemy').setImmovable(true).setSize(25,30);
     SubEnemy1.setScale(2); this.SubEnemy1=SubEnemy1;
 
 var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_recta');this.MurosParaSubEnemie2=MurosParaSubEnemie2;
-
+var MurosParaSubEnemie4 = MurosParaSubEnemie.create(9260, 3010, 'plataforma_recta'); this.MurosParaSubEnemie4 = MurosParaSubEnemie4;
+this.MurosParaSubEnemie4.setScale(2).refreshBody();
+    this.muroParaSoporteBoss1 = MurosParaSubEnemie.create(9050, 2900, 'plataforma_recta');
+    this.muroParaSoporteBoss2 = MurosParaSubEnemie.create(9200, 3000, 'plataforma');
     // create an animation for the player
 
     this.anims.create({
@@ -325,7 +370,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     
 
 //Inicio del movimiento de los enemigos
-    let movenemy1 = this.tweens.timeline({
+    this.tweens.timeline({
         targets: enemy,
         ease: 'lineal',
         duration: 2000,
@@ -335,7 +380,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
             { x: 2100, }, { x: 1800 },]
     });
 
-    let movenemy2 = this.tweens.timeline({
+    this.tweens.timeline({
         targets: enemy2,
         ease: 'lineal',
         duration: 2000,
@@ -345,7 +390,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
             { x: enemy2.x+200,  }, { x: enemy2.x-5 },]
     });
 
-    let movenemy3 = this.tweens.timeline({
+    this.tweens.timeline({
         targets: enemie1,
         ease: 'lineal',
         duration: 2000,
@@ -355,7 +400,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
             { x: 600, }, { x: 800 },]
     });
 
-    let movenemy4 = this.tweens.timeline({
+    this.tweens.timeline({
         targets: enemie2,
         ease: 'lineal',
         duration: 2000,
@@ -365,7 +410,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
             { x: 600, }, { x: 420 },]
     });
 
-    let movenemy5 = this.tweens.timeline({
+    this.tweens.timeline({
         targets: enemie3,
         ease: 'lineal',
         duration: 2000,
@@ -422,6 +467,96 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
 
         tweens: [
             { x: enemie8.x + 100 }, { x: enemie8.x - 5, }]
+    });
+
+    this.tweens.timeline({
+        targets: enemie9,
+        ease: 'lineal',
+        duration: 500,
+        loop: -1,
+
+        tweens: [
+            { y: enemie9.y + 70 }, { y: enemie9.y - 10, }]
+    });
+
+    this.tweens.timeline({
+        targets: enemie10,
+        ease: 'lineal',
+        duration: 1000,
+        loop: -1,
+
+        tweens: [
+            { y: enemie10.y + 70 }, { y: enemie10.y - 5, }]
+    });
+
+    this.tweens.timeline({
+        targets: enemie11,
+        ease: 'lineal',
+        duration: 1000,
+        loop: -1,
+
+        tweens: [
+            { y: enemie11.y + 70   }, { y: enemie11.y - 5, }]
+    });
+
+    this.tweens.timeline({
+        targets: enemie12,
+        ease: 'lineal',
+        duration: 1000,
+        loop: -1,
+
+        tweens: [
+            { y: enemie12.y - 70 }, { y:enemie12.y + 5, }]
+    });
+
+    this.tweens.timeline({
+        targets: enemie13,
+        ease: 'lineal',
+        duration: 1000,
+        loop: -1,
+
+        tweens: [
+            { y: enemie13.y + 70 }, { y: enemie13.y - 5, }]
+    });
+
+    this.tweens.timeline({
+        targets: enemie14,
+        ease: 'lineal',
+        duration: 1000,
+        loop: -1,
+
+        tweens: [
+            { y: enemie14.y - 70 }, { y: enemie14.y + 5, }]
+    });
+
+    this.tweens.timeline({
+        targets: enemie15,
+        ease: 'lineal',
+        duration: 1000,
+        loop: -1,
+
+        tweens: [
+            { y: enemie15.y + 70  }, { y: enemie15.y - 5, }]
+    });
+
+    this.tweens.timeline({
+        targets: enemie16,
+        ease: 'lineal',
+        duration: 1000,
+        loop: -1,
+
+        tweens: [
+            { y: enemie16.y - 70 }, { y: enemie16.y + 5, }]
+    });
+
+    this.tweens.timeline({
+        targets: enemie17,
+        ease: 'lineal',
+        duration: 1000,
+        loop: -1,
+
+        tweens: [
+            { y: enemie17.y + 70 }, { y: enemie17.y - 5, }]
     });
 
     let movesubenemy1 = this.tweens.timeline({
@@ -481,7 +616,8 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     this.physics.add.collider(player, GolpePincho2);
     this.physics.add.collider(player, Pelotarecibedisparo);
     this.physics.add.collider(player, MurosParaSubEnemie);
-    this.physics.add.collider(BolasDeHierro, platforms);
+    this.physics.add.collider(BolasDeHierro, platforms); 
+    this.physics.add.collider(BolasDeHierro, MurosParaSubEnemie);
     this.physics.add.collider(BolasDeHierro, piso);
     
     this.anims.create({
@@ -561,9 +697,16 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     bomb.setCollideWorldBounds(false);
     bomb.setVelocity(Phaser.Math.Between(300, 100), 20);
 
+    this.bombBoss1 = BolasDeHierro.create(9050, 2800, 'bomb');
+    this.bombBoss1.setScale(2);
+    this.bombBoss1.setBounce(1);
+    //this.bombBoss1.setSize(28, 28);
+    this.bombBoss1.setCircle(18);
+    this.bombBoss1.setCollideWorldBounds(false);
+    
     var balasdeSubenemie = this.physics.add.group({
         classType: balaSubenemie,
-        maxSize: 200,
+        maxSize: -1,
         runChildUpdate: true
     });
  
@@ -575,7 +718,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
 
     var GolpePelota = function GolpePelota(player, bomb,){
        Vida -= 1;
-       Vidatext.text = "Vida: " + Vida;
+       Vidatext.text = "Vidas: " + Vida;
         player.setVelocityY(-220);
        if(this.left){player.x += 50;bomb.x -= 100;}else{player.x -= 50;bomb.x += 100;}
         player.setAlpha(0);
@@ -591,27 +734,43 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     var Golpeaenemigo = function Golpeaenemigo(player, enemies ) {
         Vida -= 1;
         player.setVelocityY(-220);
-        Vidatext.text = "Vida: " + Vida;
+        Vidatext.text = "Vidas: " + Vida;
 
         if (this.left) { player.x += 50; } else { player.x -= 50; }
         player.setAlpha(0);
-        let tw2 = this.tweens.add({
+        this.tweens.add({
             targets: player,
             alpha: 1,
             duration: 100,
             ease: 'Linear',
             repeat: 5,
         });
-    }
+    } 
+
+    var Golpeaenemigo_rotatorios = function Golpeaenemigo_rotatorios(player, enemies_rotatorios) {
+        Vida -= 1;
+        player.setVelocityY(-220);
+        Vidatext.text = "Vidas: " + Vida;
+
+        if (this.left) { player.x += 50; } else { player.x -= 50; }
+        player.setAlpha(0);
+        this.tweens.add({
+            targets: player,
+            alpha: 1,
+            duration: 100,
+            ease: 'Linear',
+            repeat: 5,
+        });
+    } 
 
     var Golpeaenemigo_saltante = function Golpeaenemigo_saltante(player, enemies_saltantes) {
         Vida -= 1;
         player.setVelocityY(-220);
-        Vidatext.text = "Vida: " + Vida;
+        Vidatext.text = "Vidas: " + Vida;
 
         if (this.left) { player.x += 50; } else { player.x -= 50; }
         player.setAlpha(0);
-        let tw2 = this.tweens.add({
+        this.tweens.add({
             targets: player,
             alpha: 1,
             duration: 100,
@@ -620,10 +779,21 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
         });
     }
 
+    var SeguroDeEnemigo_Saltante = function SeguroDeEnemigo_Saltante(enemies_saltantes, platforms) {
+        enemies_saltantes.x -= 50;
+
+    }
+    var SeguroDeEnemigo_Saltante2 = function SeguroDeEnemigo_Saltante2(enemies_saltantes, pinchos_rectos) {
+
+        enemies_saltantes.x += 100;
+
+    };
+
+
     var GolpeaSubEnemigo = function GolpeaSubEnemigo(player, subEnemies) {
         Vida -= 1;
         player.setVelocityY(-220);
-        Vidatext.text = "Vida: " + Vida;
+        Vidatext.text = "Vidas: " + Vida;
         player.x -= 200;
         player.setAlpha(0);
         let tw3 = this.tweens.add({
@@ -639,7 +809,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
         Vida -= 1;
         balasubenemie.destroy();
         player.setVelocityY(-220);
-        Vidatext.text = "Vida: " + Vida;
+        Vidatext.text = "Vidas: " + Vida;
         player.x -= 200;
         player.setAlpha(0);
         let tw3 = this.tweens.add({
@@ -653,7 +823,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
 //primera escena donde hay pinchos
     var GolpePincho1 = function GolpePincho1(player, pinchos) {
         Vida -= 1;
-        Vidatext.text = "Vida: " + Vida;
+        Vidatext.text = "Vidas: " + Vida;
         player.setVelocityY(-220);
         if(player.x >= 1765||player.x == 2000){
             player.x = 1450;
@@ -672,7 +842,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
 //segunda escena lejana donde hay pinchos
     var GolpePincho2 = function GolpePincho2(player, pinchos2) {
         Vida -= 1;
-        Vidatext.text = "Vida: " + Vida;
+        Vidatext.text = "Vidas: " + Vida;
         player.setVelocityY(-220);
         if (player.x >= 3000 || player.x == 5000) {
             
@@ -691,8 +861,8 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
 
     var GolpeDePinchoVertical = function GolpeDePinchoVertical(player, pinchos_rectos) {
         Vida -= 1;
-        Vidatext.text = "Vida: " + Vida;
-        if (this.left) { player.x -= 120; } else if (this.right) { player.x -= 120; console.log('esta') }
+        Vidatext.text = "Vidas: " + Vida;
+        if (this.left) { player.x += 120; } else if (this.right) { player.x -= 120; console.log('esta') }
         console.log('pinchahorizontal');
         player.setAlpha(0);
         let tw6 = this.tweens.add({
@@ -737,8 +907,17 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
 
     var activarteletranstporte1 = function activarteletranstporte1(teletransportador1, player) {
 
-        player.x=4500;player.y=300;
+        player.x = 7513;player.y=3200;
         
+    } 
+
+    var activarlever = function activarlever(lever1, player) {
+
+        if (Phaser.Input.Keyboard.JustDown(this.spacebar)){this.lever1.flipX=true;
+            this.murodestruible2.destroy();
+            this.myCam.shake(500);
+        }
+
     }
 
     var hitEnemy = function hitprojectil(beam, enemy) {
@@ -747,7 +926,7 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
         Puntos +=15;
         PuntosText.text = "Puntos: " + Puntos ;
         
-    }
+    } 
     var hitSubEnemy1 = function hitprojectil(beam, SubEnemy1) {
         VidasubEnemie1 -=1
         beam.destroy();
@@ -755,7 +934,15 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
         PuntosText.text = "Puntos: " + Puntos;
         VidasubEnemie1text.text = 'Vida: ' + VidasubEnemie1;
         console.log(VidasubEnemie1);
-    }
+    } 
+    var hitSubEnemy2 = function hitprojectil1(beam, bombBoss1) {
+        VidaBossEnemie1 -= 1
+        beam.destroy();
+        Puntos += 15;
+        PuntosText.text = "Puntos: " + Puntos;
+        VidasBossEnemie1text.text = 'Vida: ' + VidaBossEnemie1;
+        console.log(VidaBossEnemie1);
+    } 
     var Pelotarecibedisparo = function Pelotarecibedisparo(beam, bomb, ) {
         beam.destroy();
         Puntos += 15;
@@ -791,28 +978,33 @@ var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_rect
     this.disparo = disparo
     this.physics.add.overlap(ObjectDisparo, player, RecogerDisparo, null, this);
     this.physics.add.overlap(teletransportador, player, activarteletranstporte, null, this);
-    this.physics.add.overlap(teletransportador1, player, activarteletranstporte1, null, this);
+    this.physics.add.overlap(teletransportador1, player, activarteletranstporte1, null, this); 
+    this.physics.add.overlap(this.lever1, player, activarlever, null, this);
     this.physics.add.overlap(pinchos_rectos, player, GolpeDePinchoVertical, null, this);
     this.physics.add.overlap(CogerDobleSalto, player, RecogerDoblesalto, null, this);
     this.physics.add.overlap(CogerDash, player, RecogerCogerDash, null, this);
     this.physics.add.overlap(pinchos, player, GolpePincho1, null, this);
-    this.physics.add.overlap(pinchos2, player, GolpePincho2, null, this);
+    this.physics.add.overlap(pinchos2, player, GolpePincho2, null, this); 
     this.physics.add.overlap(enemies, player, Golpeaenemigo, null, this); 
-    this.physics.add.overlap(enemies_saltantes, player, Golpeaenemigo_saltante, null, this);
+    this.physics.add.overlap(enemies_rotatorios, player, Golpeaenemigo_rotatorios, null, this); 
+    this.physics.add.overlap(enemies_saltantes, player, Golpeaenemigo_saltante, null, this); 
+    this.physics.add.overlap(enemies_saltantes, platforms, SeguroDeEnemigo_Saltante, null, this); 
+    this.physics.add.overlap(enemies_saltantes, pinchos_rectos, SeguroDeEnemigo_Saltante2, null, this); 
     this.physics.add.overlap(BolasDeHierro, player, GolpePelota, null, this);
     this.physics.add.overlap(subEnemies, player, GolpeaSubEnemigo, null, this); 
     this.physics.add.overlap(balasdeSubenemie, player, GolpeaDisparoDeSubEnemigo, null, this);
 
     this.projectiles = this.add.group();
-    this.physics.add.overlap(this.projectiles, BolasDeHierro, Pelotarecibedisparo, null, this);
+    this.physics.add.overlap(this.projectiles, bomb, Pelotarecibedisparo, null, this);
     this.physics.add.overlap(this.projectiles, platforms, coliderbeam, null, this); 
     this.physics.add.overlap(this.projectiles, pincho_horizontal1, coliderbeamPinchos, null, this); 
     this.physics.add.overlap(this.projectiles, pincho_horizontal2, coliderbeamPinchos2, null, this); 
     this.physics.add.overlap(this.projectiles, pincho_horizontal3, coliderbeamPinchos3, null, this); 
     this.physics.add.overlap(this.projectiles, enemy, hitEnemy, null, this);
-    this.physics.add.overlap(this.projectiles, null, this);
-    this.physics.add.overlap(this.projectiles, enemies, hitEnemy, null, this);
+    this.physics.add.overlap(this.projectiles, null, this); 
+    this.physics.add.overlap(this.projectiles, enemies, hitEnemy, null, this); 
     this.physics.add.overlap(this.projectiles, subEnemies, hitSubEnemy1, null, this);
+    this.physics.add.overlap(this.projectiles, this.bombBoss1, hitSubEnemy2, null, this);
     this.physics.add.overlap(this.projectiles, MurosParaSubEnemie, coliderbeam2, null, this);
 
 
@@ -840,7 +1032,18 @@ MurosParaSubEnemie1(){
     this.physics.add.overlap(this.projectiles, MurosParaSubEnemie, this.coliderbeam2, null, this);
     this.physics.add.overlap(this.balasdeSubenemie, MurosParaSubEnemie, this.coliderbeam2, null, this);
     
-}  
+    } 
+
+MurosParaBossEnemie1() {
+    var MurosParaSubEnemie = this.physics.add.staticGroup();
+    this.murodestruible2 = MurosParaSubEnemie.create(8330, 2910, 'plataforma_recta');
+    this.murodestruible2.setScale(2).refreshBody();
+    var MurosParaBossEnemie3 = MurosParaSubEnemie.create(8760, 2610, 'plataforma').setScale(2).refreshBody();
+     this.physics.add.collider(this.player, MurosParaSubEnemie);
+    this.physics.add.collider(this.bombBoss1, MurosParaSubEnemie);
+     this.physics.add.overlap(this.projectiles, MurosParaSubEnemie, this.coliderbeam2, null, this);
+     this.physics.add.overlap(this.balasdeSubenemie, MurosParaSubEnemie, this.coliderbeam2, null, this);
+}
 
 PartesDeLLave() {
     this.PartedeLLaveNegra = this.add.image(200, 550, 'llavesnegra').setDepth(1).setScrollFactor(0);
@@ -875,8 +1078,9 @@ update(time, delta) {
     let SoundJumpPlayer1 = this.sound.add('Jump1Audio');
     let SoundBackground = this.SoundBackground;
     let SoundProfundo = this.SoundProfundo;
-    var VidasubEnemie1text = this.VidasubEnemie1text;
+    var VidasubEnemie1text = this.VidasubEnemie1text; 
     VidasubEnemie1text.setPosition(this.SubEnemy1.x - 100, this.SubEnemy1.y - 50);
+    this.VidasBossEnemie1text.setPosition(this.bombBoss1.x - 100, this.bombBoss1.y - 70);
 
     var cursors = this.cursors;
     var player = this.player;
@@ -884,9 +1088,9 @@ update(time, delta) {
     var bomb = this.bomb;
     var murodestruible = this.murodestruible;
     var MurosParaSubEnemie1 = this.MurosParaSubEnemie1;
-    var MurosParaSubEnemie2 = this.MurosParaSubEnemie2;
     var coliderbeam2 = this.coliderbeam2;
     var platform_move = this.platform_move;
+    var piso=this.piso;
 
   //  var BalaConseguida = this.BalaConseguida;
    var Puntos = this.Puntos;
@@ -898,10 +1102,17 @@ update(time, delta) {
     
     if (player.x >=2200 && player.x <3000 && player.y>=4600 && player.y <5000) {
       this.MurosParaSubEnemie1();
-      //this.myCam.stopFollow(player, true, 0.1, 0.1);
-        this.PartesDeLLave();
-      
+
     }
+
+    if (player.x >= 8738 && player.x < 9200) { //para this.bombBoss1
+    //this.myCam.stopFollow(player, true, 0.1, 0.1);
+        this.MurosParaBossEnemie1();
+    } if (player.x >= 8738) { //para this.bombBoss1
+        this.muroParaSoporteBoss1.destroy();
+        this.muroParaSoporteBoss2.destroy();}
+    if (player.x <= 8368) { //para this.bombBoss1
+        this.bombBoss1.setVelocityX(400);}
 
 /*TODO:hacer que la bala desaparezca cuando se salga de pantalla*/ 
     if (beam > this.myCam.width) {
@@ -917,14 +1128,25 @@ update(time, delta) {
     }
     if (VidasubEnemie1 == 0 ) {
         this.SubEnemy1.destroy();
-        MurosParaSubEnemie2.destroy();
+        this.MurosParaSubEnemie2.destroy();
         VidasubEnemie1text.destroy();
         Vida ++;
-        this.Vidatext.text = "Vida: " + Vida;
+        this.Vidatext.text = "Vidas: " + Vida;
         this.myCam.shake(500);
-        VidasubEnemie1=-1;
-        ParteDeLLave3Adquirida=true;
-        
+        VidasubEnemie1=-1;        
+    }
+
+     if (VidaBossEnemie1 == 0) { 
+        this.bombBoss1.destroy();
+        this.MurosParaSubEnemie4.destroy();
+        this.VidasBossEnemie1text.destroy();
+        Vida++;
+        this.Vidatext.text = "Vidas: " + Vida;
+        this.myCam.shake(500);
+        VidaBossEnemie1 = -1;
+         this.PartesDeLLave();
+        ParteDeLLave3Adquirida = true;
+
     }
 
     if (ParteDeLLave3Adquirida==true){
@@ -978,14 +1200,11 @@ update(time, delta) {
             BalaConseguida = false;
             this.gameOver=false;
             VidasubEnemie1=true;
+            VidaBossEnemie1 = 10;
             Deslizconseguido=false;
 
 
     }
-
-    this.playerax = player.x;
-
-
 
     if(player.y > 2000){
         this.profundo.setDepth(-1);
@@ -1112,18 +1331,55 @@ update(time, delta) {
         emittermovimiento1.setPosition(emittermovimiento1.x.propertyValue += (player.flipX) ? 16 : -16, emittermovimiento1.y.propertyValue);
         emittermovimiento1.setSpeed(player.x / 2);    
     }
-    
-    if (this.enemie1_salta.body.blocked.down || this.enemie1_salta.body.blocked.up || this.enemie1_salta.body.blocked.left || this.enemie1_salta.body.blocked.right){
+
+    if(player.x>=5000){
+        this.enemie1_salta.setGravity(0, 0);
+        this.enemie2_salta.setGravity(0, 0);
+
+    }else{
+        this.enemie1_salta.setGravity(0, -300);
+        this.enemie2_salta.setGravity(0, -300);
+    }
+    if (player.x >= 6800) {
+        this.enemie3_salta.setGravity(0, 0); 
+    } else {
+        this.enemie3_salta.setGravity(0, -300);
+    } 
+
+
+
+
+
+    if (this.enemie1_salta.body.touching.down){
         const randomVelocity = (Math.random() * 150);
         const headsOrTails = (Math.random() > 0.5);
         this.enemie1_salta.setVelocityY(-300);
         if (headsOrTails) {
-            this.enemie1_salta.body.setVelocityX(randomVelocity);
-        }
+            this.enemie1_salta.body.setVelocityX(randomVelocity);}
         else{
-            this.enemie1_salta.body.setVelocityX(-randomVelocity);
+            this.enemie1_salta.body.setVelocityX(-randomVelocity);}
+    }
+    if (this.enemie2_salta.body.touching.down) {
+        const randomVelocity2 = (Math.random() * 100);
+        const headsOrTails2 = (Math.random() > 0.5);
+        this.enemie2_salta.setVelocityY(-300);
+        if (headsOrTails2) {
+            this.enemie2_salta.body.setVelocityX(randomVelocity2);
         }
-
+        else {
+            this.enemie2_salta.body.setVelocityX(-randomVelocity2);
+        }
+    }
+    if (this.enemie3_salta.body.touching.down) {
+        const randomVelocity3 = (Math.random() * 150);
+        const headsOrTails3 = (Math.random() > 0.5);
+        this.enemie3_salta.setVelocityY(-300);
+        if (headsOrTails3) {
+            this.enemie3_salta.body.setVelocityX(-randomVelocity3);
+        }
+        else {
+            this.enemie3_salta.body.setVelocityX(randomVelocity3);
+        }
     }
     
     if (this.enemy.x >= 2100) {this.enemy.flipX = false;}
