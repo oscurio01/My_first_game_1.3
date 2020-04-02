@@ -35,7 +35,9 @@ preload() {
 
     this.load.image('suelo_medio', 'assets/images/ground_middle.png');
 
-    this.load.image('suelo_largo', 'assets/images/ground_large.png');
+    this.load.image('suelo_largo', 'assets/images/ground_large.png'); 
+
+    this.load.image('tierra_lateral', 'assets/images/ground_right.png');
 
     this.load.image('pinchos', 'assets/images/pinchos2.png');
 
@@ -58,6 +60,10 @@ preload() {
     this.load.image('teleport', 'assets/images/teleport_prueba.png');
 
     this.load.image('lever', 'assets/images/lever.png');
+
+    this.load.spritesheet('MotherWoofFree', 'assets/images/Motherwoof.png', { frameWidth: 32, frameHeight: 32 });
+
+    this.load.image('MotherLocked', 'assets/images/MotherPinkLocked.png'); 
 
     this.load.spritesheet('dude', 'assets/images/woof2.png', { frameWidth: 32, frameHeight: 32 });
 
@@ -113,6 +119,9 @@ preload() {
 
     this.load.spritesheet('tecladod', 'assets/images/tecladod1.png', { frameWidth: 32.5, frameHeight: 30 });
 
+    this.load.spritesheet('teclado_space', 'assets/images/space.png', { frameWidth: 116, frameHeight: 40 });
+    //TODO:hacer la parte del tecla espaciadora
+
 
     this.load.spritesheet('snowflakes', 'assets/images/snowflakes.png', { frameWidth: 17, frameHeight: 17 });
 
@@ -121,6 +130,7 @@ preload() {
     this.load.audio('Jump1Audio', 'assets/audio/jump_player.mp3');
     this.load.audio('musica_fondo_audio', 'assets/audio/audioFondo.mp3');
     this.load.audio('pandoru', 'assets/audio/padoru_padoru.mp3');
+    this.load.audio('GameEndSong', 'assets/audio/Halo_2_Theme_song.mp3');
     this.load.audio('impacto_violin_audio', 'assets/audio/tenso_violinfuerte.mp3');
     this.load.audio('MovePlayer1_audio', 'assets/audio/walkSnowPlayer21.mp3');
 
@@ -158,7 +168,7 @@ create() {
         })
     });
 
-    this.BetaText = this.add.text(550, 550, 'Beta 1.4.3', { fontSize: '30px', fill: '#0d91fc' }).setDepth(1);;
+    this.BetaText = this.add.text(550, 550, 'Beta 1.5.0', { fontSize: '30px', fill: '#0d91fc' }).setDepth(1);;
     //this.scene.start("playGame");
 
   // this.prefondotry = this.add.tileSprite(0, 0, config.width, config.height, "prefondotry").setOrigin(0);

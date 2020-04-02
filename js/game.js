@@ -1,4 +1,4 @@
-
+console.clear();
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -11,7 +11,7 @@ var config = {
             debug: true
         }
     },
-    scene: [Scene1, Scene2, optionplay, DifficutlyModes],
+    scene: [Scene1, Scene2, GameEnd, optionplay, DifficutlyModes],
 };
 
 var game = new Phaser.Game(config);
@@ -28,7 +28,11 @@ var lastFired = 0;//EL delay puesto en la bala
 
 var lastFired2 = 0;
 
+var lastFired3 = 0;
+
 var delay1= 0;
+
+var zone;
 
 var BalaConseguida = false;//es la variable que indica que has recogido el objeto bala y podras empezar a disparar
 

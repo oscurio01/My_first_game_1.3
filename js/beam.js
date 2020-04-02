@@ -18,11 +18,8 @@ class disparo extends Phaser.GameObjects.Sprite{
     this.body.checkWorldBounds = true;
     this.body.outOfCameraBoundsKill = true;
       
-        this.play("vueladerecho");
+      this.play("vueladerecho");
       this.body.velocity.x = 250;
-      
-
-
 
     // 4.2 add the beam to the projectiles group
     scene.projectiles.add(this);
