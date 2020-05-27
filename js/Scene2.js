@@ -10,7 +10,7 @@ class Scene2 extends Phaser.Scene {
   =          =     =      =           =     =           =           =
   =          =      =     =           =     =           =           =
   =======    =       =    ========    =     =           =           ========
-*/ 
+*/
 
 
 
@@ -22,7 +22,7 @@ create() {
     //this.myCam.setDeadzone(200,100);
     //this.myCam.setBounds(0, 0, game.config.width * 100, game.config.height * 20);
     this.myCam.setBounds(0, 0, 21000, 5000);
-    
+
     this.contadorSalto = 0;
     //this function is for see the images and more on your game
     //START CODE FROM BACKGROUND
@@ -82,7 +82,7 @@ create() {
 
     //contenedor.add([PuntosText, Vidatext]);
 
-    //we have 5 platforms the first is for the base and the others is for jump up 
+    //we have 5 platforms the first is for the base and the others is for jump up
 
     var platforms = this.physics.add.staticGroup();
 
@@ -116,7 +116,7 @@ create() {
     piso.create(130, 330, 'suelo_medio').setSize(240, 13);
     piso.create(0, 330, 'suelo').setSize(48, 13);
     piso.create(-85, 140, 'suelo_medio').setSize(240, 13);
-    piso.create(155, 140, 'suelo_medio').setSize(240, 13); 
+    piso.create(155, 140, 'suelo_medio').setSize(240, 13);
     piso.create(130, 330, 'suelo_medio').setSize(240, 13);
     piso.create(1925, 574, 'suelo_medio').setSize(240, 13).setDepth(-1);
     pisofalso.create(2055, 574, 'suelo_medio').setSize(240, 13).setDepth(-1);
@@ -129,7 +129,7 @@ create() {
     piso.create(4800, 400, 'suelo_medio').setSize(240, 13);
     piso.create(4505, 504, 'suelo_largo').setSize(864, 13);
     piso.create(5369, 504, 'suelo_largo').setSize(864, 13);
-    piso.create(6233, 504, 'suelo_largo').setSize(864, 13); 
+    piso.create(6233, 504, 'suelo_largo').setSize(864, 13);
     piso.create(5700, 436, 'suelo').setSize(48, 13);
     piso.create(5600, 336, 'suelo').setSize(48, 13);
     piso.create(7069, 3310, 'suelo_largo').setSize(864, 13);
@@ -156,15 +156,13 @@ create() {
     this.lever1 = this.lever.create(7575, 3288, 'lever');
 
     var teletransportador = platforms2_move.create(2930, 4792, 'teleport').setSize(30, 20).setScale(0.5);
-    //despues de la plataforma movible 
-    var teletransportador1 = platforms2_move.create(200, 402, 'teleport').setSize(30, 20).setScale(0.5); 
-
-    var teletransportador2 = teletransport.create(11836, 4840, 'teleport').setSize(30, 20).setScale(0.5); 
+    //despues de la plataforma movible
+    var teletransportador2 = teletransport.create(11836, 4840, 'teleport').setSize(30, 20).setScale(0.5);
 
     var teletransportador3 = teletransport.create(11894, 2590, 'teleport').setSize(30, 20).setScale(0.5);
 
-    var teletransportEnd = platforms2_move.create(10930, 3289, 'teleport').setSize(30, 20).setScale(0.5);  
-    
+    var teletransportEnd = platforms2_move.create(10930, 3289, 'teleport').setSize(30, 20).setScale(0.5);
+
     var pincho_horizontal1 = pinchos_rectos.create(300, 100, 'pinchosmini_vertical');//pinchos del inicio
     var pincho_horizontal2 = pinchos_rectos.create(4600, 300, 'pinchos_vertical'); pincho_horizontal2.flipX = true;
     var pincho_horizontal3 = pinchos_rectos.create(5800, 300, 'pinchos_vertical'); pincho_horizontal3.flipX = true;
@@ -179,7 +177,7 @@ create() {
     pinchos.create(2525, 555, 'pinchosmini_extra_large');
     pinchos2.create(3325, 555, 'pinchosmini_extra_large');
     pinchos2.create(4125, 555, 'pinchosmini_extra_large');
-    
+
 
     platforms.create(-35, 145, 'plataforma_recta').setScale(2).refreshBody();//borde del mapa en la izquierda
 
@@ -193,7 +191,7 @@ create() {
     platforms.create(7700, 3190, 'plataforma');
     platforms.create(8000, 3190, 'plataforma');
     this.Murofinal = platforms.create(10234, 2963, 'plataforma_recta').setScale(1.7).refreshBody();//Muro que se destruye al conseguir matar al 1 boss o conseguir la llave
-    
+
     /*
     Plataforma que se mueve
     */
@@ -239,8 +237,8 @@ create() {
     piso.create(1020, 5000, 'plataforma');
     piso.create(2525, 4800, 'suelo_largo').setSize(864, 13).setDepth(-1);
     piso.create(2085, 4800, 'suelo_medio').setSize(240, 13);
-    
-   
+
+
     //START CODE PLAYER
     var player = this.physics.add.sprite(100, 450, 'dude');
 
@@ -278,13 +276,13 @@ create() {
 
     var enemie5 = enemies.create(4900, 370, 'enemy').setImmovable(true);
     enemie5.setSize(20, 30);
-    
+
     var enemie6 = enemies.create(4400, 480, 'enemy').setImmovable(true);
     enemie6.setSize(20, 30);
 
     var enemie7 = enemies.create(4700, 480, 'enemy').setImmovable(true);
     enemie7.setSize(20, 30);
-  
+
     var enemie8 = enemies.create(4500, 300, 'enemy').setImmovable(true); enemie8.setSize(20, 30);
 
     var enemie9 = enemies_rotatorios.create(7665, 3228, 'enemigo_saltador').setImmovable(true); enemie9.setSize(35, 33); enemie9.setScale(.7);
@@ -323,7 +321,7 @@ create() {
     this.bombBoss1.setCollideWorldBounds(false);
 
     this.bombBoss2 = subEnemies.create(11331, 4625, 'enemy').setImmovable(true).setSize(25, 30);
-    this.bombBoss2.setScale(2); 
+    this.bombBoss2.setScale(2);
 
     this.bombBoss3 = subEnemies.create(11382, 2382, 'enemy').setImmovable(true).setSize(25, 30);
     this.bombBoss3.setScale(2);
@@ -331,7 +329,7 @@ create() {
 
 var MurosParaSubEnemie2 = MurosParaSubEnemie.create(2870, 4595, 'plataforma_recta');this.MurosParaSubEnemie2=MurosParaSubEnemie2;
 var MurosParaSubEnemie4 = MurosParaSubEnemie.create(9230, 2910, 'plataforma_recta'); this.MurosParaSubEnemie4 = MurosParaSubEnemie4;
-this.MurosParaSubEnemie4.setScale(2).refreshBody(); 
+this.MurosParaSubEnemie4.setScale(2).refreshBody();
 var MurosParaSubEnemie5 = MurosParaSubEnemie.create(11400, 4529, 'plataforma_recta'); this.MurosParaSubEnemie5 = MurosParaSubEnemie5;
 this.MurosParaSubEnemie5.setScale(2).refreshBody();
 this.MurosParaSubEnemie6 = platforms.create(11445, 2193, 'plataforma_recta');//Muro que se destruye al conseguir matar al 1 boss o conseguir la llave
@@ -354,7 +352,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
     this.enemie4 = enemie4;
     this.enemie5 = enemie5;
     this.enemie6 = enemie6;
-    this.enemie7 = enemie7; 
+    this.enemie7 = enemie7;
     this.enemie8 = enemie8;
     enemy.play('fly', true);
     enemy2.play('fly', true);
@@ -366,7 +364,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
     enemie6.play('fly', true);
     enemie7.play('fly', true);
     enemie8.play('fly', true);
-    SubEnemy1.play('fly', true); 
+    SubEnemy1.play('fly', true);
     this.bombBoss2.play('fly', true);
     this.bombBoss3.play('fly', true);
     this.anims.create({
@@ -412,7 +410,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
     CogerDash.setCollideWorldBounds(false);
     CogerDash.body.setAllowGravity(false);
 
-    
+
 
 //Inicio del movimiento de los enemigos
     this.tweens.timeline({
@@ -609,7 +607,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
         ease: 'lineal',
         duration: 2000,
         loop: -1,
-        tweens: [{ y: SubEnemy1.y -150, }, { y: SubEnemy1.y+1 },]}); 
+        tweens: [{ y: SubEnemy1.y -150, }, { y: SubEnemy1.y+1 },]});
 
     this.tweens.timeline({
         targets: this.bombBoss2,
@@ -617,7 +615,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
         duration: 1000,
         loop: -1,
         tweens: [
-            { y: this.bombBoss2.y + 180, }, { y: this.bombBoss2.y - 1 }, 
+            { y: this.bombBoss2.y + 180, }, { y: this.bombBoss2.y - 1 },
             { y: this.bombBoss2.y + 180, }, { y: this.bombBoss2.y - 1 },
             { y: this.bombBoss2.y + 180, }, { y: this.bombBoss2.y - 1 },
             { x: this.bombBoss2.x - 750, },
@@ -634,7 +632,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
             { y: this.bombBoss2.y + 180, }, { x: this.bombBoss2.x + 1, },
             { y: this.bombBoss2.y - 1 },
         ]
-    }); 
+    });
     this.tweens.timeline({
         targets: this.bombBoss3,
         ease: 'lineal',
@@ -671,7 +669,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
         tweens: [
             { y: CogerDobleSalto.y - 12, }, { y: CogerDobleSalto.y+1 },]
     });
-    
+
     this.tweens.timeline({
         targets: CogerDash,
         ease: 'lineal',
@@ -693,9 +691,9 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
     });
 /*Final de los ligeros movimientos de los objetos */
 
-    this.physics.add.collider(player, piso); 
+    this.physics.add.collider(player, piso);
     this.physics.add.collider(player, platforms);
-    this.physics.add.collider(enemies_saltantes, piso); 
+    this.physics.add.collider(enemies_saltantes, piso);
     this.physics.add.collider(enemies_saltantes, platforms);
     this.physics.add.collider(platform_move,player);
     this.physics.add.collider(player, RecogerDisparo);
@@ -706,10 +704,10 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
     this.physics.add.collider(player, GolpePincho2);
     this.physics.add.collider(player, Pelotarecibedisparo);
     this.physics.add.collider(player, MurosParaSubEnemie);
-    this.physics.add.collider(BolasDeHierro, platforms); 
+    this.physics.add.collider(BolasDeHierro, platforms);
     this.physics.add.collider(BolasDeHierro, MurosParaSubEnemie);
     this.physics.add.collider(BolasDeHierro, piso);
-    
+
     this.anims.create({
         key: 'turn',
         frames: [{ key: 'dude', frame: 2 }],
@@ -786,13 +784,13 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
     //bomb.setCircle(18);
     bomb.setCollideWorldBounds(false);
     bomb.setVelocity(Phaser.Math.Between(300, 100), 20);
-    
+
     var balasdeSubenemie = this.physics.add.group({
         classType: balaSubenemie,
         maxSize: -1,
         runChildUpdate: true
     });
- 
+
 
     this.balasdeSubenemie=balasdeSubenemie;
 
@@ -828,7 +826,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
             ease: 'Linear',
             repeat: 5,
         });
-    } 
+    }
 
     var Golpeaenemigo_rotatorios = function Golpeaenemigo_rotatorios(player, enemies_rotatorios) {
         Vida -= 1;
@@ -844,7 +842,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
             ease: 'Linear',
             repeat: 5,
         });
-    } 
+    }
 
     var Golpeaenemigo_saltante = function Golpeaenemigo_saltante(player, enemies_saltantes) {
         Vida -= 1;
@@ -911,7 +909,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
         if(player.x >= 1765||player.x == 2000){
             player.x = 1450;
             player.y = 100;
-        } 
+        }
         console.log('pinchado');
         player.setAlpha(0);
         let tw4 = this.tweens.add({
@@ -928,7 +926,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
         Vidatext.text = "Vidas: " + Vida;
         player.setVelocityY(-220);
         if (player.x >= 3000 || player.x == 5000) {
-            
+
             player.y = player.y -=300;
         }
         console.log('pinchado2');
@@ -956,9 +954,9 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
             repeat: 5,
         });};
 
-   
+
     var RecogerDisparo = function RecogerDisparo(ObjectDisparo, player) {
-        
+
         ObjectDisparo.destroy();
         BalaConseguida =true;
         alert('Balas adquiridas');
@@ -966,7 +964,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
     }
 
     var RecogerDoblesalto = function RecogerDoblesalto(CogerDobleSalto, player) {
- 
+
         CogerDobleSalto.destroy();
         doblesalto = true;
         alert('Doble salto y agarre a las paredes adquirido');
@@ -978,33 +976,27 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
         Deslizconseguido = true;
         alert('Dash adquirido');
         console.log('Dash adquirido');
-    } 
+    }
     this.RecogerCogerDash = RecogerCogerDash;
-    
- 
+
+
     var activarteletranstporte = function activarteletranstporte(teletransportador, player) {
 
         player.x = 6839; player.y = 3289;
-        
+
     }
-
-    var activarteletranstporte1 = function activarteletranstporte1(teletransportador1, player) {
-
-        player.x = 7530; player.y = 3289;
-        
-    } 
 
     var activarteletranstporte2 = function activarteletranstporte1(player, teletransport) {
 
         player.x = 9813; player.y = 3200;
 
-    }  
+    }
 
     var activarteletranstporte3 = function activarteletranstporte3(player, teletransportEnd) {
 
         this.scene.start("EndGame");
         this.scene.stop("playGame");
-    } 
+    }
 
     this.spaceteclado = this.add.sprite(this.lever1.x, this.lever1.y - 50, 'teclado_space');
    this.anims.create({
@@ -1012,31 +1004,31 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
         frames: this.anims.generateFrameNumbers('teclado_space', { start: 0, end: 1 }),
         frameRate: 1,
         repeat: -1
-    }); 
-   
+    });
+
 
     this.spaceteclado.alpha = 0;
     var activarlever = function activarlever(lever1, player) {
 
         if (Phaser.Input.Keyboard.JustDown(this.spacebar)){this.lever1.flipX=true;
             this.murodestruible2.destroy();
-            this.myCam.shake(500); 
+            this.myCam.shake(500);
         }
         this.spaceteclado.alpha = 1;
         if (activarlever){
             this.spaceteclado.anims.play('spaceteclado1', true);
         } else { this.spaceteclado.anims.play('spaceteclado1', false);}
-    } 
+    }
 
-   
+
 
     var hitEnemy = function hitprojectil(beam, enemy) {
         enemy.destroy();
         beam.destroy();
         Puntos +=15;
         PuntosText.text = "Puntos: " + Puntos ;
-        
-    } 
+
+    }
     var hitSubEnemy1 = function hitprojectil(beam, SubEnemy1) {
         VidasubEnemie1 -=1
         beam.destroy();
@@ -1044,9 +1036,9 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
         PuntosText.text = "Puntos: " + Puntos;
         VidasubEnemie1text.text = 'Vida: ' + VidasubEnemie1;
         console.log(VidasubEnemie1);
-    } 
+    }
 
-    
+
     var hitBossEnemy1 = function hitprojectil1(beam, bombBoss1) {
         VidaBossEnemie1 -= 1
         beam.destroy();
@@ -1063,7 +1055,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
             repeat: 5,
         });
 
-    } 
+    }
     var hitBossEnemy2 = function hitprojectil1(beam, bombBoss2) {
         VidaBossEnemie2 -= 1
         beam.destroy();
@@ -1079,7 +1071,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
             ease: 'Linear',
             repeat: 5,
         });
-    } 
+    }
     var hitBossEnemy3 = function hitprojectil1(beam, bombBoss3) {
         VidaBossEnemie3 -= 1
         beam.destroy();
@@ -1095,7 +1087,7 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
             ease: 'Linear',
             repeat: 5,
         });
-    } 
+    }
     var Pelotarecibedisparo = function Pelotarecibedisparo(beam, bomb, ) {
         beam.destroy();
         Puntos += 15;
@@ -1115,50 +1107,49 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
         beam.destroy();
         console.log('destruida');
 
-    }  
+    }
     var coliderbeamPinchos = function coliderbeamPinchos(beam, pincho_horizontal1) {
         beam.destroy();console.log('destruida');}
     var coliderbeamPinchos2 = function coliderbeamPinchos2(beam, pincho_horizontal2) {
         beam.destroy(); console.log('destruida');
-    }  
+    }
     var coliderbeamPinchos3 = function coliderbeamPinchos3(beam, pincho_horizontal3) {
         beam.destroy(); console.log('destruida');
-    }  
+    }
 
     var coliderbeam2 = function coliderbeam2(beam, MurosParaSubEnemie) { beam.destroy(); }; this.coliderbeam2 = coliderbeam2;
-   
+
     this.bomb= bomb;
-    this.disparo = disparo; 
+    this.disparo = disparo;
     this.physics.add.overlap(ObjectDisparo, player, RecogerDisparo, null, this);
     this.physics.add.overlap(teletransportador, player, activarteletranstporte, null, this);
-    this.physics.add.overlap(teletransportador1, player, activarteletranstporte1, null, this); 
-    this.physics.add.overlap(teletransport, player, activarteletranstporte2, null, this); 
-    this.physics.add.overlap(teletransportEnd, player, activarteletranstporte3, null, this); 
+    this.physics.add.overlap(teletransport, player, activarteletranstporte2, null, this);
+    this.physics.add.overlap(teletransportEnd, player, activarteletranstporte3, null, this);
     this.physics.add.overlap(this.lever1, player, activarlever, null, this);
     this.physics.add.overlap(pinchos_rectos, player, GolpeDePinchoVertical, null, this);
     this.physics.add.overlap(CogerDobleSalto, player, RecogerDoblesalto, null, this);
     this.physics.add.overlap(CogerDash, player, RecogerCogerDash, null, this);
     this.physics.add.overlap(pinchos, player, GolpePincho1, null, this);
-    this.physics.add.overlap(pinchos2, player, GolpePincho2, null, this); 
-    this.physics.add.overlap(enemies, player, Golpeaenemigo, null, this); 
-    this.physics.add.overlap(enemies_rotatorios, player, Golpeaenemigo_rotatorios, null, this); 
-    this.physics.add.overlap(enemies_saltantes, player, Golpeaenemigo_saltante, null, this); 
-    this.physics.add.overlap(enemies_saltantes, platforms, SeguroDeEnemigo_Saltante, null, this); 
-    this.physics.add.overlap(enemies_saltantes, pinchos_rectos, SeguroDeEnemigo_Saltante2, null, this); 
+    this.physics.add.overlap(pinchos2, player, GolpePincho2, null, this);
+    this.physics.add.overlap(enemies, player, Golpeaenemigo, null, this);
+    this.physics.add.overlap(enemies_rotatorios, player, Golpeaenemigo_rotatorios, null, this);
+    this.physics.add.overlap(enemies_saltantes, player, Golpeaenemigo_saltante, null, this);
+    this.physics.add.overlap(enemies_saltantes, platforms, SeguroDeEnemigo_Saltante, null, this);
+    this.physics.add.overlap(enemies_saltantes, pinchos_rectos, SeguroDeEnemigo_Saltante2, null, this);
     this.physics.add.overlap(BolasDeHierro, player, GolpePelota, null, this);
-    this.physics.add.overlap(subEnemies, player, GolpeaSubEnemigo, null, this); 
+    this.physics.add.overlap(subEnemies, player, GolpeaSubEnemigo, null, this);
     this.physics.add.overlap(balasdeSubenemie, player, GolpeaDisparoDeSubEnemigo, null, this);
 
     this.projectiles = this.add.group();
     this.physics.add.overlap(this.projectiles, bomb, Pelotarecibedisparo, null, this);
-    this.physics.add.overlap(this.projectiles, platforms, coliderbeam, null, this); 
-    this.physics.add.overlap(this.projectiles, pincho_horizontal1, coliderbeamPinchos, null, this); 
-    this.physics.add.overlap(this.projectiles, pincho_horizontal2, coliderbeamPinchos2, null, this); 
-    this.physics.add.overlap(this.projectiles, pincho_horizontal3, coliderbeamPinchos3, null, this); 
+    this.physics.add.overlap(this.projectiles, platforms, coliderbeam, null, this);
+    this.physics.add.overlap(this.projectiles, pincho_horizontal1, coliderbeamPinchos, null, this);
+    this.physics.add.overlap(this.projectiles, pincho_horizontal2, coliderbeamPinchos2, null, this);
+    this.physics.add.overlap(this.projectiles, pincho_horizontal3, coliderbeamPinchos3, null, this);
     this.physics.add.overlap(this.projectiles, enemy, hitEnemy, null, this);
-    this.physics.add.overlap(this.projectiles, null, this); 
-    this.physics.add.overlap(this.projectiles, enemies, hitEnemy, null, this); 
-    this.physics.add.overlap(this.projectiles, SubEnemy1, hitSubEnemy1, null, this); 
+    this.physics.add.overlap(this.projectiles, null, this);
+    this.physics.add.overlap(this.projectiles, enemies, hitEnemy, null, this);
+    this.physics.add.overlap(this.projectiles, SubEnemy1, hitSubEnemy1, null, this);
     this.physics.add.overlap(this.projectiles, this.bombBoss1, hitBossEnemy1, null, this);
     this.physics.add.overlap(this.projectiles, this.bombBoss2, hitBossEnemy2, null, this);
     this.physics.add.overlap(this.projectiles, this.bombBoss3, hitBossEnemy3, null, this);
@@ -1178,7 +1169,7 @@ salta(){
             SoundJumpPlayer1.play({ volume: 0.2 });}
 
         if(this.player.body.touching.right){
-            SoundJumpPlayer1.stop();}    
+            SoundJumpPlayer1.stop();}
 }
 
 MurosParaSubEnemie1(){
@@ -1188,8 +1179,8 @@ MurosParaSubEnemie1(){
     this.physics.add.collider(this.player, MurosParaSubEnemie);
     this.physics.add.overlap(this.projectiles, MurosParaSubEnemie, this.coliderbeam2, null, this);
     this.physics.add.overlap(this.balasdeSubenemie, MurosParaSubEnemie, this.coliderbeam2, null, this);
-    
-    } 
+
+    }
 
 MurosParaBossEnemie1() {
     var MurosParaSubEnemie = this.physics.add.staticGroup();
@@ -1227,7 +1218,7 @@ PartesDeLLave() {
     this.PartedeLLaveNegra = this.add.image(200, 550, 'llavesnegra').setDepth(1).setScrollFactor(0);
     this.PartedeLLaveNegra = this.add.image(10234, 3157, 'llavesnegra').setDepth(1);
     if(ParteDeLLave1Adquirida==true){
-        this.PartedeLLave1 = this.add.image(200, 550, 'llaves1').setDepth(1).setScrollFactor(0); 
+        this.PartedeLLave1 = this.add.image(200, 550, 'llaves1').setDepth(1).setScrollFactor(0);
       this.llaveMuro1 = this.add.image(10234, 3157, 'llaves1').setDepth(1);
     }
     if (ParteDeLLave2Adquirida == true){
@@ -1260,7 +1251,7 @@ update(time, delta) {
     let SoundJumpPlayer1 = this.sound.add('Jump1Audio');
     let SoundBackground = this.SoundBackground;
     let SoundProfundo = this.SoundProfundo;
-    var VidasubEnemie1text = this.VidasubEnemie1text; 
+    var VidasubEnemie1text = this.VidasubEnemie1text;
     VidasubEnemie1text.setPosition(this.SubEnemy1.x - 100, this.SubEnemy1.y - 50);
     this.VidasBossEnemie1text.setPosition(this.bombBoss1.x - 100, this.bombBoss1.y - 70);
     this.VidasBossEnemie2text.setPosition(this.bombBoss2.x - 100, this.bombBoss2.y - 70);
@@ -1282,7 +1273,7 @@ update(time, delta) {
         console.log('la y del jugador es ' + player.y)
     }
 
-    
+
     if (player.x >=2200 && player.x <3000 && player.y>=4600 && player.y <5000) {
       this.MurosParaSubEnemie1();
 
@@ -1296,17 +1287,17 @@ update(time, delta) {
         this.muroParaSoporteBoss2.destroy();}
     if (player.x <= 8368) { //para this.bombBoss1
         this.bombBoss1.setVelocityX(400);}
-    
-    if (player.x >= 10919 && player.x < 11949 && player.y >= 4829 && player.y < 5000) { //para this.bombBoss2
+
+    if (player.x >= 10560 && player.x < 11949 && player.y >= 4829 && player.y < 5000) { //para this.bombBoss2
         //this.myCam.stopFollow(player, true, 0.1, 0.1);
         this.MurosParaBossEnemie2();
-    } 
+    }
 
     if (player.x >= 10716 && player.x < 11417 && player.y >= 2579 && player.y < 2829) { //para this.bombBoss3
         //this.myCam.stopFollow(player, true, 0.1, 0.1);
         this.MurosParaBossEnemie3();
-    } 
- 
+    }
+
 
     if (Vidabola <= 0) {
         bomb.destroy();
@@ -1322,10 +1313,10 @@ update(time, delta) {
         Vida ++;
         this.Vidatext.text = "Vidas: " + Vida;
         this.myCam.shake(500);
-        VidasubEnemie1=-1;        
+        VidasubEnemie1=-1;
     }
 
-     if (VidaBossEnemie1 == 0) { 
+     if (VidaBossEnemie1 == 0) {
         this.bombBoss1.destroy();
         this.MurosParaSubEnemie4.destroy();
         this.VidasBossEnemie1text.destroy();
@@ -1336,7 +1327,7 @@ update(time, delta) {
         ParteDeLLave1Adquirida = true;
         ParteDeLLave2Adquirida = false;
         this.PartesDeLLave();
-         
+
 
     }
 
@@ -1350,7 +1341,7 @@ update(time, delta) {
         VidaBossEnemie2 = -1;
         ParteDeLLave2Adquirida = true;
         this.PartesDeLLave();
-        
+
     }
 
     if (VidaBossEnemie3 == 0) {
@@ -1373,7 +1364,7 @@ update(time, delta) {
         this.llaveMuro1.destroy();
         this.llaveMuro2.destroy();
         this.llaveMuro3.destroy();
-        this.myCam.shake(500); 
+        this.myCam.shake(500);
     }
 
 //Cambios de tamaño a medida del cambio de vida
@@ -1412,7 +1403,7 @@ update(time, delta) {
         Vida=0;
     }
     if (this.gameOver ==true && this.R.isDown) {
-    
+
             SoundBackground.stop();
             this.R.reset();
             this.scene.stop("playGame");
@@ -1452,13 +1443,13 @@ update(time, delta) {
     var partticulamovimiento1 = this.add.particles('porprobar'); partticulamovimiento1.setDepth(-1);
     var emittermovimiento1 = partticulamovimiento1.createEmitter({x:-100,y: 150,angle: { min: 240, max: 180 },
     speed: 400,lifespan: 50,scale: { start: 0.5, end: 1 },blendMode: 'ADD',on: false,});
-    emittermovimiento1.setPosition(player.x-17, player.y+12);  
+    emittermovimiento1.setPosition(player.x-17, player.y+12);
 
     var partticulamovimiento2 = this.add.particles('porprobar'); partticulamovimiento2.setDepth(-1);
     var emittermovimiento2 = partticulamovimiento2.createEmitter({x: 100,y: 450, angle: { min: 300, max: 360 },
         speed: 400, lifespan: 50, scale: { start: 0.5, end: 1 }, blendMode: 'ADD', on: false,});
-    emittermovimiento2.setPosition(player.x - 17, player.y + 12);  
- 
+    emittermovimiento2.setPosition(player.x - 17, player.y + 12);
+
     if (this.left.isDown) {   //La accion que se ejecuta cuando el personaje se mueve a la izquierda
         player.setVelocityX(-160);
         if (doblesalto == false) {
@@ -1470,7 +1461,7 @@ update(time, delta) {
             player.anims.play('rightConDobleSalto', true);}
 
         if(player.body.touching.down){
-            emittermovimiento2.setPosition(player.x + 21, player.y + 12);  
+            emittermovimiento2.setPosition(player.x + 21, player.y + 12);
             emittermovimiento2.emitParticle(6);}
         if (Phaser.Input.Keyboard.JustDown(this.shift)&& time > delay1 &&Deslizconseguido==true){
             delay1 = time + 1750;
@@ -1497,7 +1488,7 @@ update(time, delta) {
         }
         if (Phaser.Input.Keyboard.JustDown(this.shift)&& time > delay1 && Deslizconseguido==true){
             this.physics.add.overlap(murodestruible, player, null, this);
-            
+
             delay1 = time + 1750;
             this.Dash.setAlpha(0);
             this.tweens.add({
@@ -1514,7 +1505,7 @@ update(time, delta) {
     }
     else {//La accion que se ejecuta cuando el personaje se queda quieto
         player.setVelocityX(0);
-        
+
         if (doblesalto == false) {
             player.anims.play('turn');}
 
@@ -1523,23 +1514,18 @@ update(time, delta) {
         }
     }
     // Si el jugador toca una plataforma el contador de saltos se resetea en cero otra vez
-    if (this.player.body.touching.down) { 
+    if (this.player.body.touching.down) {
         this.contadorSalto = 0;
     }
-
-
-
     if(doblesalto ==true){
         if (Phaser.Input.Keyboard.JustDown(this.up)) {
             this.salta();
         }}
-
-    if (Phaser.Input.Keyboard.JustDown(this.up) &&(player.body.touching.down|| this.contadorSalto == 0)) {
+    if (Phaser.Input.Keyboard.JustDown(this.up) && player.body.touching.down) {
         player.setVelocityY(-425);
         //SOUND OF THE PLAYER WHEN JUMP
-        SoundJumpPlayer1.play({ volume: 0.2 });      
+        SoundJumpPlayer1.play({ volume: 0.2 });
     }
-    
     if (player.body.touching.right && doblesalto==true) {
         this.player.setVelocityY(20);
         this.contadorSalto = 0;
@@ -1555,11 +1541,11 @@ update(time, delta) {
 
     if (player.velocity < 0) {//Parar el emiter cuando te detengas
         emittermovimiento1.setPosition(emittermovimiento1.x.propertyValue += (player.flipX) ? 16 : -16, emittermovimiento1.y.propertyValue);
-        emittermovimiento1.setSpeed(player.x / 2); 
+        emittermovimiento1.setSpeed(player.x / 2);
     }
     else if (player.velocity > 0) {
         emittermovimiento1.setPosition(emittermovimiento1.x.propertyValue += (player.flipX) ? 16 : -16, emittermovimiento1.y.propertyValue);
-        emittermovimiento1.setSpeed(player.x / 2);    
+        emittermovimiento1.setSpeed(player.x / 2);
     }
 
     if(player.x>=5000){
@@ -1571,10 +1557,10 @@ update(time, delta) {
         this.enemie2_salta.setGravity(0, -300);
     }
     if (player.x >= 6800) {
-        this.enemie3_salta.setGravity(0, 0); 
+        this.enemie3_salta.setGravity(0, 0);
     } else {
         this.enemie3_salta.setGravity(0, -300);
-    } 
+    }
 
 
 
@@ -1611,16 +1597,16 @@ update(time, delta) {
             this.enemie3_salta.body.setVelocityX(randomVelocity3);
         }
     }
-    
+
     if (this.enemy.x >= 2100) {this.enemy.flipX = false;}
-    if (this.enemy.x <= 1800) {this.enemy.flipX = true;} 
-    if (this.enemy2.x <= 50) {this.enemy2.flipX = true;} 
+    if (this.enemy.x <= 1800) {this.enemy.flipX = true;}
+    if (this.enemy2.x <= 50) {this.enemy2.flipX = true;}
     if(this.enemy2.x >= 245){this.enemy2.flipX = false;}
     if (this.enemie1.x <= 600) { this.enemie1.flipX = true; }
     if (this.enemie1.x >= 800) { this.enemie1.flipX = false; }
     if (this.enemie2.x <= 420) { this.enemie2.flipX = true; }
     if (this.enemie2.x >= 600) { this.enemie2.flipX = false; }
-    if (this.enemie3.x <= 2500) { this.enemie3.flipX = true; } 
+    if (this.enemie3.x <= 2500) { this.enemie3.flipX = true; }
     if (this.enemie3.x >= 3000) { this.enemie3.flipX = false; }
     if (this.enemie4.x <= 4200) { this.enemie4.flipX = true; }
     if (this.enemie4.x >= 4400) { this.enemie4.flipX = false; }
@@ -1631,11 +1617,11 @@ update(time, delta) {
     if (this.enemie7.x <= 4700) { this.enemie7.flipX = true; }
     if (this.enemie7.x >= 4900) { this.enemie7.flipX = false; }
     if (this.enemie8.x <= 4500) { this.enemie8.flipX = true; }
-    if (this.enemie8.x >= 4600) { this.enemie8.flipX = false; } 
+    if (this.enemie8.x >= 4600) { this.enemie8.flipX = false; }
     if (this.bombBoss2.x <= 10600) { this.bombBoss2.flipX = true; }
-    if (this.bombBoss2.x >= 11331) { this.bombBoss2.flipX = false; } 
+    if (this.bombBoss2.x >= 11331) { this.bombBoss2.flipX = false; }
     if (this.bombBoss3.x <= 10732) { this.bombBoss3.flipX = true; }
-    if (this.bombBoss3.x >= 11382) { this.bombBoss3.flipX = false; } 
+    if (this.bombBoss3.x >= 11382) { this.bombBoss3.flipX = false; }
 
     this.background.tilePositionX = this.myCam.scrollX * .10;
     //this.profundo.tilePositionX = this.myCam.scrollX * .10;
@@ -1646,9 +1632,9 @@ update(time, delta) {
         if(balaSubenemie){
             balaSubenemie.fire(this.SubEnemy1.x,this.SubEnemy1.y);
             lastFired2 = time + 1000;
-            
+
         }
-        
+
     }
 
     if (player.x >= 10519 && player.x < 11949 && player.y >= 4500 && player.y < 5000 && time > lastFired3 && VidaBossEnemie2 >= 1) {
@@ -1661,10 +1647,10 @@ update(time, delta) {
                 balaSubenemie.body.velocity.x = 850;
                 balaSubenemie.fire(this.bombBoss2.x + 30, this.bombBoss2.y);
             }
-            
-        } 
 
-    } 
+        }
+
+    }
     if (player.x >= 10716 && player.x < 11417 && player.y >= 2579 && player.y < 2829 && time > lastFired3 && VidaBossEnemie3 >= 1) {
         var balaSubenemie = this.balasdeSubenemie.get(); balaSubenemie.body.setGravityY(-150);
         if (balaSubenemie) {
@@ -1679,7 +1665,7 @@ update(time, delta) {
         }
 
     }
-   
+
 
     if (this.spacebar.isDown &&BalaConseguida == true && time > lastFired) {
         // call a function to create a beam instance
@@ -1691,16 +1677,19 @@ update(time, delta) {
         player.flipX=false;
         if(beam){
             lastFired = time + 750;
-            
+
            // time.add(100,resetbala, this);
         }
         if(this.left.isDown){
             beam.flipX = true;
             beam.body.velocity.x = -250;
         }
+        tiempobala=setTimeout(()=>{
+          beam.destroy();
+        },1000);
 
     }
-                
+
    // var resetbala=function resetbala(){beam.destroy(); }
     for (var i = 0; i < this.projectiles.getChildren().length; i++) {
         var beam = this.projectiles.getChildren()[i];
@@ -1709,7 +1698,7 @@ update(time, delta) {
         beam.destroy();
         console.log('funciono');
     }
-        
+
 }
 //Final del Update
 }

@@ -8,7 +8,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
-            debug: true
+            debug: false
         }
     },
     scene: [Scene1, Scene2, GameEnd, optionplay, DifficutlyModes],
@@ -36,7 +36,7 @@ var zone;
 
 var BalaConseguida = false;//es la variable que indica que has recogido el objeto bala y podras empezar a disparar
 
-var tiempobala = 0;//es la variable del tiempo que tarda la bala en salir 
+var tiempobala;//es la variable del tiempo que tarda la bala en salir
 
 var Deslizconseguido= false; //La variable para poder hacer un Dash(desliz)
 
@@ -80,5 +80,4 @@ var VidaBossEnemie2 = 15;
 var VidaBossEnemie3 = 20;
 var VidaBossEnemie4 = 25;
 
-//es la variable del tiempo que tarda la bala en salir 
-var tiempobala = 0;
+//es la variable del tiempo que tarda la bala en salir
