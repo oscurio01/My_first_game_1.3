@@ -99,11 +99,11 @@ preload() {
 
     this.load.image('easyButton', 'assets/images/easy_button.png');
 
-    this.load.image('mediumButton', 'assets/images/medium_button.png');
+    this.load.image('mediumButton', 'assets/images/Medium_button.png');
 
-    this.load.image('hardButton', 'assets/images/hard_button.png');
+    this.load.image('hardButton', 'assets/images/Hard_button.png');
 
-    this.load.image('MeatboyButton', 'assets/images/Meatboy_button.png');
+    this.load.image('MeatboyButton', 'assets/images/MeatBoy_button.png');
 
     this.load.image('platformnegro', 'assets/images/platformnegro.png');
 
