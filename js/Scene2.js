@@ -285,8 +285,6 @@ create() {
 
     var enemie8 = enemies.create(4500, 300, 'enemy').setImmovable(true); enemie8.setSize(20, 30);
 
-    var enemie9 = enemies_rotatorios.create(7665, 3228, 'enemigo_saltador').setImmovable(true); enemie9.setSize(35, 33); enemie9.setScale(.7);
-    enemie9.body.angularVelocity = 200;
     var enemie10 = enemies_rotatorios.create(7725, 3228, 'enemigo_saltador').setImmovable(true); enemie10.setSize(35, 33); enemie10.setScale(.7);
     enemie10.body.angularVelocity = 200;
     var enemie11 = enemies_rotatorios.create(7760, 3228, 'enemigo_saltador').setImmovable(true); enemie11.setSize(35, 33); enemie11.setScale(.7);
