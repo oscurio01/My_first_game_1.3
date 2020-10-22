@@ -1676,7 +1676,7 @@ update(time, delta) {
         var beam = new disparo(this);
         player.flipX=false;
         if(beam){
-            lastFired = time + 750;
+            lastFired = time + 250;
 
            // time.add(100,resetbala, this);
         }
