@@ -511,16 +511,6 @@ this.MurosParaSubEnemie6.setScale(2).refreshBody();
     });
 
     this.tweens.timeline({
-        targets: enemie9,
-        ease: 'lineal',
-        duration: 500,
-        loop: -1,
-
-        tweens: [
-            { y: enemie9.y + 70 }, { y: enemie9.y - 10, }]
-    });
-
-    this.tweens.timeline({
         targets: enemie10,
         ease: 'lineal',
         duration: 1000,
